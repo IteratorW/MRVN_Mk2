@@ -1,0 +1,3 @@
+INFO:CommandManager:Registered command "test" by module "modules.test"
+INFO:CommandManager:Registered command "test" by module "modules.test"
+INFO:CommandManager:Registered command "test" by module "modules.test"
