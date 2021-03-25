@@ -30,6 +30,7 @@ def seq(parsers: List[ParserElement]) -> ParserElement:
     """
     return SequenceParserElement(parsers)
 
+NONE = seq([])
 
 class SingleStringParserElement(ParserElement):
     def parse_value(self, ctx: CommandContext, args: PreparedArguments) -> any:

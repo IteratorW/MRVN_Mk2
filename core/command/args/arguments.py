@@ -5,6 +5,9 @@ PATTERN = re.compile(r"\"([^\"]*)\"|--(\S+)=\"([^\"]*)\"|--(\S+)=(\S+)|--(\S+)|-
 
 
 class SingleArgument:
+    """
+    Одиночный аргумент
+    """
     value: str
     start: int
     end: int
@@ -16,6 +19,9 @@ class SingleArgument:
 
 
 class PreparedArguments:
+    """
+    Разобранные аргументы, подготовленные для сборки в аргументы команды
+    """
     source: str
     args: List[SingleArgument]
     keys: Dict[str, "PreparedArguments"]
