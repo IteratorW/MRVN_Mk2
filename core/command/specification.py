@@ -1,17 +1,4 @@
-import abc
-
-
-class CommandContext:
-    def __init__(self):
-        pass
-
-class CommandExecutor(abc.ABC):
-    @abc.abstractmethod
-    def execute(self, ctx: CommandContext):
-        pass
-
-    def __call__(self, ctx: CommandContext):
-        return self.execute(ctx)
+from core.command.executor import CommandExecutor
 
 class CommandSpec:
     name: str
@@ -36,11 +23,3 @@ class CommandSpec:
 
         def build(self):
             return CommandSpec(self._name, self._executor)
-
-
-
-class Message:
-    content: str
-    def __init__(self, content: str):
-        self.content = content
-
