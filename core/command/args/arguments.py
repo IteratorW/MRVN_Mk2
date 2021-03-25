@@ -63,3 +63,7 @@ class PreparedArguments:
     def peek(self) -> SingleArgument:
         if not self.has_next(): raise IndexError
         return self.args[self._pos + 1]
+
+    def current(self):
+        if self._pos == -1: raise IndexError
+        return self.args[self._pos]
