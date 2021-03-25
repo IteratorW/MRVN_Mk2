@@ -15,10 +15,10 @@ class SingleArgument:
         self.end = end
 
 
-class RawArguments:
+class PreparedArguments:
     source: str
     args: List[SingleArgument]
-    keys: Dict[str, "RawArguments"]
+    keys: Dict[str, "PreparedArguments"]
 
     def __init__(self, source: str, parse_keys: bool = True):
         self.source = source
@@ -43,14 +43,14 @@ class RawArguments:
                 self.append_single_arg(match, 0)
 
     def append_single_arg(self, match: "re.Match", group: int):
-        self.args.append(SingleArgument(match.group(group), match.start(), match.end() - 1))
+        self.args.append(SingleArgument(match.group(group), match.start(), match.end()))
 
     # Здесь нужен RawArguments, что бы элемент, который будет в KeyParserElement, смог парсить переданную в ключ строку
     def process_key(self, key: str, value: Optional[str]):
         if value is None:
-            self.keys.setdefault(key, RawArguments("true", False))
+            self.keys.setdefault(key, PreparedArguments("true", False))
         else:
-            self.keys.setdefault(key, RawArguments(value, False))
+            self.keys.setdefault(key, PreparedArguments(value, False))
 
     def has_next(self) -> bool:
         return len(self.args) - 1 > self._pos
