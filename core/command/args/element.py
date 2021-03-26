@@ -1,3 +1,10 @@
+__all__ = [
+    "seq",
+    "singleString",
+    "untilEnds",
+    "NONE"
+]
+
 from typing import List
 
 from core import CommandContext, language
@@ -79,7 +86,7 @@ class ParseUntilEndsParserElement(ParserElement):
 def untilEnds(element: ParserElement, min_count: int = -1) -> ParserElement:
     """
     Парсинг до конца аргументов.
-    SequenceParserElement не поддерживается.
+    Поддерживаются только парсеры одиночного аргумента.
     :param min_count: минимальное количество итераций
     :param element: элемент, который будет парсить
     :return: ParserElement
