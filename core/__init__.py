@@ -2,11 +2,12 @@
 from core.events import event
 
 # Команды
-import core.command.command_manager as CommandManager
-from core.command.command_manager import Command
+import core.command.manager as CommandManager
+from core.command.manager import Command
 from core.command.context import CommandContext, PermissionContext
 from core.command.executor import CommandExecutor
 from core.command.specification import CommandSpec
+from core.command.result import CommandResult
 
 # Аргументы
 import core.command.args.element as Arguments

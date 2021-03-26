@@ -31,8 +31,11 @@ class SequenceParserElement(ParserElement):
     def parse_value(self, ctx: CommandContext, args: PreparedArguments) -> any:
         return None
 
+    def get_display_usage(self) -> str:
+        return " ".join(parser.get_display_usage() for parser in self.parsers)
+
     def get_usage(self) -> str:
-        return " ".join(parser.get_usage() for parser in self.parsers)
+        return ""
 
 
 def seq(parsers: List[ParserElement]) -> ParserElement:

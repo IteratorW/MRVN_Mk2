@@ -1,5 +1,7 @@
 # НЕ ИМПОРТИРОВАТЬ ЭТОТ МОДУЛЬ ВНУТРИ ПАКЕТА CORE
 import sys
+from typing import List
+
 import discord
 import os
 import logging
@@ -37,14 +39,16 @@ async def on_ready():
         callback: callable
         logger.info(f"Initializing module {callback.__module__}")
         try:
-            callback(client)
+            await callback(client)
         except Exception as e:
             logger.error("Error initializing module", exc_info=e)
     logger.info("Finished")
 
 
-@client.event
+@client.event  # TODO заменить всё на эмбеды
 async def on_message(message: discord.Message):
+    # Не забудь про core/languages.py, кидай туда все тексты сообщений и импортируй здесь
+    # Для команд делай свой модуль languages в пап очке
     if message.author.bot or isinstance(message, discord.WebhookMessage):
         return
     content: str = message.content
@@ -52,7 +56,8 @@ async def on_message(message: discord.Message):
         prefix = PREFIX
     else:
         spec = next(
-            filter(lambda spec: spec.prefix is not None and content.startswith(spec.prefix), CommandManager.commands), None)
+            filter(lambda spec: spec.prefix is not None and content.startswith(spec.prefix), CommandManager.commands),
+            None)
         if spec is None:
             return
         prefix = spec.prefix
@@ -60,22 +65,52 @@ async def on_message(message: discord.Message):
     cmd = args.next().value[len(prefix):].lower()
     ctx = CommandContext(message)
     command = next(filter(lambda spec: (not spec.prefix or spec.prefix == prefix)
-                                       and next(filter(lambda x: x == cmd, spec.aliases), None)
+                                       and next(filter(lambda x: x.lower() == cmd, spec.aliases), None)
                                        and spec.permission_context.should_be_found(ctx, spec),
-                     CommandManager.commands), None)
+                          CommandManager.commands), None)
     if command is None:
         # СУКА АЛЕ ТАЙПХИНТЫ ГДЕ
         channel: discord.TextChannel = message.channel
-        await channel.send("Команда не найдена") # TODO
+        await channel.send("Команда не найдена")  # TODO
         return
     ctx.specification = command
-    if not command.permission_context.should_be_executed(ctx):
-        await message.channel.send(f"Нет прав! Необходимые права:\n{command.permission_context.requirements(ctx)}")
+
+    rootCommand = command
+    commandTree: List[CommandSpec] = [command]
+
+    while command.has_child() and args.has_next():
+        next_arg = args.next().value
+        command = next(
+            filter(
+                lambda spec: any(alias.lower() == next_arg.lower() for alias in spec.aliases),
+                command.children
+            ), None
+        )
+        if not command: break
+        commandTree.append(command)
+
+    for command_ in commandTree:
+        if not command_.permission_context.should_be_executed(ctx):
+            # Внимание, оно может вернуть список discord.Permissions
+            await message.channel.send(f"Нет прав! Необходимые права:\n{command.permission_context.requirements(ctx)}")
+            return
+    del command_
+
+    if command.has_child():
+        await message.channel.send(
+            "Ошибка подбора дочерней команды\nНевозможно найти подходящую дочернюю команду\n" +
+            prefix + " ".join(spec.aliases[0] for spec in commandTree) +  # Вот это забери как билдер строки юзания
+            " <" + "|".join(spec.aliases[0] for spec in command.children) + ">\n" +
+            rootCommand.description)
         return
     try:
         command.arguments.parse(ctx, args)
     except ArgumentParseException as e:
-        await message.channel.send(f"Ошибка разбора аргументов\n{e.message}") # TODO
+        await message.channel.send(
+            f"Ошибка разбора аргументов\n{e.message}\n" +
+            prefix + " ".join(spec.aliases[0] for spec in commandTree) + # Вот это забери как билдер строки юзания
+            " " + command.arguments.get_display_usage() + "\n" +
+            rootCommand.description)
         return
     logger.info(f"Executing command {command.aliases[0]} from {message.author} ({message.author.id})")
     try:

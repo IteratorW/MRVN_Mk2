@@ -1,4 +1,7 @@
 from typing import *
+
+from core.command.result import CommandResult
+from core.command.context import CommandContext
 from core.command.executor import CommandExecutor
 from core.command.specification import CommandSpec
 from core.command.args.element import NONE, seq
@@ -9,7 +12,7 @@ logger = logging.getLogger("CommandManager")
 commands: List[CommandSpec] = []
 
 
-def registerCommand(spec):
+def registerCommand(spec: CommandSpec):
     """
     Регистрация команды
     :param spec: спецификация команды
@@ -17,17 +20,24 @@ def registerCommand(spec):
     for command in commands:
         interdiction = set(command.aliases).intersection(set(spec.aliases))
         if interdiction:
-            raise ValueError(f"Commands {command.aliases[0]} and {spec.aliases[0]} have interdiction in aliases: {interdiction}")
-    logger.info(f"Registered command \"{spec.aliases[0]}\" by module \"{spec.executor.__module__}\"")
+            raise ValueError(
+                f"Commands {command.aliases[0]} and {spec.aliases[0]} have interdiction in aliases: {interdiction}")
+    logger.info(f"Registered command \"{spec.aliases[0]}\"")
     commands.append(spec)
 
 
-def Command(*aliases: str, register=True, arguments=None, short_name: str = "", description: str = "",
-            children: List[CommandSpec] = None, permission_context: PermissionContext = PermissionContext.Default(), prefix=None):
+def Command(*aliases: str,
+            register=True,
+            arguments=None,
+            short_name: str = "",
+            description: str = "",
+            permission_context: PermissionContext = PermissionContext.Default(),
+            prefix=None
+            ) -> Callable[[Union[Type[CommandExecutor],
+                                 Callable[["CommandContext"], "CommandResult"]
+                           ]], CommandSpec]:
     """
     Регистрация команды
-
-
     :param aliases: Алиасы команды
     :param register: Определяет, нужно ли регистрировать команду. Если False, то возвращает готовую спецификацию команды
     :param arguments: Аргументы команды
@@ -36,18 +46,32 @@ def Command(*aliases: str, register=True, arguments=None, short_name: str = "", 
     :param children: Дочерние команды. Несовместимо с аргументами.
     :param permission_context: Контекст прав
     :param prefix: Кастомный префикс команды
-    :return:
     """
     if arguments is None:
         arguments = NONE
-    if children is None:
-        children = []
+    else:
+        arguments = seq(arguments)
 
-    def decorator(executor: Type[CommandExecutor]):
-        spec = CommandSpec(aliases=aliases, executor=executor(), arguments=seq(arguments), short_name=short_name,
-                           description=description, children=children, permission_context=permission_context, prefix=prefix)
+    if arguments is None:
+        arguments = NONE
+
+    def decorator(executor: Union[
+        Type[CommandExecutor],
+        Callable[["CommandContext"], "CommandResult"]
+    ]) -> CommandSpec:
+        if isinstance(executor, type):
+            executor = executor()
+        spec = CommandSpec(aliases=aliases, executor=executor, arguments=arguments, short_name=short_name,
+                           description=description, children=[], permission_context=permission_context,
+                           prefix=prefix)
         if register:
             registerCommand(spec)
         return spec
 
     return decorator
+
+
+def abc() -> Callable[[int, int], int]:
+    def sum1(a: int, b: int) -> int: return a + b
+
+    return sum1
