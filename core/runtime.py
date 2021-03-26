@@ -118,7 +118,7 @@ async def on_message(message: discord.Message):
         return
     logger.info(f"Executing command {command.aliases[0]} from {message.author} ({message.author.id})")
     try:
-        await command.executor(ctx)
+        result = await command.executor(ctx)
     except CommandException as e:
         await message.channel.send(f"Произошла ошибка при выполнении команды: {e.message}")
     except Exception:
