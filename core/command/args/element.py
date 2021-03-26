@@ -47,7 +47,7 @@ NONE = seq([])
 
 class SingleStringParserElement(ParserElement):
     def parse_value(self, ctx: CommandContext, args: PreparedArguments) -> any:
-        return args.next()
+        return args.next().value
 
     def get_usage(self) -> str:
         return self.key

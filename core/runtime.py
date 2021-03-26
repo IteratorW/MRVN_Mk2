@@ -51,8 +51,11 @@ async def on_message(message: discord.Message):
     if content.startswith(PREFIX):
         prefix = PREFIX
     else:
-        prefix = next(
-            filter(lambda spec: spec.prefix is not None and content.startswith(spec.prefix), CommandManager.commands), None).prefix
+        spec = next(
+            filter(lambda spec: spec.prefix is not None and content.startswith(spec.prefix), CommandManager.commands), None)
+        if spec is None:
+            return
+        prefix = spec.prefix
     args = PreparedArguments(content)
     cmd = args.next().value[len(prefix):].lower()
     ctx = CommandContext(message)
@@ -70,11 +73,13 @@ async def on_message(message: discord.Message):
         command.arguments.parse(ctx, args)
     except ArgumentParseException as e:
         await message.channel.send(f"Ошибка разбора аргументов\n{e.message}") # TODO
+        return
     logger.info(f"Executing command {command.aliases[0]} from {message.author} ({message.author.id})")
     try:
         await command.executor(ctx)
     except CommandException as e:
         await message.channel.send(f"Произошла ошибка при выполнении команды: {e.message}")
     except Exception as e:
-        logger.error("Exception during command execution", exc_info=e)
+        logger.error("Exception during command execution")
+        traceback.print_exc(file=sys.stderr)
         await message.channel.send("Произошла неизвестная ошибка.\nДетали записаны в журнал.")
