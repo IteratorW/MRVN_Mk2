@@ -84,7 +84,7 @@ class Default(PermissionContext):
     def requirements(self, ctx: CommandContext) -> Union[List[discord.Permissions], str]:
         return ""
 
-    def should_be_found(self, ctx: CommandContext, spec: CommandSpec) -> bool:
+    def should_be_found(self, ctx: CommandContext, spec: "CommandSpec") -> bool:
         return True
 
 
