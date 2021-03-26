@@ -1,7 +1,8 @@
 import logging
 import sys
-
 import core.runtime
+import dotenv
+
 
 
 def main():
@@ -12,6 +13,7 @@ def main():
     logging.basicConfig(
         level=logging.INFO,
         handlers=[logging.StreamHandler(sys.stdout), logging.FileHandler("logs.txt")])
+    dotenv.load_dotenv()
     core.runtime.start()
 
 

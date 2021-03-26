@@ -19,11 +19,15 @@ client = discord.Client()
 # globals()["client"] = client
 def start():
     logger.info("Importing modules")
+    ignored_modules = set(os.getenv("IGNORED_MODULES").split(","))
     for directory in os.environ.get("SEARCH_DIRECTORIES").split(","):
         for module in os.listdir(directory):
-            logging.info(f"Importing module \"{directory}.{module}\"")
+            module = f"{directory}.{module}"
+            if module in ignored_modules:
+                continue
+            logging.info(f"Importing module \"{module}\"")
             try:
-                __import__(f"{directory}.{module}", globals(), locals())
+                __import__(f"{module}", globals(), locals())
             except Exception as e:
                 logger.error("Error importing module")
                 traceback.print_exc(file=sys.stderr)
