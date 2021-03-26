@@ -19,7 +19,7 @@ client = discord.Client()
 # globals()["client"] = client
 def start():
     logger.info("Importing modules")
-    ignored_modules = set(os.getenv("IGNORED_MODULES").split(","))
+    ignored_modules = set(os.getenv("IGNORED_MODULES", "").split(","))
     for directory in os.environ.get("SEARCH_DIRECTORIES").split(","):
         for module in os.listdir(directory):
             module = f"{directory}.{module}"
