@@ -59,7 +59,9 @@ async def on_message(message: discord.Message):
     args = PreparedArguments(content)
     cmd = args.next().value[len(prefix):].lower()
     ctx = CommandContext(message)
-    command = next(filter(lambda spec: (not spec.prefix or spec.prefix == prefix) and spec.permission_context.should_be_found(ctx, spec),
+    command = next(filter(lambda spec: (not spec.prefix or spec.prefix == prefix)
+                                       and next(filter(lambda x: x == cmd, spec.aliases), None)
+                                       and spec.permission_context.should_be_found(ctx, spec),
                      CommandManager.commands), None)
     if command is None:
         # СУКА АЛЕ ТАЙПХИНТЫ ГДЕ
@@ -69,6 +71,7 @@ async def on_message(message: discord.Message):
     ctx.specification = command
     if not command.permission_context.should_be_executed(ctx):
         await message.channel.send(f"Нет прав! Необходимые права:\n{command.permission_context.requirements(ctx)}")
+        return
     try:
         command.arguments.parse(ctx, args)
     except ArgumentParseException as e:
@@ -79,7 +82,7 @@ async def on_message(message: discord.Message):
         await command.executor(ctx)
     except CommandException as e:
         await message.channel.send(f"Произошла ошибка при выполнении команды: {e.message}")
-    except Exception as e:
+    except Exception:
         logger.error("Exception during command execution")
         traceback.print_exc(file=sys.stderr)
         await message.channel.send("Произошла неизвестная ошибка.\nДетали записаны в журнал.")
