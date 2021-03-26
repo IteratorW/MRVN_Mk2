@@ -3,7 +3,7 @@ from core.command.context import CommandContext
 
 class CommandExecutor(abc.ABC):
     @abc.abstractmethod
-    def execute(self, ctx: CommandContext):
+    async def execute(self, ctx: CommandContext):
         pass
 
     def __call__(self, ctx: CommandContext):

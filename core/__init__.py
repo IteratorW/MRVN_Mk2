@@ -1,5 +1,5 @@
 # Ивенты
-from events import event
+from core.events import event
 
 # Команды
 import core.command.command_manager as CommandManager

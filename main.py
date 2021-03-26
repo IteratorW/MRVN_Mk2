@@ -10,7 +10,7 @@ def main():
     # И идея тоже блять туда же, handlers в коде описан. а в "документации" - нет
     # noinspection PyArgumentList
     logging.basicConfig(
-        level=logging.DEBUG,
+        level=logging.INFO,
         handlers=[logging.StreamHandler(sys.stdout), logging.FileHandler("logs.txt")])
     core.runtime.start()
 
