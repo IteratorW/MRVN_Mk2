@@ -50,7 +50,7 @@ class CommandSpec:
             """
             self._aliases = aliases
 
-        def executor(self, executor: CommandExecutor):
+        def executor(self, executor: "CommandExecutor"):
             """
             :param executor: Исполнитель команды
             """

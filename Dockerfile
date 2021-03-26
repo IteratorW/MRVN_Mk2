@@ -7,4 +7,5 @@ COPY . .
 
 ENV IGNORED_MODULES=dummy
 ENV SEARCH_DIRECTORIES=modules
+ENV DEBUG=false
 CMD ["python3", "-m", "main"]

@@ -2,7 +2,7 @@ import abc
 
 from typing import Optional
 
-from core import language
+import core.language as language
 from core.command.args.arguments import PreparedArguments
 from core.command.context import CommandContext
 from core.exception import ArgumentParseException

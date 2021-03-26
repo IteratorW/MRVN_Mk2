@@ -5,13 +5,19 @@ __all__ = [
     "NONE"
 ]
 
+import os
+import logging
+import core.language as language
+
 from typing import List
 
-from core import CommandContext, language
+from core.command.context import CommandContext
 from core.command.args.arguments import PreparedArguments
 from core.command.args.parser import ParserElement
 from core.exception import ArgumentParseException
 
+logger = logging.getLogger("Arguments")
+debug = bool(os.environ.get("DEBUG") or "true")
 
 class SequenceParserElement(ParserElement):
     def __init__(self, parsers: List[ParserElement]):
@@ -91,4 +97,40 @@ def untilEnds(element: ParserElement, min_count: int = -1) -> ParserElement:
     :param element: элемент, который будет парсить
     :return: ParserElement
     """
+    if debug:
+        # Дебаг для долбаёба, который не смотрел в докстринг, когда писал код
+        import dis
+        instructions = dis.get_instructions(element.parse_value)
+        step = 0
+        for instruction in instructions:
+            if step == 0:
+                if instruction.opname == "LOAD_FAST" and instruction.argval == "args":
+                    step = 1
+            elif step == 1:
+                if instruction.opname == "LOAD_METHOD" and instruction.argval == "next":
+                    step = 2
+                else:
+                    step = 0
+            elif step == 2:
+                if instruction.opname == "CALL_METHOD":
+                    break
+                else:
+                    step = 0
+        if step == 0:
+            import traceback
+            logger.warning("ParseUntilEndsParserElement used with ParserElement without args.next() in parse_value")
+            logger.warning("Stacktrace: ")
+            for line in traceback.extract_stack().format():
+                logger.warning(line)
+
+
+    # if dis.Bytecode(element.parse_value).codeobj.co_code == b'd\x00S\x00':
+    #     # Дизассемблированный код
+    #     # 28           0 LOAD_CONST               0 (None)
+    #     #              2 RETURN_VALUE
+    #     # Или просто
+    #     # def parse_value(self, ctx: CommandContext, args: PreparedArguments) -> any:
+    #     #     pass
+    #     raise RuntimeError("В докстринге блять написано - поддерживаются только парсеры одиночного аргумента, еблан ты тупой")
+
     return ParseUntilEndsParserElement(element, min_count)

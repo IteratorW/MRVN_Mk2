@@ -1,8 +1,9 @@
-
+# Ивенты
+from events import event
 
 # Команды
-import core.command.CommandManager as CommandManager
-from core.command.CommandManager import Command
+import core.command.command_manager as CommandManager
+from core.command.command_manager import Command
 from core.command.context import CommandContext, PermissionContext
 from core.command.executor import CommandExecutor
 from core.command.specification import CommandSpec

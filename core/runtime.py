@@ -2,7 +2,7 @@
 
 import discord
 import os
-from core import CommandContext, Message, CommandManager
+from core import CommandContext, Message, command_manager
 
 client = discord.Client()
 globals()["client"] = client
@@ -11,3 +11,7 @@ def start():
         for module in os.listdir(directory):
             __import__(f"{directory}.{module}", globals(), locals())
     client.run(os.environ.get("DISCORD_TOKEN"))
+
+@client.event
+def on_ready():
+    pass
