@@ -59,7 +59,6 @@ class CommandSpec:
 
         def child(self, child: Union[
             "CommandSpec",  # Сюда подавать можно только это
-            Type, Callable  # А это нельзя блять, вообще, это чтобы идея поняла
         ]) -> "CommandSpec.Builder":
             """
             Добавление дочерней команды. Типы Type и Callable добавлены для адекватного тайпчекинга пичармом (Иначе куча ворнов).
