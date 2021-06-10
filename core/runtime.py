@@ -7,7 +7,7 @@ import os
 import logging
 import traceback
 from core.events import callbacks
-from core import CommandManager, CommandSpec, PreparedArguments, CommandContext
+from core import CommandManager, CommandSpec, PreparedArguments, CommandContext, CommandResult
 from core.exception import ArgumentParseException, CommandException
 
 PREFIX = os.environ.get("PREFIX")
@@ -118,10 +118,11 @@ async def on_message(message: discord.Message):
         return
     logger.info(f"Executing command {command.aliases[0]} from {message.author} ({message.author.id})")
     try:
-        result = await command.executor(ctx)
+        result: CommandResult = await command.executor(ctx)
     except CommandException as e:
         await message.channel.send(f"Произошла ошибка при выполнении команды: {e.message}")
     except Exception:
         logger.error("Exception during command execution")
         traceback.print_exc(file=sys.stderr)
         await message.channel.send("Произошла неизвестная ошибка.\nДетали записаны в журнал.")
+    # TODO обработать result
