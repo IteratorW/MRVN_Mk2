@@ -33,9 +33,18 @@ def Command(*aliases: str,
             description: str = "",
             permission_context: PermissionContext = PermissionContext.Default(),
             prefix=None
-            ) -> Callable[[Union[Type[CommandExecutor],
-                                 Callable[["CommandContext"], "CommandResult"]
-                           ]], CommandSpec]:
+            ) -> \
+        Callable[
+            [ # То, что принимает
+                Union[
+                    Type[CommandExecutor],
+                    Callable[ # То, что принимает
+                        ["CommandContext"],
+                        "CommandResult" # То, что отдает
+                    ]
+                ]
+            ],
+            CommandSpec]: # То, что отдает
     """
     Регистрация команды
     :param aliases: Алиасы команды

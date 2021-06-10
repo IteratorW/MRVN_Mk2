@@ -52,7 +52,7 @@ async def on_ready():
 @client.event  # TODO заменить всё на эмбеды
 async def on_message(message: discord.Message):
     # Не забудь про core/languages.py, кидай туда все тексты сообщений и импортируй здесь
-    # Для команд делай свой модуль languages в пап очке
+    # Для команд делай свой модуль languages в модуле бота
     if message.author.bot or isinstance(message, discord.WebhookMessage):
         return
     content: str = message.content
@@ -60,7 +60,7 @@ async def on_message(message: discord.Message):
         prefix = PREFIX
     else:
         spec = next(
-            filter(lambda spec: spec.prefix is not None and content.startswith(spec.prefix), CommandManager.commands),
+            filter(lambda it: it.prefix is not None and content.startswith(it.prefix), CommandManager.commands),
             None)
         if spec is None:
             return
@@ -68,10 +68,11 @@ async def on_message(message: discord.Message):
     args = PreparedArguments(content)
     cmd = args.next().value[len(prefix):].lower()
     ctx = CommandContext(message)
-    command = next(filter(lambda spec: (not spec.prefix or spec.prefix == prefix)
-                                       and next(filter(lambda x: x.lower() == cmd, spec.aliases), None)
-                                       and spec.permission_context.should_be_found(ctx, spec),
-                          CommandManager.commands), None)
+    command = next(
+        filter(lambda it: (not it.prefix or it.prefix == prefix)
+                          and next(filter(lambda x: x.lower() == cmd, it.aliases), None)
+                          and it.permission_context.should_be_found(ctx, it), CommandManager.commands),
+        None)
     if command is None:
         # СУКА АЛЕ ТАЙПХИНТЫ ГДЕ
         channel: discord.TextChannel = message.channel
@@ -86,11 +87,12 @@ async def on_message(message: discord.Message):
         next_arg = args.next().value
         command = next(
             filter(
-                lambda spec: any(alias.lower() == next_arg.lower() for alias in spec.aliases),
+                lambda it: any(alias.lower() == next_arg.lower() for alias in it.aliases),
                 command.children
             ), None
         )
-        if not command: break
+        if not command:
+            break
         commandTree.append(command)
 
     for command_ in commandTree:
@@ -112,7 +114,7 @@ async def on_message(message: discord.Message):
     except ArgumentParseException as e:
         await message.channel.send(
             f"Ошибка разбора аргументов\n{e.message}\n" +
-            prefix + " ".join(spec.aliases[0] for spec in commandTree) + # Вот это забери как билдер строки юзания
+            prefix + " ".join(spec.aliases[0] for spec in commandTree) +  # Вот это забери как билдер строки юзания
             " " + command.arguments.get_display_usage() + "\n" +
             rootCommand.description)
         return
