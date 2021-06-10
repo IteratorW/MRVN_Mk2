@@ -78,9 +78,3 @@ def Command(*aliases: str,
         return spec
 
     return decorator
-
-
-def abc() -> Callable[[int, int], int]:
-    def sum1(a: int, b: int) -> int: return a + b
-
-    return sum1
