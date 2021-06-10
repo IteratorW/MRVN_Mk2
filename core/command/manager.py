@@ -38,8 +38,8 @@ def Command(*aliases: str,
             [ # То, что принимает
                 Union[
                     Type[CommandExecutor],
-                    Callable[ # То, что принимает
-                        ["CommandContext"],
+                    Callable[
+                        ["CommandContext"], # То, что принимает
                         "CommandResult" # То, что отдает
                     ]
                 ]
