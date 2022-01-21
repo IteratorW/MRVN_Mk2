@@ -1,4 +1,4 @@
-![MRVN | Mk 2](https://github.com/IteratorW/MRVN_Mk2/blob/master/mrvn_mk2_logo-01.png?raw=true)
+![MRVN | Mk 2](https://raw.githubusercontent.com/IteratorW/MRVN_Mk2/master/images/mrvn_mk2_logo-01.png?token=GHSAT0AAAAAABOEJF6GW3URUJ4N6HNJXNREYPJ7WGQ)
 
 # MRVN | Mk 2
 
