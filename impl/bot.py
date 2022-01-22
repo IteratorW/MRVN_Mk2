@@ -13,4 +13,4 @@ bot = CustomBot(description="Test")
 async def run():
     asyncio.ensure_future(bot.start(token=env.token))
 
-    handler_manager.post("startup")
+    handler_manager.post("startup")  # TODO this actually starts before discord client is ready to work
