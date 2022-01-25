@@ -1,13 +1,21 @@
 import logging
 
+import discord
+
+from api.command.mrvn_command_context import MrvnCommandContext
 from api.event_handler.decorators import event_handler
+from impl import bot
 
 
-@event_handler("startup")
-async def on_ready():
+@event_handler()
+async def on_startup():
     logging.info("Beu startup!")
 
 
-@event_handler("ready")
-async def on_ready():
-    logging.info("Beu ready!")
+@bot.bot.slash_command()
+async def test(ctx: MrvnCommandContext, arg_1: str, arg_2: str):
+    """Test message-only command"""
+
+    embed = discord.Embed(title="Error", color=0xff0033, description=f"Ты наижидчайше обосрался")
+
+    await ctx.respond(embed=embed)

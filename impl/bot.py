@@ -3,11 +3,11 @@ import logging
 
 import discord
 
-from api.discord.custom_bot import CustomBot
 from api.event_handler import handler_manager
 from impl import env
+from impl.mrvn_bot import MrvnBot
 
-bot = CustomBot(description="Test")
+bot = MrvnBot(description="Test", debug_guilds=env.debug_guilds)
 
 
 async def run():
