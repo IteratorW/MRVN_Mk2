@@ -1,13 +1,12 @@
-import traceback
 from abc import ABC
 from typing import Any
 
-from discord import Bot, Message, Interaction, InteractionType, SlashCommand
+from discord import Bot, Message, Interaction, InteractionType, SlashCommand, SlashCommandGroup
 
 from api.command.args import element
 from api.command.args.arguments import PreparedArguments
-from api.command.mrvn_command_context import MrvnCommandContext
-from api.command.mrvn_message_context import MrvnMessageContext
+from api.command.context.mrvn_command_context import MrvnCommandContext
+from api.command.context.mrvn_message_context import MrvnMessageContext
 from api.event_handler import handler_manager
 from api.exc import ArgumentParseException
 
@@ -58,18 +57,28 @@ class MrvnBot(Bot, ABC):
         args = PreparedArguments(message.content)
         cmd_name = args.next().value[1:].lower()
 
+        command = None
+
         for cmd in self.application_commands:
-            if (
-                    cmd.name == cmd_name
-                    and message.guild.id in cmd.guild_ids
-                    and isinstance(cmd, SlashCommand)
-            ):
+            if isinstance(cmd, (
+                    SlashCommand, SlashCommandGroup)) and cmd.name == cmd_name and message.guild.id in cmd.guild_ids:
                 command = cmd
                 break
         else:
             return
 
         ctx = MrvnMessageContext(self, message)
+
+        try:
+            while isinstance(command, SlashCommandGroup):
+                sub_cmd_name = args.next().value
+
+                command = next(filter(lambda it: it.name == sub_cmd_name, command.subcommands))
+        except StopIteration:
+            await ctx.respond("Invalid subcommand or subcommand group.")
+
+            return
+
         ctx.command = command
 
         parsers = []
@@ -88,7 +97,18 @@ class MrvnBot(Bot, ABC):
 
         try:
             for i, parser in enumerate(parsers):
-                kwargs[command.options[i].name] = parser.parse(ctx, args)
+                option = command.options[i]
+                key = option.name
+
+                if option.default:
+                    if key in args.keys:
+                        value = parser.parse(ctx, args.keys[key])
+                    else:
+                        value = option.default
+
+                    kwargs[key] = value
+                else:
+                    kwargs[key] = parser.parse(ctx, args)
         except ArgumentParseException as e:
             await ctx.respond(e.message)
 
