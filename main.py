@@ -5,7 +5,7 @@ import sys
 
 import coloredlogs as coloredlogs
 
-from impl import bot, env
+from impl import runtime, env
 
 coloredlogs.install(fmt="[%(asctime)s] [%(name)s/%(levelname)s]: %(message)s", datefmt="%H:%M:%S",
                     field_styles={"levelname": {"color": "blue"}, "message": {"color": "white", "bright": True}})
@@ -35,11 +35,11 @@ for directory in env.extension_dirs:
 logging.info("Running async...")
 
 loop = asyncio.new_event_loop()
-asyncio.ensure_future(bot.run(), loop=loop)
 
 try:
-    loop.run_forever()
+    loop.run_until_complete(runtime.run())
 except KeyboardInterrupt:
-    pass
+    loop.run_until_complete(runtime.bot.close())
+    # cancel all tasks lingering
 finally:
-    logging.info("Shitdown")
+    loop.close()

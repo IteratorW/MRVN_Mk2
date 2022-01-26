@@ -6,7 +6,7 @@ from discord.abc import Mentionable, GuildChannel
 
 from api.command.mrvn_command_context import MrvnCommandContext
 from api.event_handler.decorators import event_handler
-from impl import bot
+from impl import runtime
 
 
 @event_handler()
@@ -14,7 +14,7 @@ async def on_startup():
     logging.info("Beu startup!")
 
 
-@bot.bot.slash_command()
+@runtime.bot.slash_command()
 async def test(ctx: MrvnCommandContext, arg_1: str, arg_2: str):
     """Test message-only command"""
 
@@ -23,14 +23,14 @@ async def test(ctx: MrvnCommandContext, arg_1: str, arg_2: str):
     await ctx.respond(embed=embed)
 
 
-@bot.bot.slash_command()
+@runtime.bot.slash_command()
 async def test_int(ctx: MrvnCommandContext, test_arg: int):
     """Test command with int arg"""
 
     await ctx.respond(str(test_arg))
 
 
-@bot.bot.slash_command()
+@runtime.bot.slash_command()
 async def multi_arg(ctx: MrvnCommandContext, string: str, integer: int, boolean: bool, user: User, channel: GuildChannel, role: Role, mentionable: Mentionable, number: float):
     await ctx.respond(f"""
 String: {string}
