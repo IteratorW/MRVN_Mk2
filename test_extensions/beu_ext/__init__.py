@@ -42,3 +42,22 @@ Role: {role}
 Mentionable: {mentionable}
 Number: {number}
 """)
+
+
+group = runtime.bot.create_group("group", "A group")
+sub_group = group.create_subgroup("subgroup", "A subgroup")
+
+
+@group.command()
+async def group_command(ctx):
+    await ctx.respond("Group test")
+
+
+@sub_group.command()
+async def sub_group_command(ctx):
+    await ctx.respond("Subgroup test!")
+
+
+@sub_group.command()
+async def sub_group_command2(ctx):
+    await ctx.respond("Second subgroup command test!")
