@@ -78,15 +78,16 @@ class MrvnBot(Bot, ABC):
 
                 return
 
-            parsers.append(parser(option.name))
+            parsers.append(parser)
 
-        seq = element.seq(parsers)
+        kwargs = {}
 
         try:
-            seq.parse(ctx, args)
+            for i, parser in enumerate(parsers):
+                kwargs[command.options[i].name] = parser.parse(ctx, args)
         except RuntimeError:
             await ctx.respond(traceback.format_exc())
 
             return
 
-        await command(ctx, **ctx.args)
+        await command(ctx, **kwargs)

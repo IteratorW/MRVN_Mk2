@@ -8,45 +8,26 @@ from api.command.mrvn_message_context import MrvnMessageContext
 
 class ParserElement(abc.ABC):
     option = None
-    key: str
 
-    def __init__(self, key: Optional[str]):
-        """
-        :param key: Ключ аргумента
-        """
-        self.key = key
+    @classmethod
+    def parse(cls, ctx: MrvnMessageContext, args: PreparedArguments) -> any:
 
-    def parse(self, ctx: MrvnMessageContext, args: PreparedArguments):
-        """
-        Низкоуровневый парсинг аргументов без обработки ошибок
-        :param ctx: контекст
-        :param args: аргументы
-        :return: None
-        """
         try:
-            value = self.parse_value(ctx, args)
+            value = cls.parse_value(ctx, args)
         except IndexError:
             raise RuntimeError("Parser out of rng")
-        if self.key is not None and value is not None:
-            ctx.put_argument(self.key, value)
 
+        return value
+
+    @classmethod
     @abc.abstractmethod
-    def parse_value(self, ctx: MrvnMessageContext, args: PreparedArguments) -> any:
-        """
-        Парсинг аргументов с обработкой ошибок, в том числе недостатка аргументов
-        :param ctx: контекст
-        :param args: аргументы
-        :return: значение для установки в аргумент
-        """
+    def parse_value(cls, ctx: MrvnMessageContext, args: PreparedArguments) -> any:
         pass
 
-    def get_display_usage(self) -> str:
-        return f"<{self.get_usage()}>"
+    @classmethod
+    def get_display_usage(cls, key: str) -> str:
+        return f"<{cls.get_usage(key)}>"
 
-    @abc.abstractmethod
-    def get_usage(self) -> str:
-        """
-        Строка использования.
-        :return: str
-        """
-        pass
+    @classmethod
+    def get_usage(cls, key: str) -> str:
+        return key

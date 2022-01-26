@@ -51,7 +51,8 @@ class PreparedArguments:
     def append_single_arg(self, match: "re.Match", group: int):
         self.args.append(SingleArgument(match.group(group), match.start(), match.end()))
 
-    # Здесь нужен PreparedArguments, что бы элемент, который будет в KeyParserElement, смог парсить переданную в ключ строку
+    # Здесь нужен PreparedArguments, что бы элемент, который будет в KeyParserElement,
+    # смог парсить переданную в ключ строку
     def process_key(self, key: str, value: Optional[str]):
         if value is None:
             self.keys.setdefault(key, PreparedArguments("true", False))
