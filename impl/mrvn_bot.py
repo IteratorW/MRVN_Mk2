@@ -16,18 +16,10 @@ class MrvnBot(Bot, ABC):
     def __init__(self, *args, **options):
         super().__init__(*args, **options)
 
-        self.has_been_initialized = False
-
     def dispatch(self, event_name: str, *args: Any, **kwargs: Any) -> None:
         super().dispatch(event_name, *args, *kwargs)
 
         handler_manager.post(event_name, *args)
-
-    async def on_ready(self):
-        if not self.has_been_initialized:
-            handler_manager.post("startup")
-
-            self.has_been_initialized = True
 
     async def on_interaction(self, interaction: Interaction):
         if interaction.type not in (

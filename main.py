@@ -1,14 +1,15 @@
 import asyncio
 import logging
 import os
-import sys
 
 import coloredlogs as coloredlogs
 
 from impl import runtime, env
 
 coloredlogs.install(fmt="[%(asctime)s] [%(name)s/%(levelname)s]: %(message)s", datefmt="%H:%M:%S",
-                    field_styles={"levelname": {"color": "blue"}, "message": {"color": "white", "bright": True}})
+                    field_styles={"levelname": {"color": "yellow", "bright": True},
+                                  'asctime': {'color': 'blue', "bright": True},
+                                  "message": {"color": "white", "bright": True}})
 logging.basicConfig(level=logging.INFO if not env.debug else logging.DEBUG)
 
 logging.info("Loading extensions...")
@@ -34,12 +35,4 @@ for directory in env.extension_dirs:
 
 logging.info("Running async...")
 
-loop = asyncio.new_event_loop()
-
-try:
-    loop.run_until_complete(runtime.run())
-except KeyboardInterrupt:
-    loop.run_until_complete(runtime.bot.close())
-    # cancel all tasks lingering
-finally:
-    loop.close()
+runtime.bot.run(env.token)

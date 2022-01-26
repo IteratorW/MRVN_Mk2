@@ -8,7 +8,14 @@ from impl import env
 from impl.mrvn_bot import MrvnBot
 
 bot = MrvnBot(description="Test", debug_guilds=env.debug_guilds, intents=discord.Intents.all())
+startup_done = False
 
 
-async def run():
-    await bot.start(env.token)
+@bot.event
+async def on_ready():
+    global startup_done
+
+    if not startup_done:
+        handler_manager.post("startup")
+
+        startup_done = True
