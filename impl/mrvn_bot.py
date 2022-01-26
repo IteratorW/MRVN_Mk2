@@ -1,8 +1,11 @@
+import traceback
 from abc import ABC
 from typing import Any
 
-from discord import Bot, Message, Interaction, InteractionType
+from discord import Bot, Message, Interaction, InteractionType, SlashCommand
 
+from api.command.args import element
+from api.command.args.arguments import PreparedArguments
 from api.command.mrvn_command_context import MrvnCommandContext
 from api.command.mrvn_message_context import MrvnMessageContext
 from api.event_handler import handler_manager
@@ -48,13 +51,14 @@ class MrvnBot(Bot, ABC):
         if not message.content.startswith("?"):
             return
 
-        args = message.content.split(" ")
-        cmd_name = args.pop(0)[1:]
+        args = PreparedArguments(message.content)
+        cmd_name = args.next().value[1:].lower()
 
         for cmd in self.application_commands:
             if (
                     cmd.name == cmd_name
                     and message.guild.id in cmd.guild_ids
+                    and isinstance(cmd, SlashCommand)
             ):
                 command = cmd
                 break
@@ -64,4 +68,25 @@ class MrvnBot(Bot, ABC):
         ctx = MrvnMessageContext(self, message)
         ctx.command = command
 
-        await command(ctx, arg_1="Test", arg_2="Anus")
+        parsers = []
+
+        for option in command.options:
+            parser = element.parsers.get(option.input_type, None)
+
+            if parser is None:
+                await ctx.respond(f"Error: could not find parser for slash option type {option.input_type}")
+
+                return
+
+            parsers.append(parser(option.name))
+
+        seq = element.seq(parsers)
+
+        try:
+            seq.parse(ctx, args)
+        except RuntimeError:
+            await ctx.respond(traceback.format_exc())
+
+            return
+
+        await command(ctx, **ctx.args)

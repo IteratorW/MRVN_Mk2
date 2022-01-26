@@ -1,3 +1,4 @@
+from collections import defaultdict
 from typing import Optional, Union, Callable
 
 from discord import Message, Bot, ApplicationCommand, Guild, Member, InteractionResponse, Interaction, WebhookMessage
@@ -12,6 +13,14 @@ class MrvnMessageContext(MrvnCommandContext):
         self.bot = bot
         self.interaction = None
         self._message = message
+
+        self.args = {}
+
+    def put_argument(self, key, value):
+        self.args[key] = value
+
+    def get_one(self, key):
+        return self.args[key]
 
     async def _get_channel(self) -> Messageable:
         return self.message.channel
