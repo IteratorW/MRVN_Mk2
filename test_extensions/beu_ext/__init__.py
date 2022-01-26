@@ -1,6 +1,8 @@
 import logging
 
 import discord
+from discord import User, Role
+from discord.abc import Mentionable, GuildChannel
 
 from api.command.mrvn_command_context import MrvnCommandContext
 from api.event_handler.decorators import event_handler
@@ -26,3 +28,17 @@ async def test_int(ctx: MrvnCommandContext, test_arg: int):
     """Test command with int arg"""
 
     await ctx.respond(str(test_arg))
+
+
+@bot.bot.slash_command()
+async def multi_arg(ctx: MrvnCommandContext, string: str, integer: int, boolean: bool, user: User, channel: GuildChannel, role: Role, mentionable: Mentionable, number: float):
+    await ctx.respond(f"""
+String: {string}
+Integer: {integer}
+Boolean: {boolean}
+User: {user}
+Channel: {channel}
+Role: {role}
+Mentionable: {mentionable}
+Number: {number}
+""")
