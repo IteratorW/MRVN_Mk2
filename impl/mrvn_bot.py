@@ -9,6 +9,7 @@ from api.command.args.arguments import PreparedArguments
 from api.command.mrvn_command_context import MrvnCommandContext
 from api.command.mrvn_message_context import MrvnMessageContext
 from api.event_handler import handler_manager
+from api.exc import ArgumentParseException
 
 
 class MrvnBot(Bot, ABC):
@@ -85,8 +86,8 @@ class MrvnBot(Bot, ABC):
         try:
             for i, parser in enumerate(parsers):
                 kwargs[command.options[i].name] = parser.parse(ctx, args)
-        except RuntimeError:
-            await ctx.respond(traceback.format_exc())
+        except ArgumentParseException as e:
+            await ctx.respond(e.message)
 
             return
 

@@ -4,6 +4,7 @@ from typing import Optional
 
 from api.command.args.arguments import PreparedArguments
 from api.command.mrvn_message_context import MrvnMessageContext
+from api.exc import ArgumentParseException
 
 
 class ParserElement(abc.ABC):
@@ -15,7 +16,7 @@ class ParserElement(abc.ABC):
         try:
             value = cls.parse_value(ctx, args)
         except IndexError:
-            raise RuntimeError("Parser out of rng")
+            raise ArgumentParseException.with_pointer("Parser out of range.", args)
 
         return value
 

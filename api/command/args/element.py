@@ -5,6 +5,7 @@ from discord.enums import SlashCommandOptionType
 from api.command.args.arguments import PreparedArguments
 from api.command.args.parser import ParserElement
 from api.command.mrvn_message_context import MrvnMessageContext
+from api.exc import ArgumentParseException
 
 
 class SingleStringParserElement(ParserElement):
@@ -20,12 +21,11 @@ class IntegerParserElement(ParserElement):
 
     @classmethod
     def parse_value(cls, ctx: MrvnMessageContext, args: PreparedArguments) -> any:
-        to_parse = args.next().value
-
-        if not to_parse.isdigit():
-            raise RuntimeError("Enter an integer")
-
-        return int(to_parse)
+        try:
+            return int(args.next().value)
+        except ValueError:
+            raise ArgumentParseException.with_pointer(
+                "This is not an integer.", args)
 
 
 parsers = {elem.option: elem for elem in [SingleStringParserElement,
