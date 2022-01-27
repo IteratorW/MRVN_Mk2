@@ -114,10 +114,17 @@ class MrvnBot(Bot, ABC):
                         value = parser.parse(ctx, args.keys[key])
                     else:
                         value = option.default
-
-                    kwargs[key] = value
                 else:
-                    kwargs[key] = parser.parse(ctx, args)
+                    value = parser.parse(ctx, args)
+
+                if value not in [x.value for x in option.choices]:
+                    choices_desc = "\n".join(["%s: %s" % (x.name, x.value) for x in option.choices])
+
+                    await ctx.respond(f"The value of {key} is not in choices. Choose one of:\n{choices_desc}")
+
+                    return
+
+                kwargs[key] = value
         except ArgumentParseException as e:
             await ctx.respond(e.message)
 

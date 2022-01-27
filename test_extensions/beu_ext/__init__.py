@@ -1,7 +1,7 @@
 import logging
 
 import discord
-from discord import User, Role
+from discord import User, Role, Option, OptionChoice
 from discord.abc import Mentionable, GuildChannel
 
 from api.command.context.mrvn_command_context import MrvnCommandContext
@@ -72,3 +72,10 @@ async def sub_group_command2(ctx, test_arg: int):
 @runtime.bot.slash_command()
 async def until_ends(ctx, query: ParseUntilEndsOption(str)):
     await ctx.respond(f"Query: `{query}`")
+
+
+@runtime.bot.slash_command()
+async def choices(ctx, choice_str: Option(str, choices=[OptionChoice("Choice 1", "Anus"),
+                                                        OptionChoice("Choice 2", "Amogus"),
+                                                        OptionChoice("Choice 3", "Test")])):
+    await ctx.respond(f"{choice_str}")
