@@ -57,8 +57,6 @@ class MrvnBot(Bot, ABC):
         args = PreparedArguments(message.content)
         cmd_name = args.next().value[1:].lower()
 
-        command = None
-
         for cmd in self.application_commands:
             if isinstance(cmd, (
                     SlashCommand, SlashCommandGroup)) and cmd.name == cmd_name and message.guild.id in cmd.guild_ids:
@@ -100,7 +98,7 @@ class MrvnBot(Bot, ABC):
                 option = command.options[i]
                 key = option.name
 
-                if option.default:
+                if option.default is not None:
                     if key in args.keys:
                         value = parser.parse(ctx, args.keys[key])
                     else:

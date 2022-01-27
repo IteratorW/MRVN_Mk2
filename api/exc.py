@@ -7,7 +7,7 @@ class ArgumentParseException(Exception):
 
     @staticmethod
     def with_pointer(message: str, args: PreparedArguments):
-        result_message = "%s\n```%s\n%s%s```" % (
+        result_message = "%s\n```\n%s\n%s%s```" % (
             message,
             args.source.replace("`", "\\`"),
             " "*args.current().start,

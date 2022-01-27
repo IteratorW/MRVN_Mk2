@@ -45,7 +45,7 @@ Number: {number}
 
 
 @runtime.bot.slash_command()
-async def optional_arg(ctx, optional: str = "None"):
+async def optional_arg(ctx, optional: int = 0):
     await ctx.respond(optional)
 
 
