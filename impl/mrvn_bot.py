@@ -7,6 +7,7 @@ from api.command.args import element
 from api.command.args.arguments import PreparedArguments
 from api.command.context.mrvn_command_context import MrvnCommandContext
 from api.command.context.mrvn_message_context import MrvnMessageContext
+from api.command.option.ParseUntilEndsOption import ParseUntilEndsOption
 from api.event_handler import handler_manager
 from api.exc import ArgumentParseException
 
@@ -97,6 +98,16 @@ class MrvnBot(Bot, ABC):
             for i, parser in enumerate(parsers):
                 option = command.options[i]
                 key = option.name
+
+                if isinstance(option, ParseUntilEndsOption):
+                    values = []
+
+                    while args.has_next():
+                        values.append(parser.parse(ctx, args))
+
+                    kwargs[key] = " ".join([str(x) for x in values])
+
+                    break
 
                 if option.default is not None:
                     if key in args.keys:

@@ -5,6 +5,7 @@ from discord import User, Role
 from discord.abc import Mentionable, GuildChannel
 
 from api.command.context.mrvn_command_context import MrvnCommandContext
+from api.command.option.ParseUntilEndsOption import ParseUntilEndsOption
 from api.event_handler.decorators import event_handler
 from impl import runtime
 
@@ -66,3 +67,8 @@ async def sub_group_command(ctx):
 @sub_group.command()
 async def sub_group_command2(ctx, test_arg: int):
     await ctx.respond(f"Argument: {test_arg}")
+
+
+@runtime.bot.slash_command()
+async def until_ends(ctx, query: ParseUntilEndsOption(str)):
+    await ctx.respond(f"Query: `{query}`")
