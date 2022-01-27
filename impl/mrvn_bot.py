@@ -109,7 +109,7 @@ class MrvnBot(Bot, ABC):
 
                     break
 
-                if option.default is not None:
+                if not option.required:
                     if key in args.keys:
                         value = parser.parse(ctx, args.keys[key])
                     else:
