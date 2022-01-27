@@ -65,7 +65,7 @@ class MrvnMessageContext(MrvnCommandContext):
 
     @property
     def author(self) -> Optional[Union[Member, User]]:
-        return self.author
+        return self.user
 
     @property
     def voice_client(self):
