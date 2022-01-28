@@ -3,6 +3,7 @@ import logging
 import discord
 from discord import User, Role, Option, OptionChoice
 from discord.abc import Mentionable, GuildChannel
+from discord.enums import SlashCommandOptionType
 
 from api.command.context.mrvn_command_context import MrvnCommandContext
 from api.command.option.ParseUntilEndsOption import ParseUntilEndsOption
@@ -78,3 +79,8 @@ async def choices(ctx, choice_str: Option(str, choices=[OptionChoice("Choice 1",
                                                         OptionChoice("Choice 2", "Amogus"),
                                                         OptionChoice("Choice 3", "Test")])):
     await ctx.respond_embed(Style.INFO, f"{choice_str}")
+
+
+@runtime.bot.slash_command()
+async def attach(ctx, attachment: Option(SlashCommandOptionType.attachment)):
+    await ctx.respond_embed(Style.OK, attachment.url)
