@@ -1,5 +1,6 @@
 from typing import Optional, Union, Callable
 
+import discord
 from discord import Message, Bot, ApplicationCommand, Guild, Member, InteractionResponse, Interaction, WebhookMessage
 from discord.abc import Messageable, User
 
@@ -26,6 +27,12 @@ class MrvnMessageContext(MrvnCommandContext):
 
     async def invoke(self, command: ApplicationCommand, /, *args, **kwargs):
         return await command(self, *args, **kwargs)
+
+    async def _defer(self, *args, **kwargs):
+        try:
+            await self.message.add_reaction("⌛")
+        except discord.Forbidden:
+            pass
 
     @property
     def channel(self):
@@ -92,8 +99,7 @@ class MrvnMessageContext(MrvnCommandContext):
 
     @property
     def defer(self):
-        return None  # TODO maybe simulate a deferred message
-
+        return self._defer
     @property
     def followup(self):
         return None

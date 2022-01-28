@@ -56,7 +56,7 @@ class MrvnBot(Bot, ABC):
                 command.message_only = False
 
     async def register_commands(self) -> None:
-        for command in filter(lambda cmd: isinstance(SlashCommand, SlashCommandGroup),
+        for command in filter(lambda cmd: isinstance(cmd, (SlashCommand, SlashCommandGroup)),
                               self.pending_application_commands):
             # This is a hacky method to make a slash command with attachment option have no options at all
             # (so the user can execute it and get a proper error)

@@ -1,3 +1,4 @@
+import asyncio
 import logging
 
 import discord
@@ -89,3 +90,12 @@ async def attach(ctx, attachment: Option(SlashCommandOptionType.attachment)):
 @runtime.bot.user_command()
 async def pidor(ctx, member: discord.Member):
     await ctx.respond_embed(Style.INFO, f"{member.mention} пидор!")
+
+
+@runtime.bot.slash_command()
+async def deferred(ctx: MrvnCommandContext, ephemeral: bool):
+    await ctx.defer(ephemeral=ephemeral)
+
+    await asyncio.sleep(3)
+
+    await ctx.respond_embed(Style.OK, "Deferred message test!")
