@@ -117,7 +117,7 @@ class MrvnBot(Bot, ABC):
 
         if command.message_only:
             await ctx.respond_embed(Style.ERROR, "This command can not be executed with a slash. Try using a message"
-                                                 "command instead.")
+                                                 " command instead.")
 
             return
 
@@ -126,8 +126,6 @@ class MrvnBot(Bot, ABC):
         await ctx.command.invoke(ctx)
 
     async def on_message(self, message: Message):
-        # Test code for message command support
-
         if not message.content.startswith("?"):
             return
 
@@ -164,9 +162,9 @@ class MrvnBot(Bot, ABC):
         for option in options:
             parser = element.parsers.get(option.input_type, None)
 
-            if parser is None:
-                await ctx.respond_embed(Style.ERROR, "This command can not be run with a message. Try a slash command "
-                                                     "instead.")
+            if parser is None and option.input_type != SlashCommandOptionType.attachment:
+                await ctx.respond_embed(Style.ERROR, "This command can not be executed with a message."
+                                                     " Try a slash command instead.")
 
                 return
 
