@@ -84,3 +84,8 @@ async def choices(ctx, choice_str: Option(str, choices=[OptionChoice("Choice 1",
 @runtime.bot.slash_command()
 async def attach(ctx, attachment: Option(SlashCommandOptionType.attachment)):
     await ctx.respond_embed(Style.OK, attachment.url)
+
+
+@runtime.bot.user_command()
+async def pidor(ctx, member: discord.Member):
+    await ctx.respond_embed(Style.INFO, f"{member.mention} пидор!")

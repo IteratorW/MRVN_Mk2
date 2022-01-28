@@ -6,7 +6,8 @@ from collections import defaultdict
 from typing import Any, Union, Dict
 
 from asciitree import LeftAligned
-from discord import Bot, Message, Interaction, InteractionType, SlashCommand, SlashCommandGroup
+from discord import Bot, Message, Interaction, InteractionType, SlashCommand, SlashCommandGroup, UserCommand, \
+    MessageCommand
 from discord.enums import SlashCommandOptionType
 
 from api.command.args import element
@@ -55,7 +56,8 @@ class MrvnBot(Bot, ABC):
                 command.message_only = False
 
     async def register_commands(self) -> None:
-        for command in self.pending_application_commands:
+        for command in filter(lambda cmd: isinstance(SlashCommand, SlashCommandGroup),
+                              self.pending_application_commands):
             # This is a hacky method to make a slash command with attachment option have no options at all
             # (so the user can execute it and get a proper error)
             # Will be removed when Discord adds support for attachments in slash
@@ -99,7 +101,7 @@ class MrvnBot(Bot, ABC):
         except KeyError:
             for cmd in self.application_commands:
                 if (
-                        isinstance(cmd, SlashCommand)
+                        isinstance(cmd, (SlashCommand, UserCommand, MessageCommand))
                         and cmd.name == interaction.data["name"]
                         and interaction.data.get("guild_id", None) in cmd.guild_ids
                 ):
@@ -115,7 +117,7 @@ class MrvnBot(Bot, ABC):
 
         ctx = MrvnCommandContext(self, interaction)
 
-        if command.message_only:
+        if isinstance(command, SlashCommand) and command.message_only:
             await ctx.respond_embed(Style.ERROR, "This command can not be executed with a slash. Try using a message"
                                                  " command instead.")
 
@@ -217,6 +219,9 @@ class MrvnBot(Bot, ABC):
                         await ctx.respond(embed=embed)
 
                         return
+
+                if option.input_type == SlashCommandOptionType.string and (converter := option.converter) is not None:
+                    value = await converter.convert(converter, ctx, value)
 
                 if len(option.choices) and value not in [x.value for x in option.choices]:
                     choices_desc = "\n".join(["`%s`: **%s**" % (x.name, x.value) for x in option.choices])
