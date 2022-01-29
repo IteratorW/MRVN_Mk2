@@ -1,9 +1,14 @@
 import asyncio
+import importlib
+import inspect
 import logging
 import os
+import pkgutil
 
 import coloredlogs as coloredlogs
 
+from api.translation import translations
+import impl
 from impl import runtime, env
 
 coloredlogs.install(fmt="[%(asctime)s] [%(name)s/%(levelname)s]: %(message)s", datefmt="%H:%M:%S",
@@ -30,9 +35,19 @@ for directory in env.extension_dirs:
         logging.info(f"Added models for extension {python_module}")
         """
 
+        try:
+            lang_module = importlib.import_module(f"{path}.lang")
+
+            translations.load_from_package(lang_module)
+
+            logging.info(f"Loaded translations for {python_module}")
+        except ImportError:
+            logging.info(f"Extension {python_module} doesn't have translations.")
+
         logging.info(f"Loaded extension {python_module}")
 
+translations.load_from_package(impl.lang)
 
-logging.info("Running async...")
+logging.info("Running bot...")
 
 runtime.bot.run(env.token)

@@ -5,6 +5,7 @@ from discord import Message, Bot, ApplicationCommand, Guild, Member, Interaction
 from discord.abc import Messageable, User
 
 from api.command.context.mrvn_command_context import MrvnCommandContext
+from api.translation.translator import Translator
 
 
 class MrvnMessageContext(MrvnCommandContext):

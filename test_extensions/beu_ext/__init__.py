@@ -10,6 +10,7 @@ from api.command.context.mrvn_command_context import MrvnCommandContext
 from api.command.option.ParseUntilEndsOption import ParseUntilEndsOption
 from api.embed.style import Style
 from api.event_handler.decorators import event_handler
+from api.translation import translations
 from impl import runtime
 from . import components_test
 
@@ -100,3 +101,8 @@ async def deferred(ctx: MrvnCommandContext, ephemeral: bool):
     await asyncio.sleep(3)
 
     await ctx.respond_embed(Style.OK, "Deferred message test!")
+
+
+@runtime.bot.slash_command()
+async def trans(ctx: MrvnCommandContext):
+    await ctx.respond_embed(Style.INFO, ctx.translate("test"))

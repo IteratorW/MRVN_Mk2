@@ -8,9 +8,9 @@ from api.command.args.arguments import PreparedArguments
 from api.command.args.parser import ParserElement
 from api.command.context.mrvn_message_context import MrvnMessageContext
 from api.exc import ArgumentParseException
-
-
 # TODO shitty regex, ask Herobrine for a better version
+from api.translation.translator import Translator
+
 MENTION_PATTERN = re.compile(r"(@everyone)|(<((#)|(@&)|(@!|@))([0-9]{18})>)")
 
 
@@ -18,7 +18,8 @@ class SingleStringParserElement(ParserElement):
     option = SlashCommandOptionType.string
 
     @classmethod
-    def parse_value(cls, ctx: MrvnMessageContext, args: PreparedArguments) -> any:
+    def parse_value(cls, ctx: MrvnMessageContext, args: PreparedArguments,
+                    translator: Translator = Translator()) -> any:
         return args.next().value
 
 
@@ -26,19 +27,21 @@ class IntegerParserElement(ParserElement):
     option = SlashCommandOptionType.integer
 
     @classmethod
-    def parse_value(cls, ctx: MrvnMessageContext, args: PreparedArguments) -> any:
+    def parse_value(cls, ctx: MrvnMessageContext, args: PreparedArguments,
+                    translator: Translator = Translator()) -> any:
         try:
             return int(args.next().value)
         except ValueError:
             raise ArgumentParseException.with_pointer(
-                "This is not an integer.", args)
+                translator.translate("mrvn_api_command_parse_integer_error"), args)
 
 
 class BoolParserElement(ParserElement):
     option = SlashCommandOptionType.boolean
 
     @classmethod
-    def parse_value(cls, ctx: MrvnMessageContext, args: PreparedArguments) -> any:
+    def parse_value(cls, ctx: MrvnMessageContext, args: PreparedArguments,
+                    translator: Translator = Translator()) -> any:
         value = args.next().value.lower()
 
         if value in ["yes", "yeah", "true", "da", "+"]:
@@ -46,21 +49,23 @@ class BoolParserElement(ParserElement):
         elif value in ["no", "false", "nah", "net", "-"]:
             return False
         else:
-            raise ArgumentParseException.with_pointer("This is not a boolean. Specify either True or False.", args)
+            raise ArgumentParseException.with_pointer(translator.translate("mrvn_api_command_parse_bool_error"), args)
 
 
 class MentionableParserElement(ParserElement):  # TODO refactor this
     option = SlashCommandOptionType.mentionable
 
     @classmethod
-    def parse_value(cls, ctx: MrvnMessageContext, args: PreparedArguments) -> any:
+    def parse_value(cls, ctx: MrvnMessageContext, args: PreparedArguments,
+                    translator: Translator = Translator()) -> any:
         value = args.next().value.lower()
 
         try:
             search = MENTION_PATTERN.search(value)
 
             if not search:
-                raise ArgumentParseException.with_pointer("This is not a mention.", args)
+                raise ArgumentParseException.with_pointer(translator.translate("mrvn_api_command_parse_mention_error"),
+                                                          args)
 
             snowflake = int(search.group(7)) if value != "@everyone" else None
 
@@ -77,11 +82,13 @@ class MentionableParserElement(ParserElement):  # TODO refactor this
             elif search.group(4) and (cls.option == SlashCommandOptionType.channel or cls.option == SlashCommandOptionType.mentionable):
                 return ctx.guild.get_channel(snowflake)
             else:
-                raise ArgumentParseException.with_pointer("Invalid mention.", args)
+                raise ArgumentParseException.with_pointer(translator.translate("mrvn_api_command_parse_mention_error"),
+                                                          args)
         except IndexError:
             logging.error(traceback.format_exc())
 
-            raise ArgumentParseException.with_pointer("Can't parse this.", args)
+            raise ArgumentParseException.with_pointer(translator.translate("mrvn_api_command_parse_mention_error"),
+                                                      args)
 
 
 class UserParserElement(MentionableParserElement):
@@ -100,12 +107,13 @@ class NumberParserElement(ParserElement):
     option = SlashCommandOptionType.number
 
     @classmethod
-    def parse_value(cls, ctx: MrvnMessageContext, args: PreparedArguments) -> any:
+    def parse_value(cls, ctx: MrvnMessageContext, args: PreparedArguments,
+                    translator: Translator = Translator()) -> any:
         try:
             return float(args.next().value)
         except ValueError:
             raise ArgumentParseException.with_pointer(
-                "This is not a number.", args)
+                translator.translate("mrvn_api_command_parse_number_error"), args)
 
 
 parsers = {elem.option: elem for elem in [SingleStringParserElement,

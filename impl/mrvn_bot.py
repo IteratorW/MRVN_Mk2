@@ -1,4 +1,4 @@
-import json
+import logging
 import logging
 import types
 from abc import ABC
@@ -18,6 +18,7 @@ from api.command.option.ParseUntilEndsOption import ParseUntilEndsOption
 from api.embed.style import Style
 from api.event_handler import handler_manager
 from api.exc import ArgumentParseException
+from api.translation.translator import Translator
 
 logger = logging.getLogger("MrvnBot")
 
@@ -65,30 +66,31 @@ class MrvnBot(Bot, ABC):
 
         await super().register_commands()
 
-    def get_command_desc(self, command: SlashCommand):
+    def get_command_desc(self, command: SlashCommand, translator: Translator = Translator()):
         options = []
 
         for option in command.options:
-            options.append(("<%s>" if option.required else "[%s]") % f"`{option.name}`: *{option.input_type.name}*")
+            options.append((
+                               "<%s>" if option.required else "[%s]") % f"`{option.name}`: *{translator.translate(f'mrvn_core_commands_option_{option.input_type.name}')}*")
 
-        return f"**{command.name}** {' '.join(options) if len(options) else '*No arguments*'}"
+        return f"**{command.name}** {' '.join(options) if len(options) else translator.translate('mrvn_core_commands_no_args')}"
 
-    def get_subcommand_tree(self, command: SlashCommandGroup):
+    def get_subcommand_tree(self, command: SlashCommandGroup, translator: Translator = Translator()):
         tree = defaultdict(dict)
         node = tree[f"__{command.name}__"]
 
         for sub_cmd in command.subcommands:
             if isinstance(sub_cmd, SlashCommandGroup):
-                node.update(self.get_subcommand_tree(sub_cmd))
+                node.update(self.get_subcommand_tree(sub_cmd, translator))
             else:
-                node[self.get_command_desc(sub_cmd)] = {}
+                node[self.get_command_desc(sub_cmd, translator)] = {}
 
         return tree
 
-    def get_subcommand_tree_desc(self, command: SlashCommandGroup):
+    def get_subcommand_tree_desc(self, command: SlashCommandGroup, translator: Translator = Translator()):
         tr = LeftAligned()
 
-        return tr(self.get_subcommand_tree(command))
+        return tr(self.get_subcommand_tree(command, translator))
 
     async def on_interaction(self, interaction: Interaction):
         if interaction.type not in (
@@ -118,8 +120,7 @@ class MrvnBot(Bot, ABC):
         ctx = MrvnCommandContext(self, interaction)
 
         if isinstance(command, SlashCommand) and command.message_only:
-            await ctx.respond_embed(Style.ERROR, "This command can not be executed with a slash. Try using a message"
-                                                 " command instead.")
+            await ctx.respond_embed(Style.ERROR, ctx.translate("mrvn_core_commands_message_only"))
 
             return
 
@@ -143,8 +144,9 @@ class MrvnBot(Bot, ABC):
             return
 
         ctx = MrvnMessageContext(self, message)
+        await ctx.for_guild(message.guild)
 
-        orig_cmd = command
+        root = command
 
         try:
             while isinstance(command, SlashCommandGroup):
@@ -152,7 +154,8 @@ class MrvnBot(Bot, ABC):
 
                 command = next(filter(lambda it: it.name == sub_cmd_name, command.subcommands))
         except StopIteration:
-            await ctx.respond_embed(Style.ERROR, self.get_subcommand_tree_desc(orig_cmd), "Invalid subcommand or group")
+            await ctx.respond_embed(Style.ERROR, self.get_subcommand_tree_desc(root, ctx),
+                                    ctx.translate("mrvn_core_commands_subcommand_error"))
 
             return
 
@@ -165,8 +168,7 @@ class MrvnBot(Bot, ABC):
             parser = element.parsers.get(option.input_type, None)
 
             if parser is None and option.input_type != SlashCommandOptionType.attachment:
-                await ctx.respond_embed(Style.ERROR, "This command can not be executed with a message."
-                                                     " Try a slash command instead.")
+                await ctx.respond_embed(Style.ERROR, ctx.translate("mrvn_core_commands_slash_only"))
 
                 return
 
@@ -185,8 +187,8 @@ class MrvnBot(Bot, ABC):
                     try:
                         kwargs[key] = message.attachments[attachment_index]
                     except IndexError:
-                        await ctx.respond_embed(Style.ERROR, "This command requires one or more attachments.",
-                                                "Parsing Error")
+                        await ctx.respond_embed(Style.ERROR, ctx.translate("mrvn_core_commands_attach_error"),
+                                                ctx.translate("mrvn_core_commands_parse_error"))
 
                         return
 
@@ -206,15 +208,16 @@ class MrvnBot(Bot, ABC):
 
                 if not option.required:
                     if key in args.keys:
-                        value = parser.parse(ctx, args.keys[key])
+                        value = parser.parse(ctx, args.keys[key], translator=ctx)
                     else:
                         value = option.default
                 else:
                     try:
-                        value = parser.parse(ctx, args)
+                        value = parser.parse(ctx, args, translator=ctx)
                     except StopIteration:
-                        embed = ctx.get_embed(Style.ERROR, title="Not enough arguments")
-                        embed.add_field(name=self.get_command_desc(command), value=command.description)
+                        embed = ctx.get_embed(Style.ERROR,
+                                              title=ctx.translate("mrvn_core_commands_arguments_not_enough"))
+                        embed.add_field(name=self.get_command_desc(command, ctx), value=command.description)
 
                         await ctx.respond(embed=embed)
 
@@ -227,13 +230,13 @@ class MrvnBot(Bot, ABC):
                     choices_desc = "\n".join(["`%s`: **%s**" % (x.name, x.value) for x in option.choices])
 
                     await ctx.respond_embed(Style.ERROR,
-                                            f"The value of {key} is not in choices. Choose one of:\n\n{choices_desc}")
+                                            ctx.format("mrvn_core_commands_not_in_choices", key, choices_desc))
 
                     return
 
                 kwargs[key] = value
         except ArgumentParseException as e:
-            await ctx.respond_embed(Style.ERROR, e.message, "Parsing Error")
+            await ctx.respond_embed(Style.ERROR, e.message, ctx.translate("mrvn_core_commands_parse_error"))
 
             return
 

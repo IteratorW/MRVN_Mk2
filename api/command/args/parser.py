@@ -3,24 +3,27 @@ import abc
 from api.command.args.arguments import PreparedArguments
 from api.command.context.mrvn_message_context import MrvnMessageContext
 from api.exc import ArgumentParseException
+from api.translation.translator import Translator
 
 
 class ParserElement(abc.ABC):
     option = None
 
     @classmethod
-    def parse(cls, ctx: MrvnMessageContext, args: PreparedArguments) -> any:
+    def parse(cls, ctx: MrvnMessageContext, args: PreparedArguments,
+              translator: Translator = Translator()) -> any:
 
         try:
-            value = cls.parse_value(ctx, args)
+            value = cls.parse_value(ctx, args, translator)
         except IndexError:
-            raise ArgumentParseException.with_pointer("Parser out of range.", args)
+            raise ArgumentParseException.with_pointer(translator.translate("mrvn_api_command_parse_out_of_range"), args)
 
         return value
 
     @classmethod
     @abc.abstractmethod
-    def parse_value(cls, ctx: MrvnMessageContext, args: PreparedArguments) -> any:
+    def parse_value(cls, ctx: MrvnMessageContext, args: PreparedArguments,
+                    translator: Translator = Translator()) -> any:
         pass
 
     @classmethod
