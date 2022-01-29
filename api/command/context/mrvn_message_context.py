@@ -100,6 +100,7 @@ class MrvnMessageContext(MrvnCommandContext):
     @property
     def defer(self):
         return self._defer
+
     @property
     def followup(self):
         return None

@@ -11,6 +11,7 @@ from api.command.option.ParseUntilEndsOption import ParseUntilEndsOption
 from api.embed.style import Style
 from api.event_handler.decorators import event_handler
 from impl import runtime
+from . import components_test
 
 
 @event_handler()

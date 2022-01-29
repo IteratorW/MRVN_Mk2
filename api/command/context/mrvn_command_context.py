@@ -12,11 +12,11 @@ class MrvnCommandContext(ApplicationContext):
         super().__init__(bot, interaction)
 
     async def respond_embed(self, style: Style, desc: str = None, title: str = None,
-                            color: Union[int, discord.Color] = None):
+                            color: Union[int, discord.Color] = None, **kwargs):
         embed = styled_embed_generator.get_embed(style, desc, title, color,
                                                  self.author if not self.interaction else None, self.guild)
 
-        await self.respond(embed=embed)
+        await self.respond(embed=embed, **kwargs)
 
     def get_embed(self, style: Style, desc: str = None, title: str = None,
                         color: Union[int, discord.Color] = None) -> discord.Embed:
