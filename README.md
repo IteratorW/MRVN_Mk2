@@ -2,5 +2,4 @@
 
 # MRVN | Mk 2
 
-Extension-based Discord bot written with Pycord bundled with an API that
-simplifies and fastens feature development.
+Extension-based Discord bot written with Pycord bundled with an API that simplifies and fastens feature development.

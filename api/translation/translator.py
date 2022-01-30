@@ -1,5 +1,4 @@
-import discord
-from discord import Interaction
+from discord import Interaction, Guild
 
 from api.translation import translations
 
@@ -17,7 +16,7 @@ class Translator:
         return inst
 
     @classmethod
-    def from_guild(cls, guild: discord.Guild):
+    def from_guild(cls, guild: Guild):
         inst = cls()
 
         inst.set_from_guild(guild)
@@ -27,7 +26,7 @@ class Translator:
     def set_from_interaction(self, interaction: Interaction):
         self.lang = interaction.locale.split("-")[0]
 
-    async def set_from_guild(self, guild: discord.Guild):
+    async def set_from_guild(self, guild: Guild):
         # TODO finish this when Guild Options are introduced
         self.lang = "beu"
 

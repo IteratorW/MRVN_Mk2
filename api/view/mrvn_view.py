@@ -1,5 +1,3 @@
-from typing import List, Dict, Any
-
 from discord import User, Interaction
 from discord.ui import View, Item, Button, Select
 
@@ -27,7 +25,7 @@ class MrvnView(View):
         await interaction.response.send_message(embed=embed, ephemeral=True)
 
         return False
-    
+
     def add_item(self, item: Item) -> None:
         if isinstance(item, Button) and isinstance(item.label, Translatable):
             item.label = self.tr.translate(item.label)

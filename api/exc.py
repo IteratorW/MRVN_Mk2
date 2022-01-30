@@ -10,7 +10,7 @@ class ArgumentParseException(Exception):
         result_message = "%s\n```\n%s\n%s%s```" % (
             message,
             args.source.replace("`", "\\`"),
-            " "*args.current().start,
-            "^"*(args.current().end-args.current().start)
+            " " * args.current().start,
+            "^" * (args.current().end - args.current().start)
         )
         return ArgumentParseException(result_message)

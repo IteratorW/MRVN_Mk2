@@ -1,11 +1,10 @@
 from typing import Optional, Union, Callable
 
-import discord
-from discord import Message, Bot, ApplicationCommand, Guild, Member, InteractionResponse, Interaction, WebhookMessage
+from discord import Message, Bot, ApplicationCommand, Guild, Member, InteractionResponse, Interaction, WebhookMessage, \
+    Forbidden
 from discord.abc import Messageable, User
 
 from api.command.context.mrvn_command_context import MrvnCommandContext
-from api.translation.translator import Translator
 
 
 class MrvnMessageContext(MrvnCommandContext):
@@ -32,7 +31,7 @@ class MrvnMessageContext(MrvnCommandContext):
     async def _defer(self, *args, **kwargs):
         try:
             await self.message.add_reaction("⌛")
-        except discord.Forbidden:
+        except Forbidden:
             pass
 
     @property

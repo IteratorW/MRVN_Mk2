@@ -1,5 +1,5 @@
-import discord
-from discord import User
+from discord import SelectOption, Interaction
+from discord.ui import Select
 
 from api.embed.style import Style
 from api.translation.translatable import Translatable
@@ -7,19 +7,21 @@ from api.view.mrvn_view import MrvnView
 from impl import runtime
 
 
-class Dropdown(discord.ui.Select):
+class Dropdown(Select):
     def __init__(self):
-
         # Set the options that will be presented inside the dropdown
         options = [
-            discord.SelectOption(
-                label=Translatable("beu_ext_sex_anal_name"), description=Translatable("beu_ext_sex_anal_desc"), emoji="🍑"
+            SelectOption(
+                label=Translatable("beu_ext_sex_anal_name"), description=Translatable("beu_ext_sex_anal_desc"),
+                emoji="🍑"
             ),
-            discord.SelectOption(
-                label=Translatable("beu_ext_sex_vaginal_name"), description=Translatable("beu_ext_sex_vaginal_desc"), emoji="🐱"
+            SelectOption(
+                label=Translatable("beu_ext_sex_vaginal_name"), description=Translatable("beu_ext_sex_vaginal_desc"),
+                emoji="🐱"
             ),
-            discord.SelectOption(
-                label=Translatable("beu_ext_sex_oral_name"), description=Translatable("beu_ext_sex_oral_desc"), emoji="😱"
+            SelectOption(
+                label=Translatable("beu_ext_sex_oral_name"), description=Translatable("beu_ext_sex_oral_desc"),
+                emoji="😱"
             ),
         ]
 
@@ -33,7 +35,7 @@ class Dropdown(discord.ui.Select):
             options=options,
         )
 
-    async def callback(self, interaction: discord.Interaction):
+    async def callback(self, interaction: Interaction):
         # Use the interaction object to send a response message containing
         # The user's favourite colour or choice. The self object refers to the
         # Select object, and the values attribute gets a list of the user's
@@ -55,4 +57,5 @@ class DropdownView(MrvnView):
 async def dropdown(ctx, anus: str):
     view = DropdownView(tr=ctx, author=ctx.user, test_str=anus)
 
-    await ctx.respond_embed(Style.INFO, ctx.translate("beu_ext_sex_message"), ctx.translate("beu_ext_sex_title"), view=view)
+    await ctx.respond_embed(Style.INFO, ctx.translate("beu_ext_sex_message"), ctx.translate("beu_ext_sex_title"),
+                            view=view)

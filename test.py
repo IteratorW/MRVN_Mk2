@@ -1,8 +1,5 @@
-import typing
-
 import discord
 from discord.ext import commands
-
 
 # Defines a custom Select containing colour options
 # That the user can choose. The callback function
@@ -12,7 +9,6 @@ from impl import env
 
 class Dropdown(discord.ui.Select):
     def __init__(self):
-
         # Set the options that will be presented inside the dropdown
         options = [
             discord.SelectOption(

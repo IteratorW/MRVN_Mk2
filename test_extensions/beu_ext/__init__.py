@@ -1,8 +1,7 @@
 import asyncio
 import logging
 
-import discord
-from discord import User, Role, Option, OptionChoice
+from discord import User, Role, Option, OptionChoice, Member
 from discord.abc import Mentionable, GuildChannel
 from discord.enums import SlashCommandOptionType
 
@@ -10,7 +9,6 @@ from api.command.context.mrvn_command_context import MrvnCommandContext
 from api.command.option.parse_until_ends import ParseUntilEndsOption
 from api.embed.style import Style
 from api.event_handler.decorators import event_handler
-from api.translation import translations
 from impl import runtime
 from . import components_test
 
@@ -35,7 +33,8 @@ async def test_int(ctx: MrvnCommandContext, test_arg: int):
 
 
 @runtime.bot.slash_command()
-async def multi_arg(ctx: MrvnCommandContext, string: str, integer: int, boolean: bool, user: User, channel: GuildChannel, role: Role, mentionable: Mentionable, number: float):
+async def multi_arg(ctx: MrvnCommandContext, string: str, integer: int, boolean: bool, user: User,
+                    channel: GuildChannel, role: Role, mentionable: Mentionable, number: float):
     await ctx.respond_embed(Style.INFO, f"""
 String: `{string}`
 Integer: `{integer}`
@@ -90,7 +89,7 @@ async def attach(ctx, attachment: Option(SlashCommandOptionType.attachment)):
 
 
 @runtime.bot.user_command()
-async def pidor(ctx, member: discord.Member):
+async def pidor(ctx, member: Member):
     await ctx.respond_embed(Style.INFO, f"{member.mention} пидор!")
 
 

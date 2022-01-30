@@ -1,15 +1,15 @@
 from typing import Union
 
-import discord
+from discord import Guild, Color, Embed, User
 
 from api.embed.style import Style
 from api.translation.translator import Translator
 
 
-def get_embed(style: Style, desc: str = None, title: str = None, color: Union[int, discord.Color] = None,
-              author: discord.User = None, guild: discord.Guild = None,
-              translator: Translator = Translator()) -> discord.Embed:
-    embed: discord.Embed = style.value.copy()
+def get_embed(style: Style, desc: str = None, title: str = None, color: Union[int, Color] = None,
+              author: User = None, guild: Guild = None,
+              translator: Translator = Translator()) -> Embed:
+    embed: Embed = style.value.copy()
 
     if title:
         embed.title = title

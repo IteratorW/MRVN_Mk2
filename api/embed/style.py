@@ -1,10 +1,10 @@
-from enum import Enum, auto
+from enum import Enum
 
-import discord
+from discord import Embed
 
 
 class Style(Enum):
-    INFO = discord.Embed(title="mrvn_api_embed_info", color=0x3581D8)
-    ERROR = discord.Embed(title="mrvn_api_embed_error", color=0xD82E3F)
-    OK = discord.Embed(title="mrvn_api_embed_ok", color=0x28CC2D)
-    WARN = discord.Embed(title="mrvn_api_embed_warning", color=0xFFE135)
+    INFO = Embed(title="mrvn_api_embed_info", color=0x3581D8)
+    ERROR = Embed(title="mrvn_api_embed_error", color=0xD82E3F)
+    OK = Embed(title="mrvn_api_embed_ok", color=0x28CC2D)
+    WARN = Embed(title="mrvn_api_embed_warning", color=0xFFE135)

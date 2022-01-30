@@ -1,7 +1,6 @@
 import logging
 
 from api.event_handler.decorators import event_handler
-from impl import runtime
 
 
 @event_handler()

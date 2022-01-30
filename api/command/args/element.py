@@ -69,17 +69,20 @@ class MentionableParserElement(ParserElement):  # TODO refactor this
 
             snowflake = int(search.group(7)) if value != "@everyone" else None
 
-            if (search.group(5) and (cls.option == SlashCommandOptionType.role or cls.option == SlashCommandOptionType.mentionable)) or value == "@everyone":
+            if (search.group(5) and (
+                    cls.option == SlashCommandOptionType.role or cls.option == SlashCommandOptionType.mentionable)) or value == "@everyone":
                 if value == "@everyone":
                     return ctx.guild.roles[0]
                 else:
                     return ctx.guild.get_role(snowflake)
-            elif search.group(6) and (cls.option == SlashCommandOptionType.user or cls.option == SlashCommandOptionType.mentionable):
+            elif search.group(6) and (
+                    cls.option == SlashCommandOptionType.user or cls.option == SlashCommandOptionType.mentionable):
                 if ctx.guild:
                     return ctx.guild.get_member(snowflake)
                 else:
                     return ctx.bot.get_user(snowflake)
-            elif search.group(4) and (cls.option == SlashCommandOptionType.channel or cls.option == SlashCommandOptionType.mentionable):
+            elif search.group(4) and (
+                    cls.option == SlashCommandOptionType.channel or cls.option == SlashCommandOptionType.mentionable):
                 return ctx.guild.get_channel(snowflake)
             else:
                 raise ArgumentParseException.with_pointer(translator.translate("mrvn_api_command_parse_mention_error"),
