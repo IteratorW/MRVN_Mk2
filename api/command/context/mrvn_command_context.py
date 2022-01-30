@@ -12,7 +12,7 @@ class MrvnCommandContext(ApplicationContext, Translator):
     def __init__(self, bot, interaction: Union[Interaction, None]):
         super().__init__(bot, interaction)
 
-        self.lang = self.locale.split("-")[0]
+        self.set_from_interaction(interaction)
 
     async def respond_embed(self, style: Style, desc: str = None, title: str = None,
                             color: Union[int, discord.Color] = None, **kwargs):

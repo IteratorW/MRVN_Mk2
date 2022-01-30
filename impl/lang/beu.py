@@ -28,3 +28,4 @@ mrvn_core_commands_attach_error = "Высри одно или больше вл�
 mrvn_core_commands_arguments_not_enough = "Поясни за аргументы"
 mrvn_core_commands_not_in_choices = "Ты указал какую-то хуйню (%s), выбери из списка:\n\n%s"
 
+mrvn_core_views_not_an_author = "Додик, это не твоё сообщение."

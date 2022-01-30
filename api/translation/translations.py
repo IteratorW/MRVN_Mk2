@@ -35,6 +35,8 @@ def translate(key: str, lang: str):
     if lang != FALLBACK_LANGUAGE:
         return translate(key, FALLBACK_LANGUAGE)
 
+    logger.error(f"Translation not found in fallback language for key {key}")
+
     return key
 
 

@@ -27,3 +27,5 @@ mrvn_core_commands_parse_error = "Ошибка парсинга"
 mrvn_core_commands_attach_error = "Необходимо одно или более вложений."
 mrvn_core_commands_arguments_not_enough = "Недостаточно аргументов"
 mrvn_core_commands_not_in_choices = "Вы указали неверное значение (%s). Выберите одно из списка:\n\n%s"
+
+mrvn_core_views_not_an_author = "Вы не являетесь автором сообщения."

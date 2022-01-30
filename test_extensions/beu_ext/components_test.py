@@ -1,6 +1,9 @@
 import discord
+from discord import User
 
 from api.embed.style import Style
+from api.translation.translatable import Translatable
+from api.view.mrvn_view import MrvnView
 from impl import runtime
 
 
@@ -10,13 +13,13 @@ class Dropdown(discord.ui.Select):
         # Set the options that will be presented inside the dropdown
         options = [
             discord.SelectOption(
-                label="Анальный", description="Ты любишь долбиться в очко", emoji="🍑"
+                label=Translatable("beu_ext_sex_anal_name"), description=Translatable("beu_ext_sex_anal_desc"), emoji="🍑"
             ),
             discord.SelectOption(
-                label="Вагинальный", description="Ты любишь долбиться в пизду", emoji="🐱"
+                label=Translatable("beu_ext_sex_vaginal_name"), description=Translatable("beu_ext_sex_vaginal_desc"), emoji="🐱"
             ),
             discord.SelectOption(
-                label="Оральный", description="Ты любишь ебаться в рот", emoji="😱"
+                label=Translatable("beu_ext_sex_oral_name"), description=Translatable("beu_ext_sex_oral_desc"), emoji="😱"
             ),
         ]
 
@@ -24,7 +27,7 @@ class Dropdown(discord.ui.Select):
         # The min and max values indicate we can only pick one of the three options
         # The options parameter defines the dropdown options. We defined this above
         super().__init__(
-            placeholder="Секс:",
+            placeholder=Translatable("beu_ext_sex_placeholder"),
             min_values=1,
             max_values=1,
             options=options,
@@ -36,20 +39,20 @@ class Dropdown(discord.ui.Select):
         # Select object, and the values attribute gets a list of the user's
         # selected options. We only want the first one.
         await interaction.response.send_message(
-            f"{self.values[0]} секс"
+            f"{self.values[0]}"
         )
 
 
-class DropdownView(discord.ui.View):
-    def __init__(self):
-        super().__init__()
-
+class DropdownView(MrvnView):
+    def __init__(self, test_str: str, **kwargs):
+        super().__init__(timeout=10, **kwargs)
+        self.test_str = test_str
         # Adds the dropdown to our view object.
         self.add_item(Dropdown())
 
 
 @runtime.bot.slash_command()
-async def dropdown(ctx):
-    view = DropdownView()
+async def dropdown(ctx, anus: str):
+    view = DropdownView(tr=ctx, author=ctx.user, test_str=anus)
 
-    await ctx.respond_embed(Style.INFO, "Выбери свой любимый вид секса:", "Тест", view=view)
+    await ctx.respond_embed(Style.INFO, ctx.translate("beu_ext_sex_message"), ctx.translate("beu_ext_sex_title"), view=view)

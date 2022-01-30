@@ -7,7 +7,7 @@ from discord.abc import Mentionable, GuildChannel
 from discord.enums import SlashCommandOptionType
 
 from api.command.context.mrvn_command_context import MrvnCommandContext
-from api.command.option.ParseUntilEndsOption import ParseUntilEndsOption
+from api.command.option.parse_until_ends import ParseUntilEndsOption
 from api.embed.style import Style
 from api.event_handler.decorators import event_handler
 from api.translation import translations

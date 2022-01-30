@@ -27,3 +27,5 @@ mrvn_core_commands_parse_error = "Parsing error"
 mrvn_core_commands_attach_error = "This command requires one or more attachments."
 mrvn_core_commands_arguments_not_enough = "Not enough arguments"
 mrvn_core_commands_not_in_choices = "The value of %s is not in choices. Choose one of:\n\n%s"
+
+mrvn_core_views_not_an_author = "You are not the author of the original message."
