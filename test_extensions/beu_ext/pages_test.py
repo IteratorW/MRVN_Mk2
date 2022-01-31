@@ -11,11 +11,13 @@ from impl import runtime
 
 class CustomPaginator(MrvnPaginator):
     async def get_page_contents(self) -> Union[str, Embed]:
-        return f"Current page is {self.page_index + 1}"
+        return f"Beu page {self.page_index}"
 
 
 @runtime.bot.command()
 @permissions.is_owner()
 async def pages_test(ctx: MrvnCommandContext):
+    await ctx.respond("Test")
+
     paginator = CustomPaginator(ctx, num_pages=10, timeout=10)
     await paginator.respond()

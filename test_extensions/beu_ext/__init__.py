@@ -12,6 +12,7 @@ from api.event_handler.decorators import event_handler
 from impl import runtime
 from . import components_test
 from . import pages_test
+from . import view_test2
 
 
 @event_handler()
