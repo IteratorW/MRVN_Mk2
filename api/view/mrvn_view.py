@@ -1,3 +1,5 @@
+import time
+
 from discord import User, Interaction
 from discord.ui import View, Item, Button, Select
 
@@ -16,7 +18,7 @@ class MrvnView(View):
         # A possible fix is to pass lang string or a new instance of Translator
 
     async def interaction_check(self, interaction: Interaction) -> bool:
-        if interaction.user == self.author:
+        if self.author is None or interaction.user == self.author:
             return True
 
         embed = styled_embed_generator.get_embed(Style.ERROR, self.tr.translate("mrvn_core_views_not_an_author"),
@@ -25,6 +27,27 @@ class MrvnView(View):
         await interaction.response.send_message(embed=embed, ephemeral=True)
 
         return False
+
+    async def _scheduled_task(self, item: Item, interaction: Interaction):
+        try:
+            if self.timeout:
+                self.__timeout_expiry = time.monotonic() + self.timeout
+
+            allow = await self.interaction_check(interaction)
+            if not allow:
+                return
+
+            await item.callback(interaction)
+            if not interaction.response._responded:
+                await self.callback(item, interaction)
+
+                if not interaction.response._responded:
+                    await interaction.response.defer()
+        except Exception as e:
+            return await self.on_error(e, item, interaction)
+
+    async def callback(self, item: Item, interaction: Interaction):
+        pass
 
     def add_item(self, item: Item) -> None:
         if isinstance(item, Button) and isinstance(item.label, Translatable):

@@ -29,3 +29,9 @@ mrvn_core_commands_arguments_not_enough = "Недостаточно аргуме
 mrvn_core_commands_not_in_choices = "Вы указали неверное значение (%s). Выберите одно из списка:\n\n%s"
 
 mrvn_core_views_not_an_author = "Вы не являетесь автором сообщения."
+
+mrvn_api_views_paginator_button_first = "<< Перв"
+mrvn_api_views_paginator_button_prev = "< Назад"
+mrvn_api_views_paginator_button_next = "> Вперёд"
+mrvn_api_views_paginator_button_last = ">> Посл"
+mrvn_api_views_paginator_button_timeout = "Время вышло"

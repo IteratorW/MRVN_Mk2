@@ -29,3 +29,10 @@ mrvn_core_commands_arguments_not_enough = "Not enough arguments"
 mrvn_core_commands_not_in_choices = "The value of %s is not in choices. Choose one of:\n\n%s"
 
 mrvn_core_views_not_an_author = "You are not the author of the original message."
+
+mrvn_api_views_paginator_button_first = "<< First"
+mrvn_api_views_paginator_button_prev = "< Prev"
+mrvn_api_views_paginator_button_next = "> Next"
+mrvn_api_views_paginator_button_last = ">> Last"
+mrvn_api_views_paginator_button_timeout = "Timed out"
+
