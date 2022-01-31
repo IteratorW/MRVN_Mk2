@@ -1,8 +1,10 @@
+import asyncio
 import importlib
 import logging
 import os
 
 import coloredlogs as coloredlogs
+from tortoise import Tortoise
 
 import impl
 from api.translation import translations
@@ -25,12 +27,10 @@ for directory in env.extension_dirs:
 
         extension = getattr(__import__(path, globals(), locals()), python_module)
 
-        """
         if os.path.isfile(f"{directory}/{python_module}/models.py"):
-        extension_handler.extensions_models.append(f"{path}.models")
+            runtime.extensions_models.append(f"{path}.models")
 
-        logging.info(f"Added models for extension {python_module}")
-        """
+            logging.info(f"Added models for extension {python_module}")
 
         try:
             lang_module = importlib.import_module(f"{path}.lang")
@@ -47,4 +47,15 @@ translations.load_from_package(impl.lang)
 
 logging.info("Running bot...")
 
-runtime.bot.run(env.token)
+loop = asyncio.new_event_loop()
+
+try:
+    loop.run_until_complete(runtime.bot.start(env.token))
+except KeyboardInterrupt:
+    loop.run_until_complete(runtime.bot.close())
+    # cancel all tasks lingering
+finally:
+    loop.run_until_complete(Tortoise.close_connections())
+
+    # It seems that Tortoise closes the loop by itself... Well, nobody asked.
+    # loop.close()
