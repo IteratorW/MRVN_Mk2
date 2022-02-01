@@ -5,16 +5,21 @@ from discord import User, Role, Option, OptionChoice, Member
 from discord.abc import Mentionable, GuildChannel
 from discord.enums import SlashCommandOptionType
 
+from api.command import categories
+from api.command.command_category import CommandCategory
 from api.command.context.mrvn_command_context import MrvnCommandContext
 from api.command.option.parse_until_ends import ParseUntilEndsOption
 from api.embed.style import Style
 from api.event_handler.decorators import event_handler
+from api.translation.translatable import Translatable
 from impl import runtime
 
 from . import components_test
 from . import pages_test
 from . import view_test2
 from . import db_tests
+
+test_category = categories.add_category(CommandCategory(Translatable("beu_ext_category_name"), "test_category"))
 
 
 @event_handler()
@@ -109,3 +114,15 @@ async def deferred(ctx: MrvnCommandContext, ephemeral: bool):
 @runtime.bot.slash_command()
 async def trans(ctx: MrvnCommandContext):
     await ctx.respond_embed(Style.INFO, ctx.translate("test"))
+
+
+@runtime.bot.slash_command(category=test_category)
+async def cat(ctx: MrvnCommandContext):
+    desc = []
+
+    cats = sorted(categories.categories, key=lambda it: len(it.items), reverse=True)
+
+    for category in cats:
+        desc.append(f"{category.name}: {len(category.items)}")
+
+    await ctx.respond_embed(Style.INFO, "\n".join(desc))

@@ -3,15 +3,17 @@ import logging
 import types
 from abc import ABC
 from collections import defaultdict
-from typing import Any, Union, Dict
+from typing import Any, Union, Dict, Optional, List
 
 from asciitree import LeftAligned
 from discord import Bot, Message, Interaction, InteractionType, SlashCommand, SlashCommandGroup, UserCommand, \
     MessageCommand
 from discord.enums import SlashCommandOptionType
 
+from api.command import categories
 from api.command.args import element
 from api.command.args.arguments import PreparedArguments
+from api.command.command_category import CommandCategory
 from api.command.context.mrvn_command_context import MrvnCommandContext
 from api.command.context.mrvn_message_context import MrvnMessageContext
 from api.command.option.parse_until_ends import ParseUntilEndsOption
@@ -44,6 +46,26 @@ class MrvnBot(Bot, ABC):
         super().dispatch(event_name, *args, *kwargs)
 
         handler_manager.post(event_name, *args)
+
+    def slash_command(self, category: CommandCategory = categories.uncategorized, **kwargs):
+        cmd = super().slash_command(**kwargs)
+
+        category.add_command(cmd)
+
+        return cmd
+
+    def create_group(
+        self,
+        name: str,
+        description: Optional[str] = None,
+        guild_ids: Optional[List[int]] = None,
+        category: CommandCategory = categories.uncategorized
+    ) -> SlashCommandGroup:
+        command = super().create_group(name, description, guild_ids)
+
+        category.add_command(command)
+
+        return command
 
     def check_command_options(self, command: Union[SlashCommand, SlashCommandGroup]):
         if isinstance(command, SlashCommandGroup):
