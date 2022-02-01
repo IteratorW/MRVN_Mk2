@@ -10,9 +10,11 @@ from api.command.option.parse_until_ends import ParseUntilEndsOption
 from api.embed.style import Style
 from api.event_handler.decorators import event_handler
 from impl import runtime
+
 from . import components_test
 from . import pages_test
 from . import view_test2
+from . import db_tests
 
 
 @event_handler()
