@@ -1,15 +1,4 @@
 {
-    "beu_ext_category_name": "Уёбищная категория",
-    "beu_ext_sex_anal_desc": "НЕ ЗНАЛ ЧТО ТЫ ЛЮБИШЬ ДОЛБИТЬСЯ В АНУС",
-    "beu_ext_sex_anal_name": "В ЖОПУ",
-    "beu_ext_sex_message": "НУ ДАВАЙ, РАССКАЖИ МНЕ ПРО СЕКС",
-    "beu_ext_sex_oral_desc": "НЕЗАБЫВАЕМЫЙ ВКУС, ПРАВДА? ТАК И ЗНАЛ",
-    "beu_ext_sex_oral_name": "В РОТ",
-    "beu_ext_sex_placeholder": "КАК ТЫ ЕБЕШЬСЯ: ",
-    "beu_ext_sex_title": "Беу тест",
-    "beu_ext_sex_vaginal_desc": "А ТЫ РАЗВЕ БАБА?",
-    "beu_ext_sex_vaginal_name": "В ПИЗДУ",
-    "builtin_command_help_choose_category": "Тыкни на кнопку",
     "mrvn_api_command_category_bot_management": "Плётка для бота",
     "mrvn_api_command_category_debug": "Анальный дебаг",
     "mrvn_api_command_category_info": "Инфа",
@@ -48,6 +37,5 @@
     "mrvn_core_commands_parse_error": "Парсинг обосрался",
     "mrvn_core_commands_slash_only": "Эта команда жидко обсирается при выполнении из сообщения. Попробуй написать со слешем.",
     "mrvn_core_commands_subcommand_error": "Долбоёб, что за хуйня? Мне нужна норм подкоманда или группа",
-    "mrvn_core_views_not_an_author": "Додик, это не твоё сообщение.",
-    "test": "Беу"
+    "mrvn_core_views_not_an_author": "Додик, это не твоё сообщение."
 }

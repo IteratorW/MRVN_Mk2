@@ -1,15 +1,4 @@
 {
-    "beu_ext_category_name": "Тестовая категория",
-    "beu_ext_sex_anal_desc": "Ты любишь брать его в задницу",
-    "beu_ext_sex_anal_name": "Анальный секс",
-    "beu_ext_sex_message": "Выбери свой любимый тип секса",
-    "beu_ext_sex_oral_desc": "Этот вкус... Не могу забыть, что ты можешь",
-    "beu_ext_sex_oral_name": "Оральный секс",
-    "beu_ext_sex_placeholder": "Тип пола: ",
-    "beu_ext_sex_title": "Тест",
-    "beu_ext_sex_vaginal_desc": "Не знал, что ты девушка",
-    "beu_ext_sex_vaginal_naked": "Вагинальный секс",
-    "builtin_command_help_choose_category": "Выберите категорию, чтобы увидеть команды в ней",
     "mrvn_api_command_category_bot_management": "Управление ботом",
     "mrvn_api_command_category_debug": "Дебаг/тесты",
     "mrvn_api_command_category_info": "Информация",
@@ -48,6 +37,5 @@
     "mrvn_core_commands_parse_error": "Ошибка парсинга",
     "mrvn_core_commands_slash_only": "Эту команду невозможно выполнить из сообщения. Попробуйте использовать слеш.",
     "mrvn_core_commands_subcommand_error": "Неверная подкоманда или группа",
-    "mrvn_core_views_not_an_author": "Вы не являетесь автором сообщения.",
-    "test": "Тест"
+    "mrvn_core_views_not_an_author": "Вы не являетесь автором сообщения."
 }
