@@ -43,6 +43,8 @@ for directory in env.extension_dirs:
         except ImportError:
             logging.info(f"Extension {python_module} doesn't have translations.")
 
+        runtime.extensions[python_module] = extension
+
         logging.info(f"Loaded extension {python_module}")
 
 translations.load_from_package(impl.lang)

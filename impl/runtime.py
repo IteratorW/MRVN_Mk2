@@ -1,13 +1,17 @@
+import logging
+
 from discord import Intents
 from tortoise import Tortoise
 
 from api.event_handler import handler_manager
+from api.translation import translations
 from impl import env
 from impl.mrvn_bot import MrvnBot
 
-bot = MrvnBot(description="Test", debug_guilds=env.debug_guilds, intents=Intents.all())
+bot = MrvnBot(debug_guilds=env.debug_guilds, intents=Intents.all())
 startup_done = False
 
+extensions: dict[str, any] = {}
 extensions_models = []
 
 
@@ -30,4 +34,10 @@ async def on_ready():
 
         startup_done = True
 
-
+    logging.info("==================")
+    logging.info(
+        f"Bot loaded with: "
+        f"[{len(extensions)} EX] "
+        f"[{len(bot.application_commands)} CMD] "
+        f"[L: {', '.join(translations.translations.keys())}]")
+    logging.info("==================")
