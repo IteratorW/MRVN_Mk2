@@ -1,5 +1,6 @@
 import asyncio
 import importlib
+import json
 import logging
 import os
 import signal
@@ -34,20 +35,16 @@ for directory in env.extension_dirs:
 
             logging.info(f"Added models for extension {python_module}")
 
-        try:
-            lang_module = importlib.import_module(f"{path}.lang")
-
-            translations.load_from_package(lang_module)
+        if os.path.isdir(lang_path := f"{directory}/{python_module}/lang"):
+            translations.load_from_path(lang_path)
 
             logging.info(f"Loaded translations for {python_module}")
-        except ImportError:
-            logging.info(f"Extension {python_module} doesn't have translations.")
 
         runtime.extensions[python_module] = extension
 
         logging.info(f"Loaded extension {python_module}")
 
-translations.load_from_package(impl.lang)
+translations.load_from_path(f"{os.path.dirname(impl.__file__)}/lang")
 
 logging.info("Running bot...")
 

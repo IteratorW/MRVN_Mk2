@@ -1,41 +1,48 @@
+import json
 import logging
 import os
 import pkgutil
+import sys
 from collections import defaultdict
 from types import ModuleType
 
 FALLBACK_LANGUAGE = "en"
 
-translations = defaultdict(list[ModuleType])
+translations = defaultdict(dict[str, str])
 
 logger = logging.getLogger("Translations")
 
 
-def load_from_package(module: ModuleType):
-    for importer, name, _ in pkgutil.iter_modules([os.path.dirname(module.__file__)]):
-        m = importer.find_module(name).load_module(name)
+def load_from_path(path: str):
+    for file in [f for f in os.listdir(path) if os.path.isfile(f"{path}/{f}")]:
+        lang = file.split(".")[0]
 
-        translations[name].append(m)
+        with open(f"{path}/{file}", "r", encoding="utf-8") as f:
+            lang_dict = json.load(f)
 
-
-def find_in_module(key: str, module: ModuleType):
-    try:
-        return getattr(module, key)
-    except AttributeError:
-        return None
+        translations[lang].update(lang_dict)
 
 
 def translate(key: str, lang: str):
-    for module in translations[lang]:
-        if (translation := find_in_module(key, module)) is not None:
-            return translation
+    if lang not in translations:
+        if lang == FALLBACK_LANGUAGE:
+            logger.error("Fallback language doesn't exist.")
 
-    # If not found for this lang, try to fall back to default
+            return key
 
-    if lang != FALLBACK_LANGUAGE:
+        logger.error(f"Unknown lang {lang}")
+
         return translate(key, FALLBACK_LANGUAGE)
 
-    logger.error(f"Translation not found in fallback language for key {key}")
+    try:
+        return translations[lang][key]
+    except KeyError:
+        # If not found for this lang, try to fall back to default
+
+        if lang != FALLBACK_LANGUAGE:
+            return translate(key, FALLBACK_LANGUAGE)
+
+        logger.error(f"Translation not found in fallback language for key {key}")
 
     return key
 
