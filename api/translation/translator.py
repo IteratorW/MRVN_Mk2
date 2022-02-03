@@ -28,7 +28,7 @@ class Translator:
 
     async def set_from_guild(self, guild: Guild):
         # TODO finish this when Guild Options are introduced
-        self.lang = "ru"
+        self.lang = "beu"
 
     def translate(self, key: str):
         return translations.translate(key, self.lang)
