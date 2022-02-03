@@ -1,6 +1,4 @@
 import asyncio
-import importlib
-import json
 import logging
 import os
 import signal
@@ -10,6 +8,7 @@ import discord
 from tortoise import Tortoise
 
 import impl
+from api.extension import extension_manager
 from api.translation import translations
 from impl import runtime, env
 
@@ -21,28 +20,13 @@ logging.basicConfig(level=logging.INFO if not env.debug else logging.DEBUG)
 
 logging.info("Loading extensions...")
 
+extension_manager.load_from_path("./std_extension")
+
 for directory in env.extension_dirs:
     if not os.path.isdir(directory):
         os.mkdir(directory)
 
-    for python_module in os.listdir(directory):
-        path = f"{directory}.{python_module}"
-
-        extension = getattr(__import__(path, globals(), locals()), python_module)
-
-        if os.path.isfile(f"{directory}/{python_module}/models.py"):
-            runtime.extensions_models.append(f"{path}.models")
-
-            logging.info(f"Added models for extension {python_module}")
-
-        if os.path.isdir(lang_path := f"{directory}/{python_module}/lang"):
-            translations.load_from_path(lang_path)
-
-            logging.info(f"Loaded translations for {python_module}")
-
-        runtime.extensions[python_module] = extension
-
-        logging.info(f"Loaded extension {python_module}")
+    extension_manager.scan_directory(f"./{directory}")
 
 translations.load_from_path(f"{os.path.dirname(impl.__file__)}/lang")
 
