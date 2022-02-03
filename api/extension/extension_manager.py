@@ -1,28 +1,40 @@
 import importlib.util
+import inspect
 import logging
 import os
+from importlib.machinery import SourceFileLoader
 from types import ModuleType
 
+from api.translation import translations
+
 extensions: dict[str, ModuleType] = {}
+extensions_models: list[str] = []
 
 logger = logging.getLogger("Extensions")
 
 
 def load_from_path(path: str):
-    print(path)
+    name = path.split(".")[-1]
 
-    name = os.path.basename(path)
-    print(name)
-    spec = importlib.util.spec_from_file_location(name, f"{path}/__init__.py")
-    module = importlib.util.module_from_spec(spec)
+    module = __import__(path, fromlist=[''])
+
+    feature_list = []
+
+    if importlib.util.find_spec(model_path := f"{path}.models") is not None:
+        extensions_models.append(model_path)
+
+        feature_list.append("[M]")
+
+    if os.path.isdir(lang_path := f"{os.path.dirname(module.__file__)}/lang"):
+        translations.load_from_path(lang_path)
+
+        feature_list.append("[T]")
 
     extensions[name] = module
 
-    spec.loader.exec_module(module)
-
-    logger.info(f"Loaded extension {name}")
+    logger.info(f"Loaded extension {name} {' '.join(feature_list)}")
 
 
 def scan_directory(path: str):
     for directory in [f for f in os.listdir(path) if os.path.isdir(f"{path}/{f}")]:
-        load_from_path(f"{path}/{directory}")
+        load_from_path(f"{path}.{directory}")
