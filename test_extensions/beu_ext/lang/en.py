@@ -9,3 +9,5 @@ beu_ext_sex_oral_desc = "This taste... Can't forget it can u"
 beu_ext_sex_placeholder = "Sex type: "
 beu_ext_sex_message = "Choose your favourite sex type"
 beu_ext_sex_title = "Test"
+
+beu_ext_category_name = "Test Category"

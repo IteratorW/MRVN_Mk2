@@ -7,7 +7,8 @@ from typing import Any, Union, Dict, Optional, List
 
 from asciitree import LeftAligned
 from discord import Bot, Message, Interaction, InteractionType, SlashCommand, SlashCommandGroup, UserCommand, \
-    MessageCommand
+    MessageCommand, ApplicationCommand
+from discord import command as create_command
 from discord.enums import SlashCommandOptionType
 
 from api.command import categories
@@ -48,14 +49,22 @@ class MrvnBot(Bot, ABC):
         handler_manager.post(event_name, *args)
 
     def slash_command(self, category: CommandCategory = categories.uncategorized, **kwargs):
-        cmd = super().slash_command(**kwargs)
+        return self.application_command(cls=SlashCommand, category=category, **kwargs)
 
-        category.add_command(cmd)
+    def application_command(self, **kwargs):
+        def decorator(func) -> ApplicationCommand:
+            result = create_command(**kwargs)(func)
+            self.add_application_command(result)
 
-        return cmd
+            if isinstance(result, SlashCommand):
+                kwargs.get("category", categories.uncategorized).add_command(result)
+
+            return result
+
+        return decorator
 
     def create_group(
-        self,
+            self,
         name: str,
         description: Optional[str] = None,
         guild_ids: Optional[List[int]] = None,
@@ -88,15 +97,6 @@ class MrvnBot(Bot, ABC):
 
         await super().register_commands()
 
-    def get_command_desc(self, command: SlashCommand, translator: Translator = Translator()):
-        options = []
-
-        for option in command.options:
-            options.append((
-                               "<%s>" if option.required else "[%s]") % f"`{option.name}`: *{translator.translate(f'mrvn_core_commands_option_{option.input_type.name}')}*")
-
-        return f"**{command.name}** {' '.join(options) if len(options) else translator.translate('mrvn_core_commands_no_args')}"
-
     def get_subcommand_tree(self, command: SlashCommandGroup, translator: Translator = Translator()):
         tree = defaultdict(dict)
         node = tree[f"__{command.name}__"]
@@ -109,10 +109,29 @@ class MrvnBot(Bot, ABC):
 
         return tree
 
-    def get_subcommand_tree_desc(self, command: SlashCommandGroup, translator: Translator = Translator()):
-        tr = LeftAligned()
+    def get_command_desc(self, command: Union[SlashCommand, SlashCommandGroup], translator: Translator = Translator(),
+                         as_tree=False):
+        if isinstance(command, SlashCommand):
+            options = []
 
-        return tr(self.get_subcommand_tree(command, translator))
+            for option in command.options:
+                options.append((
+                                   "<%s>" if option.required else "[%s]") % f"`{option.name}`: *{translator.translate(f'mrvn_core_commands_option_{option.input_type.name}')}*")
+
+            return f"**{command.name}** {' '.join(options) if len(options) else translator.translate('mrvn_core_commands_no_args')}"
+        else:
+            if as_tree:
+                return LeftAligned()(self.get_subcommand_tree(command, translator))
+            else:
+                sub_cmds = []
+
+                for sub_cmd in command.subcommands:
+                    if isinstance(sub_cmd, SlashCommandGroup):
+                        sub_cmds.append(f"<{self.get_command_desc(sub_cmd, translator)}>")
+                    else:
+                        sub_cmds.append(sub_cmd.name)
+
+                return f"**{command.name}** <{'|'.join(sub_cmds)}>"
 
     async def on_interaction(self, interaction: Interaction):
         if interaction.type not in (
@@ -176,7 +195,7 @@ class MrvnBot(Bot, ABC):
 
                 command = next(filter(lambda it: it.name == sub_cmd_name, command.subcommands))
         except StopIteration:
-            await ctx.respond_embed(Style.ERROR, self.get_subcommand_tree_desc(root, ctx),
+            await ctx.respond_embed(Style.ERROR, self.get_command_desc(root, ctx, as_tree=True),
                                     ctx.translate("mrvn_core_commands_subcommand_error"))
 
             return

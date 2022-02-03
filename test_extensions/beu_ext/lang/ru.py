@@ -9,3 +9,5 @@ beu_ext_sex_oral_desc = "Этот вкус... Не могу забыть, что
 beu_ext_sex_placeholder = "Тип пола: "
 beu_ext_sex_message = "Выбери свой любимый тип секса"
 beu_ext_sex_title = "Тест"
+
+beu_ext_category_name = "Тестовая категория"

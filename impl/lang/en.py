@@ -36,3 +36,10 @@ mrvn_api_views_paginator_button_next = "> Next"
 mrvn_api_views_paginator_button_last = ">> Last"
 mrvn_api_views_paginator_button_timeout = "Timed out"
 
+mrvn_api_command_category_uncategorized = "Uncategorized"
+mrvn_api_command_category_utility = "Utility"
+mrvn_api_command_category_moderation = "Moderation"
+mrvn_api_command_category_info = "Information"
+mrvn_api_command_category_bot_management = "Bot Management"
+mrvn_api_command_category_debug = "Test/Debug"
+

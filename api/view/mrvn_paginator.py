@@ -1,6 +1,6 @@
 from typing import Union
 
-from discord import ButtonStyle, Interaction, Embed
+from discord import ButtonStyle, Interaction, Embed, Message
 from discord.ui import Button, Item
 
 from api.command.context.mrvn_command_context import MrvnCommandContext
@@ -68,6 +68,13 @@ class MrvnPaginator(MrvnView):
 
         self.children[3].disabled = self.page_index == self.num_pages - 1
         self.children[4].disabled = self.page_index == self.num_pages - 1
+
+    async def attach(self, message: Message):
+        self.message = message
+
+        self.update_buttons()
+
+        await self.update()
 
     async def respond(self):
         self.update_buttons()

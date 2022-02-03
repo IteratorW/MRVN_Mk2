@@ -10,12 +10,12 @@ from api.translation.translator import Translator
 
 
 class MrvnView(View):
-    def __init__(self, tr: Translator, author: User = None, *items: Item, **kwargs):
-        super().__init__(*items, **kwargs)
-
+    def __init__(self, tr: Translator, *items: Item, author: User = None, **kwargs):
         self.author = author
         self.tr = tr  # This potentially clogs up memory if Context being passed here.
         # A possible fix is to pass lang string or a new instance of Translator
+
+        super().__init__(*items, **kwargs)
 
     async def interaction_check(self, interaction: Interaction) -> bool:
         if self.author is None or interaction.user == self.author:

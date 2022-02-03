@@ -9,3 +9,5 @@ beu_ext_sex_oral_desc = "НЕЗАБЫВАЕМЫЙ ВКУС, ПРАВДА? ТАК
 beu_ext_sex_placeholder = "КАК ТЫ ЕБЕШЬСЯ: "
 beu_ext_sex_message = "НУ ДАВАЙ, РАССКАЖИ МНЕ ПРО СЕКС"
 beu_ext_sex_title = "Беу тест"
+
+beu_ext_category_name = "Уёбищная категория"
