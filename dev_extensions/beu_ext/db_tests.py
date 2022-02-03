@@ -1,5 +1,6 @@
 from api.command.context.mrvn_command_context import MrvnCommandContext
 from api.models import GuildSetting, GlobalSetting, Setting
+from api.settings import settings
 from impl import runtime
 from dev_extensions.beu_ext.models import GuildSettingTest
 

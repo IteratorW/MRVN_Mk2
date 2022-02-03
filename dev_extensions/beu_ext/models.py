@@ -1,11 +1,12 @@
 from api.models import GuildSetting, GlobalSetting
 from tortoise import fields
 
+from api.settings import settings
 from api.settings.settings_category import SettingsCategory
 from api.translation.translatable import Translatable
 
 
-category = SettingsCategory("beu_ext", Translatable("beu_ext_settings_category_name"))
+category = settings.add_category(SettingsCategory("beu_ext", Translatable("beu_ext_settings_category_name")))
 
 
 class GuildSettingTest(GuildSetting):
