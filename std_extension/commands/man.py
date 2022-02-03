@@ -1,12 +1,13 @@
 from discord import Option, SlashCommand, SlashCommandGroup
 
+from api.command import categories
 from api.command.context.mrvn_command_context import MrvnCommandContext
 from api.command.option.parse_until_ends import ParseUntilEndsOption
 from api.embed.style import Style
 from impl import runtime
 
 
-@runtime.bot.slash_command()
+@runtime.bot.slash_command(category=categories.info)
 async def man(ctx: MrvnCommandContext, cmd_name: ParseUntilEndsOption(str)):
     cmd_split = iter(cmd_name.split())
 

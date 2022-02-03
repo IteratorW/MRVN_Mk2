@@ -280,7 +280,7 @@ class MrvnBot(Bot, ABC):
                     choices_desc = "\n".join(["`%s`: **%s**" % (x.name, x.value) for x in option.choices])
 
                     await ctx.respond_embed(Style.ERROR,
-                                            ctx.format("mrvn_core_commands_not_in_choices", key, choices_desc))
+                                            ctx.format("mrvn_core_commands_not_in_choices", value, choices_desc))
 
                     return
 
