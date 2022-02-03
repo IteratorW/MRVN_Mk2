@@ -240,6 +240,15 @@ class MrvnBot(Bot, ABC):
                 if isinstance(option, ParseUntilEndsOption):
                     values = []
 
+                    if not args.has_next():
+                        embed = ctx.get_embed(Style.ERROR,
+                                              title=ctx.translate("mrvn_core_commands_arguments_not_enough"))
+                        embed.add_field(name=self.get_command_desc(command, ctx), value=command.description)
+
+                        await ctx.respond(embed=embed)
+
+                        return
+
                     while args.has_next():
                         values.append(parser.parse(ctx, args))
 
