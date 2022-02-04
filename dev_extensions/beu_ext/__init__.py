@@ -27,21 +27,21 @@ async def on_startup():
     logging.info("Beu startup!")
 
 
-@runtime.bot.slash_command()
+@runtime.bot.slash_command(category=categories.debug)
 async def test(ctx: MrvnCommandContext, arg_1: str, arg_2: str):
     """Test command"""
 
     await ctx.respond_embed(Style.INFO, desc=f"arg_1: {arg_1}\narg_2: {arg_2}")
 
 
-@runtime.bot.slash_command()
+@runtime.bot.slash_command(category=categories.debug)
 async def test_int(ctx: MrvnCommandContext, test_arg: int):
     """Test command with int arg"""
 
     await ctx.respond_embed(Style.INFO, str(test_arg))
 
 
-@runtime.bot.slash_command()
+@runtime.bot.slash_command(category=categories.debug)
 async def multi_arg(ctx: MrvnCommandContext, string: str, integer: int, boolean: bool, user: User,
                     channel: GuildChannel, role: Role, mentionable: Mentionable, number: float):
     await ctx.respond_embed(Style.INFO, f"""
@@ -56,12 +56,12 @@ Number: `{number}`
 """)
 
 
-@runtime.bot.slash_command()
+@runtime.bot.slash_command(category=categories.debug)
 async def optional_arg(ctx, optional: int = 0):
     await ctx.respond_embed(Style.INFO, str(optional))
 
 
-group = runtime.bot.create_group("group", "A group")
+group = runtime.bot.create_group("group", "A group", category=categories.debug)
 sub_group = group.create_subgroup("subgroup", "A subgroup")
 
 
@@ -80,19 +80,19 @@ async def sub_group_command2(ctx, test_arg: int):
     await ctx.respond_embed(Style.INFO, f"Argument: {test_arg}")
 
 
-@runtime.bot.slash_command()
+@runtime.bot.slash_command(category=categories.debug)
 async def until_ends(ctx, query: ParseUntilEndsOption(str)):
     await ctx.respond_embed(Style.INFO, f"Query: `{query}`")
 
 
-@runtime.bot.slash_command()
+@runtime.bot.slash_command(category=categories.debug)
 async def choices(ctx, choice_str: Option(str, choices=[OptionChoice("Choice 1", "Anus"),
                                                         OptionChoice("Choice 2", "Amogus"),
                                                         OptionChoice("Choice 3", "Test")])):
     await ctx.respond_embed(Style.INFO, f"{choice_str}")
 
 
-@runtime.bot.slash_command()
+@runtime.bot.slash_command(category=categories.debug)
 async def attach(ctx, attachment: Option(SlashCommandOptionType.attachment)):
     await ctx.respond_embed(Style.OK, attachment.url)
 
@@ -102,7 +102,7 @@ async def pidor(ctx, member: Member):
     await ctx.respond_embed(Style.INFO, f"{member.mention} пидор!")
 
 
-@runtime.bot.slash_command()
+@runtime.bot.slash_command(category=categories.debug)
 async def deferred(ctx: MrvnCommandContext, ephemeral: bool):
     await ctx.defer(ephemeral=ephemeral)
 
@@ -111,7 +111,7 @@ async def deferred(ctx: MrvnCommandContext, ephemeral: bool):
     await ctx.respond_embed(Style.OK, "Deferred message test!")
 
 
-@runtime.bot.slash_command()
+@runtime.bot.slash_command(category=categories.debug)
 async def trans(ctx: MrvnCommandContext):
     await ctx.respond_embed(Style.INFO, ctx.translate("test"))
 

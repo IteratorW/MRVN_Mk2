@@ -4,6 +4,7 @@ from discord import Embed
 from discord.commands import permissions
 from discord.ext.pages import Paginator
 
+from api.command import categories
 from api.command.context.mrvn_command_context import MrvnCommandContext
 from api.view.mrvn_paginator import MrvnPaginator
 from impl import runtime
@@ -14,7 +15,7 @@ class CustomPaginator(MrvnPaginator):
         return f"Beu page {self.page_index}"
 
 
-@runtime.bot.command()
+@runtime.bot.command(category=categories.debug)
 @permissions.is_owner()
 async def pages_test(ctx: MrvnCommandContext):
     await ctx.respond("Test")

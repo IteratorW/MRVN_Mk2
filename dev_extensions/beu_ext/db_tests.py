@@ -1,3 +1,4 @@
+from api.command import categories
 from api.command.context.mrvn_command_context import MrvnCommandContext
 from api.models import GuildSetting, GlobalSetting, Setting
 from api.settings import settings
@@ -5,7 +6,7 @@ from impl import runtime
 from dev_extensions.beu_ext.models import GuildSettingTest
 
 
-@runtime.bot.command()
+@runtime.bot.command(category=categories.debug)
 async def all_settings(ctx: MrvnCommandContext):
     guild_settings = []
     global_settings = []

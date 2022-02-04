@@ -1,6 +1,7 @@
 from discord import SelectOption, Interaction
 from discord.ui import Select
 
+from api.command import categories
 from api.embed.style import Style
 from api.translation.translatable import Translatable
 from api.view.mrvn_view import MrvnView
@@ -53,7 +54,7 @@ class DropdownView(MrvnView):
         self.add_item(Dropdown())
 
 
-@runtime.bot.slash_command()
+@runtime.bot.slash_command(category=categories.debug)
 async def dropdown(ctx, anus: str):
     view = DropdownView(tr=ctx, author=ctx.user, test_str=anus)
 

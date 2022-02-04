@@ -1,6 +1,7 @@
 from discord import ButtonStyle, Interaction
 from discord.ui import Button, Item
 
+from api.command import categories
 from api.command.context.mrvn_command_context import MrvnCommandContext
 from api.translation.translator import Translator
 from api.view.mrvn_view import MrvnView
@@ -60,7 +61,7 @@ class KeyboardView(MrvnView):
         self.message = msg
 
 
-@runtime.bot.slash_command()
+@runtime.bot.slash_command(category=categories.debug)
 async def keyboard(ctx: MrvnCommandContext):
     view = KeyboardView(ctx)
 
