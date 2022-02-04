@@ -25,7 +25,7 @@ class MrvnPaginator(MrvnView):
         self.add_item(Button(style=ButtonStyle.gray, label=Translatable("mrvn_api_views_paginator_button_prev")))
         self.add_item(Button(style=ButtonStyle.gray, label="N/A", disabled=True))
         self.add_item(Button(style=ButtonStyle.gray, label=Translatable("mrvn_api_views_paginator_button_next")))
-        self.add_item(Button(style=ButtonStyle.blurple, label=Translatable("mrvn_api_views_paginator_button_lastt")))
+        self.add_item(Button(style=ButtonStyle.blurple, label=Translatable("mrvn_api_views_paginator_button_last")))
 
         self.message = None
 
