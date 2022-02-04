@@ -118,7 +118,18 @@ class MrvnBot(Bot, ABC):
                 options.append((
                                    "<%s>" if option.required else "[%s]") % f"`{option.name}`: *{translator.translate(f'mrvn_core_commands_option_{option.input_type.name}')}*")
 
-            return f"**{command.name}** {' '.join(options) if len(options) else translator.translate('mrvn_core_commands_no_args')}"
+            parents = []
+
+            parent = command
+
+            while parent.parent is not None:
+                parent = parent.parent
+
+                parents.append(parent.name)
+
+            parents.reverse()
+
+            return f"{' '.join(parents)} **{command.name}** {' '.join(options) if len(options) else translator.translate('mrvn_core_commands_no_args')}"
         else:
             if as_tree:
                 return LeftAligned()(self.get_subcommand_tree(command, translator))

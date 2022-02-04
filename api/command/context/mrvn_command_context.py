@@ -1,6 +1,6 @@
-from typing import Union
+from typing import Union, Callable, Tuple, Any, Dict, Coroutine
 
-from discord import ApplicationContext, Interaction, Color, Embed
+from discord import ApplicationContext, Interaction, Color, Embed, WebhookMessage, Message
 
 from api.embed import styled_embed_generator
 from api.embed.style import Style
@@ -26,3 +26,17 @@ class MrvnCommandContext(ApplicationContext, Translator):
                                                  self)
 
         return embed
+
+    # TODO refactor
+    async def _respond(self, *args, **kwargs):
+        func = self.interaction.response.send_message if not self.response.is_done() else self.followup.send
+
+        interaction = await func(*args, **kwargs)
+
+        msg = await interaction.original_message()
+
+        return msg
+
+    @property
+    def respond(self):
+        return self._respond

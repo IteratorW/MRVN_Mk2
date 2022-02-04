@@ -1,7 +1,7 @@
 import math
 from typing import Union
 
-from discord import ButtonStyle, Interaction, Embed
+from discord import ButtonStyle, Interaction, Embed, SlashCommandGroup
 from discord.ui import Button, Item
 
 from api.command import categories
@@ -53,12 +53,9 @@ async def cmds(ctx: MrvnCommandContext):
                     style=ButtonStyle.blurple if len(x.items) else ButtonStyle.gray) for x in
              sorted_categories]
 
-    view = CategoryView(ctx, items, author=ctx.author)
+    view = CategoryView(ctx, items, author=ctx.author, timeout=10)
 
     message = await ctx.respond(ctx.translate("builtin_command_help_choose_category"), view=view)
-
-    if ctx.interaction:
-        message = await message.original_message()
 
     await view.wait()
 
@@ -70,6 +67,6 @@ async def cmds(ctx: MrvnCommandContext):
 
     num_pages = math.ceil(count / PAGE_SIZE) if count > PAGE_SIZE else 1
 
-    paginator = CmdsPaginator(ctx, category.items, ctx.translate(category.name), num_pages=num_pages)
+    paginator = CmdsPaginator(ctx, category.get_all_commands(), ctx.translate(category.name), num_pages=num_pages, timeout=30)
 
     await paginator.attach(message)

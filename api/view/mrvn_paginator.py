@@ -85,7 +85,4 @@ class MrvnPaginator(MrvnView):
         msg = await self.ctx.respond(view=self, content=page if not is_embed else None,
                                      embed=page if is_embed else None)
 
-        if isinstance(msg, Interaction):
-            msg = await msg.original_message()
-
         self.message = msg
