@@ -21,7 +21,9 @@ from api.command.option.parse_until_ends import ParseUntilEndsOption
 from api.embed.style import Style
 from api.event_handler import handler_manager
 from api.exc import ArgumentParseException
+from api.models import SettingEnableMessageCommands
 from api.translation.translator import Translator
+from impl import env
 
 logger = logging.getLogger("MrvnBot")
 
@@ -147,6 +149,7 @@ class MrvnBot(Bot, ABC):
     async def on_interaction(self, interaction: Interaction):
         if interaction.type not in (
                 InteractionType.application_command,
+                InteractionType.auto_complete
         ):
             return
 
@@ -183,6 +186,12 @@ class MrvnBot(Bot, ABC):
     async def on_message(self, message: Message):
         if not message.content.startswith("?"):
             return
+
+        if message.guild is not None and not env.debug:
+            setting = (await SettingEnableMessageCommands.get_or_create(guild_id=message.guild.id))[0]
+
+            if not setting.value:
+                return
 
         args = PreparedArguments(message.content)
         cmd_name = args.next().value[1:].lower()

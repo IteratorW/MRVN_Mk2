@@ -37,5 +37,11 @@
     "mrvn_core_commands_parse_error": "Parsing error",
     "mrvn_core_commands_slash_only": "This command can not be executed with a message. Try a slash commands instead.",
     "mrvn_core_commands_subcommand_error": "Invalid subcommand or group",
-    "mrvn_core_views_not_an_author": "You are not the author of the original message."
+    "mrvn_core_views_not_an_author": "You are not the author of the original message.",
+    "mrvn_api_settings_category_name": "Bot settings",
+    "mrvn_api_setting_guild_language_desc": "Changes the language of bot output.",
+    "mrvn_api_setting_enable_message_commands_desc": "With this enabled, you'll be able to use every bot command, but through a message.",
+    "mrvn_api_setting_message_cmd_prefix_desc": "Changes the prefix of message commands in this guild.",
+    "mrvn_api_setting_guild_language_error": "This language is not supported by the bot.",
+    "mrvn_api_setting_allow_dm_commands": "Allows executing bot commands in Direct Messages."
 }

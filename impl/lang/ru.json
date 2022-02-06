@@ -37,5 +37,11 @@
     "mrvn_core_commands_parse_error": "Ошибка парсинга",
     "mrvn_core_commands_slash_only": "Эту команду невозможно выполнить из сообщения. Попробуйте использовать слеш.",
     "mrvn_core_commands_subcommand_error": "Неверная подкоманда или группа",
-    "mrvn_core_views_not_an_author": "Вы не являетесь автором сообщения."
+    "mrvn_core_views_not_an_author": "Вы не являетесь автором сообщения.",
+    "mrvn_api_settings_category_name": "Настройки бота",
+    "mrvn_api_setting_guild_language_desc": "Меняет язык бота.",
+    "mrvn_api_setting_enable_message_commands_desc": "Если включено, вы сможете использовать все команды бота через обычные сообщения.",
+    "mrvn_api_setting_message_cmd_prefix_desc": "Меняет префикс команд",
+    "mrvn_api_setting_guild_language_error": "Этот язык не поддерживается ботом.",
+    "mrvn_api_setting_allow_dm_commands": "Разрешает использовать бота в ЛС."
 }

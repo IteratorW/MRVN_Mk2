@@ -1,4 +1,10 @@
 {
     "builtin_command_help_choose_category": "Choose a category to see its commands.",
-    "builtin_command_help_embed_title": "%s Commands"
+    "builtin_command_help_embed_title": "%s Commands",
+    "builtin_command_settings_list_guild": "Guild",
+    "builtin_command_settings_list_global": "Global",
+    "builtin_command_settings_edit_invalid_key": "Invalid setting.",
+    "builtin_command_settings_edit_invalid_value": "Invalid value",
+    "builtin_command_settings_edit_value_set": "Value set!",
+    "builtin_command_settings_edit_invalid_value_for_type": "Invalid value for type %s."
 }

@@ -1,4 +1,10 @@
 {
     "builtin_command_help_choose_category": "Тыкни на кнопку",
-    "builtin_command_help_embed_title": "Анальные команды в %s"
+    "builtin_command_help_embed_title": "Анальные команды в %s",
+    "builtin_command_settings_list_guild": "Серверные",
+    "builtin_command_settings_list_global": "Глобальные",
+    "builtin_command_settings_edit_invalid_key": "Долбоёб, нет такой настройки.",
+    "builtin_command_settings_edit_invalid_value": "Идиот, что за хуйню ты высрал??",
+    "builtin_command_settings_edit_value_set": "Значение высрано.",
+    "builtin_command_settings_edit_invalid_value_for_type": "То, что ты высрал, не подходит для типа %s."
 }
