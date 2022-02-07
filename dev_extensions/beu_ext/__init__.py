@@ -3,6 +3,7 @@ import logging
 
 from discord import User, Role, Option, OptionChoice, Member
 from discord.abc import Mentionable, GuildChannel
+from discord.commands import permissions
 from discord.enums import SlashCommandOptionType
 
 from api.command import categories
@@ -125,3 +126,16 @@ async def cat(ctx: MrvnCommandContext):
         desc.append(f"{category.name}: {len(category.items)}")
 
     await ctx.respond_embed(Style.INFO, "\n".join(desc))
+
+
+@runtime.bot.slash_command()
+@permissions.is_owner()
+async def owner_only(ctx: MrvnCommandContext):
+    await ctx.respond_embed(Style.OK, "You are the owner!")
+
+
+@runtime.bot.slash_command()
+async def exception(ctx: MrvnCommandContext):
+    a = 5 / 0
+
+    await ctx.respond_embed(Style.OK, "No exception!")

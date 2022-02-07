@@ -5,12 +5,15 @@ import signal
 
 import coloredlogs as coloredlogs
 import discord
+from colored_traceback import colored_traceback
 from tortoise import Tortoise
 
 import impl
 from api.extension import extension_manager
 from api.translation import translations
 from impl import runtime, env
+
+colored_traceback.add_hook(always=True)
 
 coloredlogs.install(fmt="[%(asctime)s] [%(name)s/%(levelname)s]: %(message)s", datefmt="%H:%M:%S",
                     field_styles={"levelname": {"color": "yellow", "bright": True},

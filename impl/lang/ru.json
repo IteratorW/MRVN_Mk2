@@ -43,5 +43,8 @@
     "mrvn_api_setting_enable_message_commands_desc": "Если включено, вы сможете использовать все команды бота через обычные сообщения.",
     "mrvn_api_setting_message_cmd_prefix_desc": "Меняет префикс команд",
     "mrvn_api_setting_guild_language_error": "Этот язык не поддерживается ботом.",
-    "mrvn_api_setting_allow_dm_commands": "Разрешает использовать бота в ЛС."
+    "mrvn_api_setting_allow_dm_commands": "Разрешает использовать бота в ЛС.",
+    "mrvn_api_command_execution_error_title": "Произошла ошибка при выполнении этой команды.",
+    "mrvn_api_command_execution_error_desc": "Техническая информация:\n```ansi\n%s```",
+    "mrvn_api_command_not_found": "Команда не найдена."
 }

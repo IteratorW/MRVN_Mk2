@@ -43,5 +43,8 @@
     "mrvn_api_setting_enable_message_commands_desc": "Если тебе не зашли слеш-команды, эта опция позволит включить обычную хуйню через сообщения.",
     "mrvn_api_setting_message_cmd_prefix_desc": "Ты сможешь использовать команды, если напишешь ту хуйню, которую сюда укажешь в начале.",
     "mrvn_api_setting_guild_language_error": "Долбоёб, этот язык не поддерживается ботом.",
-    "mrvn_api_setting_allow_dm_commands": "Разрешает выебываться на бота в ЛС."
+    "mrvn_api_setting_allow_dm_commands": "Разрешает выебываться на бота в ЛС.",
+    "mrvn_api_command_execution_error_title": "Криворукий уебан, у тебя ошибка!",
+    "mrvn_api_command_execution_error_desc": "Анальный стектрейс:\n```ansi\n%s```",
+    "mrvn_api_command_not_found": "Идиот, нет такой команды."
 }

@@ -43,5 +43,8 @@
     "mrvn_api_setting_enable_message_commands_desc": "With this enabled, you'll be able to use every bot command, but through a message.",
     "mrvn_api_setting_message_cmd_prefix_desc": "Changes the prefix of message commands in this guild.",
     "mrvn_api_setting_guild_language_error": "This language is not supported by the bot.",
-    "mrvn_api_setting_allow_dm_commands": "Allows executing bot commands in Direct Messages."
+    "mrvn_api_setting_allow_dm_commands": "Allows executing bot commands in Direct Messages.",
+    "mrvn_api_command_execution_error_title": "An error occurred when trying to execute this command.",
+    "mrvn_api_command_execution_error_desc": "Technical information:\n```ansi\n%s```",
+    "mrvn_api_command_not_found": "Unknown command."
 }

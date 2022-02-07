@@ -1,5 +1,6 @@
 import logging
 import logging
+import traceback
 import types
 from abc import ABC
 from collections import defaultdict
@@ -7,7 +8,7 @@ from typing import Any, Union, Dict, Optional, List
 
 from asciitree import LeftAligned
 from discord import Bot, Message, Interaction, InteractionType, SlashCommand, SlashCommandGroup, UserCommand, \
-    MessageCommand, ApplicationCommand
+    MessageCommand, ApplicationCommand, ApplicationCommandInvokeError
 from discord import command as create_command
 from discord.enums import SlashCommandOptionType
 
@@ -67,10 +68,10 @@ class MrvnBot(Bot, ABC):
 
     def create_group(
             self,
-        name: str,
-        description: Optional[str] = None,
-        guild_ids: Optional[List[int]] = None,
-        category: CommandCategory = categories.uncategorized
+            name: str,
+            description: Optional[str] = None,
+            guild_ids: Optional[List[int]] = None,
+            category: CommandCategory = categories.uncategorized
     ) -> SlashCommandGroup:
         command = super().create_group(name, description, guild_ids)
 
@@ -181,7 +182,10 @@ class MrvnBot(Bot, ABC):
 
         ctx.command = command
 
-        await ctx.command.invoke(ctx)
+        try:
+            await ctx.command.invoke(ctx)
+        except ApplicationCommandInvokeError as e:
+            await self.send_command_exception_message(ctx, e.original)
 
     async def on_message(self, message: Message):
         if not message.content.startswith("?"):
@@ -196,16 +200,18 @@ class MrvnBot(Bot, ABC):
         args = PreparedArguments(message.content)
         cmd_name = args.next().value[1:].lower()
 
+        ctx = MrvnMessageContext(self, message)
+        await ctx.set_from_guild(message.guild)
+
         for cmd in self.application_commands:
             if isinstance(cmd, (
                     SlashCommand, SlashCommandGroup)) and cmd.name == cmd_name and message.guild.id in cmd.guild_ids:
                 command = cmd
                 break
         else:
-            return
+            await ctx.respond_embed(Style.ERROR, ctx.translate("mrvn_api_command_not_found"))
 
-        ctx = MrvnMessageContext(self, message)
-        await ctx.set_from_guild(message.guild)
+            return
 
         root = command
 
@@ -310,4 +316,14 @@ class MrvnBot(Bot, ABC):
 
             return
 
-        await command(ctx, **kwargs)
+        try:
+            await command(ctx, **kwargs)
+        except Exception as e:
+            await self.send_command_exception_message(ctx, e)
+
+    @staticmethod
+    async def send_command_exception_message(ctx: MrvnCommandContext, exc):
+        await ctx.respond_embed(Style.ERROR,
+                                ctx.format("mrvn_api_command_execution_error_desc", "".join(
+                                    traceback.format_exception(value=exc, etype=type(exc), tb=exc.__traceback__))),
+                                ctx.translate("mrvn_api_command_execution_error_title"))

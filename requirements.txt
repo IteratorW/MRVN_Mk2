@@ -2,3 +2,4 @@ coloredlogs
 git+https://github.com/Pycord-Development/pycord@master#egg=py-cord
 asciitree
 tortoise-orm
+colored_traceback
