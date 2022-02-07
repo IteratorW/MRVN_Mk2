@@ -3,7 +3,6 @@ from typing import Union
 
 from discord import Interaction, ButtonStyle, Embed, Option
 from discord.ui import Item, Button
-from tortoise.fields import Field
 
 from api.command import categories
 from api.command.context.mrvn_command_context import MrvnCommandContext
@@ -22,9 +21,10 @@ PAGE_SIZE = 5
 autocomplete_guild = None
 autocomplete_global = None
 
-settings_group = runtime.bot.create_group("settings", "Edit and list settings.", category=categories.bot_management)
+settings_group = runtime.bot.create_group("settings", "Edit and list settings.", category=categories.bot_management,
+                                          discord_permissions=["administrator"])
 global_settings_group = runtime.bot.create_group("global_settings", "Edit and list global settings.",
-                                                 category=categories.bot_management)
+                                                 category=categories.owners_only, owners_only=True)
 
 
 class CategoryView(MrvnView):

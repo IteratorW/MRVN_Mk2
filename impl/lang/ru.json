@@ -4,6 +4,7 @@
     "mrvn_api_command_category_info": "Информация",
     "mrvn_api_command_category_moderation": "Модерация",
     "mrvn_api_command_category_uncategorized": "Без категории",
+    "mrvn_api_command_category_owners_only": "Для владельцев бота",
     "mrvn_api_command_category_utility": "Утилиты",
     "mrvn_api_command_parse_bool_error": "Укажите True или False.",
     "mrvn_api_command_parse_integer_error": "ТЭто не целое число.",
@@ -46,5 +47,6 @@
     "mrvn_api_setting_allow_dm_commands": "Разрешает использовать бота в ЛС.",
     "mrvn_api_command_execution_error_title": "Произошла ошибка при выполнении этой команды.",
     "mrvn_api_command_execution_error_desc": "Техническая информация:\n```ansi\n%s```",
-    "mrvn_api_command_not_found": "Команда не найдена."
+    "mrvn_api_command_not_found": "Команда не найдена.",
+    "mrvn_core_command_permission_error": "У вас недостаточно прав для выполнения этой команды."
 }

@@ -15,6 +15,13 @@ from api.settings.settings_category import SettingsCategory
 mrvn_category = settings.add_category(SettingsCategory("mrvn", Translatable("mrvn_api_settings_category_name")))
 
 
+class MrvnUser(Model):
+    user_id = fields.IntField(pk=True)
+    is_owner = fields.BooleanField(default=False)
+
+
+# Settings ======================
+
 class SettingGuildLanguage(GuildSetting):
     key = "guild_lang"
     description = Translatable("mrvn_api_setting_guild_language_desc")

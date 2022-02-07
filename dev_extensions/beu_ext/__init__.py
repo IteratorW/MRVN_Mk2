@@ -10,6 +10,7 @@ from api.command import categories
 from api.command.command_category import CommandCategory
 from api.command.context.mrvn_command_context import MrvnCommandContext
 from api.command.option.parse_until_ends import ParseUntilEndsOption
+from api.command.permission.decorators import mrvn_owners_only
 from api.embed.style import Style
 from api.event_handler.decorators import event_handler
 from api.translation.translatable import Translatable
@@ -28,6 +29,7 @@ async def on_startup():
 
 
 @runtime.bot.slash_command(category=categories.debug)
+@mrvn_owners_only()
 async def test(ctx: MrvnCommandContext, arg_1: str, arg_2: str):
     """Test command"""
 
@@ -129,7 +131,7 @@ async def cat(ctx: MrvnCommandContext):
 
 
 @runtime.bot.slash_command()
-@permissions.is_owner()
+@mrvn_owners_only()
 async def owner_only(ctx: MrvnCommandContext):
     await ctx.respond_embed(Style.OK, "You are the owner!")
 

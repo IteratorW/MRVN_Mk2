@@ -16,4 +16,5 @@ moderation = add_category(CommandCategory(Translatable("mrvn_api_command_categor
 info = add_category(CommandCategory(Translatable("mrvn_api_command_category_info"), "info"))
 bot_management = add_category(CommandCategory(Translatable("mrvn_api_command_category_bot_management"), "bot_management"))
 debug = add_category(CommandCategory(Translatable("mrvn_api_command_category_debug"), "debug"))
+owners_only = add_category(CommandCategory(Translatable("mrvn_api_command_category_owners_only"), "owners_only"))
 

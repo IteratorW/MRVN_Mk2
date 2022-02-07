@@ -5,6 +5,7 @@
     "mrvn_api_command_category_moderation": "Вставить пизды",
     "mrvn_api_command_category_uncategorized": "Без мамы",
     "mrvn_api_command_category_utility": "Бесполезная хуета",
+    "mrvn_api_command_category_owners_only": "Только для хозяина",
     "mrvn_api_command_parse_bool_error": "Ну и идиот.... Укажи True или False.",
     "mrvn_api_command_parse_integer_error": "Ты совсем конченный? Это не целое число.",
     "mrvn_api_command_parse_mention_error": "Бля, откуда вы такие беретесь? Укажи упоминание.",
@@ -46,5 +47,6 @@
     "mrvn_api_setting_allow_dm_commands": "Разрешает выебываться на бота в ЛС.",
     "mrvn_api_command_execution_error_title": "Криворукий уебан, у тебя ошибка!",
     "mrvn_api_command_execution_error_desc": "Анальный стектрейс:\n```ansi\n%s```",
-    "mrvn_api_command_not_found": "Идиот, нет такой команды."
+    "mrvn_api_command_not_found": "Идиот, нет такой команды.",
+    "mrvn_core_command_permission_error": "Уёбище, у тебя нет прав."
 }

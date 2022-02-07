@@ -6,5 +6,12 @@
     "builtin_command_settings_edit_invalid_key": "Нет такой настройки.",
     "builtin_command_settings_edit_invalid_value": "Неверное значение",
     "builtin_command_settings_edit_value_set": "Значение установлено.",
-    "builtin_command_settings_edit_invalid_value_for_type": "Неверное значение для типа %s."
+    "builtin_command_settings_edit_invalid_value_for_type": "Неверное значение для типа %s.",
+    "std_command_owners_no_owners": "В списке владельцев бота никого нет. Как ты тогда выполнил эту команду?...",
+    "std_command_owners_unknown": "*Неизвестный пользователь*",
+    "std_command_owners_list": "Список владельцев бота:\n%s",
+    "std_command_owner_already_an_owner": "Этот пользователь уже добавлен в список владельцев бота.",
+    "std_command_owner_not_an_owner": "Этого пользователя нет в списке владельцев бота.",
+    "std_command_owner_add": "Вы сделали %s владельцем бота.",
+    "std_command_owner_remove": "Вы удалили %s из владельцев бота."
 }

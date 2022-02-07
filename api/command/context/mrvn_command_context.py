@@ -31,9 +31,10 @@ class MrvnCommandContext(ApplicationContext, Translator):
     async def _respond(self, *args, **kwargs):
         func = self.interaction.response.send_message if not self.response.is_done() else self.followup.send
 
-        interaction = await func(*args, **kwargs)
+        msg = await func(*args, **kwargs)
 
-        msg = await interaction.original_message()
+        if isinstance(msg, Interaction):
+            msg = await msg.original_message()
 
         return msg
 

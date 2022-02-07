@@ -8,7 +8,7 @@ from typing import Any, Union, Dict, Optional, List
 
 from asciitree import LeftAligned
 from discord import Bot, Message, Interaction, InteractionType, SlashCommand, SlashCommandGroup, UserCommand, \
-    MessageCommand, ApplicationCommand, ApplicationCommandInvokeError
+    MessageCommand, ApplicationCommand, ApplicationCommandInvokeError, User, Member
 from discord import command as create_command
 from discord.enums import SlashCommandOptionType
 
@@ -19,10 +19,11 @@ from api.command.command_category import CommandCategory
 from api.command.context.mrvn_command_context import MrvnCommandContext
 from api.command.context.mrvn_message_context import MrvnMessageContext
 from api.command.option.parse_until_ends import ParseUntilEndsOption
+from api.command.permission.mrvn_permission import MrvnPermission
 from api.embed.style import Style
 from api.event_handler import handler_manager
 from api.exc import ArgumentParseException
-from api.models import SettingEnableMessageCommands
+from api.models import SettingEnableMessageCommands, MrvnUser
 from api.translation.translator import Translator
 from impl import env
 
@@ -71,11 +72,16 @@ class MrvnBot(Bot, ABC):
             name: str,
             description: Optional[str] = None,
             guild_ids: Optional[List[int]] = None,
-            category: CommandCategory = categories.uncategorized
+            category: CommandCategory = categories.uncategorized,
+            discord_permissions: list[str] = None,
+            owners_only: bool = False
     ) -> SlashCommandGroup:
         command = super().create_group(name, description, guild_ids)
 
         category.add_command(command)
+
+        if discord_permissions or owners_only:
+            command.__mrvn_perm__ = MrvnPermission(discord_permissions, owners_only=owners_only)
 
         return command
 
@@ -174,13 +180,17 @@ class MrvnBot(Bot, ABC):
             return await command.invoke_autocomplete_callback(ctx)
 
         ctx = MrvnCommandContext(self, interaction)
+        ctx.command = command
+
+        if not await self.check_permissions(ctx):
+            await ctx.respond_embed(Style.ERROR, ctx.translate("mrvn_core_command_permission_error"))
+
+            return
 
         if isinstance(command, SlashCommand) and command.message_only:
             await ctx.respond_embed(Style.ERROR, ctx.translate("mrvn_core_commands_message_only"))
 
             return
-
-        ctx.command = command
 
         try:
             await ctx.command.invoke(ctx)
@@ -213,7 +223,12 @@ class MrvnBot(Bot, ABC):
 
             return
 
-        root = command
+        ctx.command = command
+
+        if not await self.check_permissions(ctx):
+            await ctx.respond_embed(Style.ERROR, ctx.translate("mrvn_core_command_permission_error"))
+
+            return
 
         try:
             while isinstance(command, SlashCommandGroup):
@@ -221,7 +236,7 @@ class MrvnBot(Bot, ABC):
 
                 command = next(filter(lambda it: it.name == sub_cmd_name, command.subcommands))
         except StopIteration:
-            await ctx.respond_embed(Style.ERROR, self.get_command_desc(root, ctx, as_tree=True),
+            await ctx.respond_embed(Style.ERROR, self.get_command_desc(ctx.command, ctx, as_tree=True),
                                     ctx.translate("mrvn_core_commands_subcommand_error"))
 
             return
@@ -320,6 +335,31 @@ class MrvnBot(Bot, ABC):
             await command(ctx, **kwargs)
         except Exception as e:
             await self.send_command_exception_message(ctx, e)
+
+    async def is_owner(self, user: User) -> bool:
+        mrvn_user = await MrvnUser.get_or_none(user_id=user.id)
+
+        if not mrvn_user:
+            return False
+
+        return mrvn_user.is_owner
+
+    async def check_permissions(self, ctx: MrvnCommandContext):
+        obj = ctx.command if isinstance(ctx.command, SlashCommandGroup) else ctx.command.callback
+
+        if not hasattr(obj, "__mrvn_perm__"):
+            return True
+
+        mrvn_perm = obj.__mrvn_perm__
+
+        if mrvn_perm.owners_only:
+            return await self.is_owner(ctx.author)
+        else:
+            for k, v in iter(ctx.author.guild_permissions):
+                if k in mrvn_perm.discord_permissions and not v:
+                    return False
+
+        return True
 
     @staticmethod
     async def send_command_exception_message(ctx: MrvnCommandContext, exc):

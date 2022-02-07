@@ -4,6 +4,7 @@
     "mrvn_api_command_category_info": "Information",
     "mrvn_api_command_category_moderation": "Moderation",
     "mrvn_api_command_category_uncategorized": "Uncategorized",
+    "mrvn_api_command_category_owners_only": "Owners-only",
     "mrvn_api_command_category_utility": "Utility",
     "mrvn_api_command_parse_bool_error": "This is not a boolean. Specify either True or False.",
     "mrvn_api_command_parse_integer_error": "This is not an integer.",
@@ -46,5 +47,6 @@
     "mrvn_api_setting_allow_dm_commands": "Allows executing bot commands in Direct Messages.",
     "mrvn_api_command_execution_error_title": "An error occurred when trying to execute this command.",
     "mrvn_api_command_execution_error_desc": "Technical information:\n```ansi\n%s```",
-    "mrvn_api_command_not_found": "Unknown command."
+    "mrvn_api_command_not_found": "Unknown command.",
+    "mrvn_core_command_permission_error": "You have insufficient permissions for this command."
 }
