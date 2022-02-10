@@ -1,7 +1,7 @@
 import asyncio
 import logging
 
-from discord import User, Role, Option, OptionChoice, Member
+from discord import User, Role, Option, OptionChoice, Member, Attachment
 from discord.abc import Mentionable, GuildChannel
 from discord.commands import permissions
 from discord.enums import SlashCommandOptionType
@@ -95,8 +95,8 @@ async def choices(ctx, choice_str: Option(str, choices=[OptionChoice("Choice 1",
 
 
 @runtime.bot.slash_command(category=categories.debug)
-async def attach(ctx, attachment: Option(SlashCommandOptionType.attachment)):
-    await ctx.respond_embed(Style.OK, attachment.url)
+async def attach(ctx, attachment: Attachment):
+    await ctx.respond_embed(Style.OK, attachment.url + f"\n\n{type(attachment)}")
 
 
 @runtime.bot.user_command()

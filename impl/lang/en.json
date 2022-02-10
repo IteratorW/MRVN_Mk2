@@ -23,7 +23,6 @@
     "mrvn_api_views_paginator_button_timeout": "Timed out",
     "mrvn_core_commands_arguments_not_enough": "Not enough arguments",
     "mrvn_core_commands_attach_error": "This command requires one or more attachments.",
-    "mrvn_core_commands_message_only": "This command can not be executed with a slash. Try a message commands instead.",
     "mrvn_core_commands_no_args": "*No arguments*",
     "mrvn_core_commands_not_in_choices": "The value of %s is not in choices. Choose one of:\n\n%s",
     "mrvn_core_commands_option_attachment": "Attach",

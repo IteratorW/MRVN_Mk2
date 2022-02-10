@@ -31,19 +31,6 @@ from impl import env
 logger = logging.getLogger("MrvnBot")
 
 
-def to_dict_command_override(self) -> Dict:
-    as_dict = {
-        "name": self.name,
-        "description": self.description,
-        "options": [],
-        "default_permission": self.default_permission,
-    }
-    if self.is_subcommand:
-        as_dict["type"] = SlashCommandOptionType.sub_command.value
-
-    return as_dict
-
-
 class MrvnBot(Bot, ABC):
     def __init__(self, *args, **options):
         super().__init__(*args, **options)
@@ -85,27 +72,6 @@ class MrvnBot(Bot, ABC):
             command.__mrvn_perm__ = MrvnPermission(discord_permissions, owners_only=owners_only)
 
         return command
-
-    def check_command_options(self, command: Union[SlashCommand, SlashCommandGroup]):
-        if isinstance(command, SlashCommandGroup):
-            for sub_cmd in command.subcommands:
-                self.check_command_options(sub_cmd)
-        else:
-            if SlashCommandOptionType.attachment in [x.input_type for x in command.options]:
-                command.to_dict = types.MethodType(to_dict_command_override, command)
-                command.message_only = True
-            else:
-                command.message_only = False
-
-    async def register_commands(self) -> None:
-        for command in filter(lambda cmd: isinstance(cmd, (SlashCommand, SlashCommandGroup)),
-                              self.pending_application_commands):
-            # This is a hacky method to make a slash command with attachment option have no options at all
-            # (so the user can execute it and get a proper error)
-            # Will be removed when Discord adds support for attachments in slash
-            self.check_command_options(command)
-
-        await super().register_commands()
 
     def get_subcommand_tree(self, command: SlashCommandGroup, translator: Translator = Translator()):
         tree = defaultdict(dict)
@@ -190,11 +156,6 @@ class MrvnBot(Bot, ABC):
             return
 
         if override and not await self.check_override(ctx, override):
-            return
-
-        if isinstance(command, SlashCommand) and command.message_only:
-            await ctx.respond_embed(Style.ERROR, ctx.translate("mrvn_core_commands_message_only"))
-
             return
 
         try:
