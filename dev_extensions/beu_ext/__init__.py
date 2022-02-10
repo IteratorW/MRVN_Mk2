@@ -10,7 +10,7 @@ from api.command import categories
 from api.command.command_category import CommandCategory
 from api.command.context.mrvn_command_context import MrvnCommandContext
 from api.command.option.parse_until_ends import ParseUntilEndsOption
-from api.command.permission.decorators import mrvn_owners_only
+from api.command.permission.decorators import mrvn_owners_only, mrvn_guild_only
 from api.embed.style import Style
 from api.event_handler.decorators import event_handler
 from api.translation.translatable import Translatable
@@ -141,3 +141,9 @@ async def exception(ctx: MrvnCommandContext):
     a = 5 / 0
 
     await ctx.respond_embed(Style.OK, "No exception!")
+
+
+@runtime.bot.slash_command()
+@mrvn_guild_only()
+async def guild_only(ctx: MrvnCommandContext):
+    await ctx.respond_embed(Style.INFO, "This is a guild only command!")

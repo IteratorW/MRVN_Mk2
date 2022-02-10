@@ -78,7 +78,10 @@ async def edit_(ctx: MrvnCommandContext, key: str, value: str, global_setting: b
         await ctx.respond_embed(Style.ERROR, ctx.translate("std_command_settings_edit_invalid_key"))
         return
 
-    model = (await setting.get_or_create(guild_id=ctx.guild_id))[0]
+    if global_setting:
+        model = (await setting.get_or_create())[0]
+    else:
+        model = (await setting.get_or_create(guild_id=ctx.guild_id))[0]
 
     value_type = type(model.value_field)
 

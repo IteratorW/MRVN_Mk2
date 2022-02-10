@@ -1,10 +1,9 @@
 import logging
 import logging
 import traceback
-import types
 from abc import ABC
 from collections import defaultdict
-from typing import Any, Union, Dict, Optional, List
+from typing import Any, Union, Optional, List
 
 from asciitree import LeftAligned
 from discord import Bot, Message, Interaction, InteractionType, SlashCommand, SlashCommandGroup, UserCommand, \
@@ -16,7 +15,7 @@ from api.command import categories
 from api.command.args import element
 from api.command.args.arguments import PreparedArguments
 from api.command.command_category import CommandCategory
-from api.command.const import PREFIX_LIST
+from api.command.const import PREFIX_LIST, DEFAULT_PREFIX
 from api.command.context.mrvn_command_context import MrvnCommandContext
 from api.command.context.mrvn_message_context import MrvnMessageContext
 from api.command.option.parse_until_ends import ParseUntilEndsOption
@@ -24,7 +23,9 @@ from api.command.permission.mrvn_permission import MrvnPermission
 from api.embed.style import Style
 from api.event_handler import handler_manager
 from api.exc import ArgumentParseException
-from api.models import SettingEnableMessageCommands, MrvnUser, CommandOverride, SettingMessageCmdPrefix
+from api.models import SettingEnableMessageCommands, MrvnUser, CommandOverride, SettingMessageCmdPrefix, \
+    SettingAllowCommandsInDMs
+from api.translation import translations
 from api.translation.translator import Translator
 from impl import env
 
@@ -70,6 +71,9 @@ class MrvnBot(Bot, ABC):
 
         if discord_permissions or owners_only:
             command.__mrvn_perm__ = MrvnPermission(discord_permissions, owners_only=owners_only)
+
+            if discord_permissions:
+                command.__mrvn_guild_only__ = True
 
         return command
 
@@ -130,16 +134,13 @@ class MrvnBot(Bot, ABC):
         try:
             command = self._application_commands[interaction.data["id"]]
         except KeyError:
-            for cmd in self.application_commands:
-                if (
-                        isinstance(cmd, (SlashCommand, UserCommand, MessageCommand))
-                        and cmd.name == interaction.data["name"]
-                        and interaction.data.get("guild_id", None) in cmd.guild_ids
-                ):
-                    command = cmd
-                    break
-            else:
-                return self.dispatch("unknown_command", interaction)
+            command = next(filter(lambda it:
+                                  isinstance(it, (SlashCommand, SlashCommandGroup, UserCommand, MessageCommand)) and
+                                  it.name == interaction.data["name"] and
+                                  (bool(len(env.debug_guilds)) or
+                                   not len(it.guild_ids) or
+                                   interaction.data.get("guild_id", None) in it.guild_ids),
+                                  self.application_commands))
 
         if interaction.type is InteractionType.auto_complete:
             ctx = await self.get_autocomplete_context(interaction)
@@ -148,7 +149,16 @@ class MrvnBot(Bot, ABC):
 
         ctx = MrvnCommandContext(self, interaction)
         ctx.command = command
-        override = await CommandOverride.get_or_none(command_name=command.name, guild_id=ctx.guild_id)
+
+        guild_id = ctx.guild_id
+
+        if not guild_id and self.check_guild_only(ctx):
+            return
+
+        if guild_id:
+            override = await CommandOverride.get_or_none(command_name=command.name, guild_id=guild_id)
+        else:
+            override = None
 
         if not await self.check_permissions(ctx, override):
             await ctx.respond_embed(Style.ERROR, ctx.translate("mrvn_core_command_permission_error"))
@@ -183,26 +193,45 @@ class MrvnBot(Bot, ABC):
         cmd_name = args.next().value[1:].lower()
 
         ctx = MrvnMessageContext(self, message)
-        await ctx.set_from_guild(message.guild)
 
-        for cmd in self.application_commands:
-            if isinstance(cmd, (
-                    SlashCommand, SlashCommandGroup)) and cmd.name == cmd_name and message.guild.id in cmd.guild_ids:
-                command = cmd
-                break
+        guild_id = message.guild.id if message.guild else None
+
+        if message.guild:
+            await ctx.set_from_guild(guild_id)
         else:
+            ctx.set_lang(translations.FALLBACK_LANGUAGE)
+
+        try:
+            command = next(filter(lambda it:
+                                  isinstance(it, (SlashCommand, SlashCommandGroup)) and
+                                  it.name == cmd_name and
+                                  (bool(len(env.debug_guilds)) or
+                                   not bool(len(it.guild_ids)) or
+                                   guild_id in it.guild_ids), self.application_commands))
+        except StopIteration:
             return
 
         ctx.command = command
-        override = await CommandOverride.get_or_none(command_name=command.name, guild_id=ctx.guild_id)
 
-        override_prefix = False
-
-        if override and override.prefix == prefix:
-            override_prefix = True
-
-        if not override_prefix and prefix != (await SettingMessageCmdPrefix.get_or_create(guild_id=ctx.guild_id))[0].value:
+        if not guild_id and await self.check_guild_only(ctx):
             return
+
+        if guild_id:
+            override = await CommandOverride.get_or_none(command_name=command.name, guild_id=guild_id)
+
+            override_prefix = False
+
+            if override and override.prefix == prefix:
+                override_prefix = True
+
+            if not override_prefix and prefix != (await SettingMessageCmdPrefix.get_or_create(guild_id=ctx.guild_id))[
+                0].value:
+                return
+        else:
+            override = None
+
+            if prefix != DEFAULT_PREFIX:
+                return
 
         if not await self.check_permissions(ctx, override):
             await ctx.respond_embed(Style.ERROR, ctx.translate("mrvn_core_command_permission_error"))
@@ -354,10 +383,27 @@ class MrvnBot(Bot, ABC):
             channel_list = ", ".join([channel.mention if (channel := self.get_channel(x)) else str(x) for x in
                                       override.whitelist_channel_ids])
 
-            await ctx.respond_embed(Style.ERROR, ctx.format("mrvn_core_override_cant_run_in_this_channel", channel_list))
+            await ctx.respond_embed(Style.ERROR,
+                                    ctx.format("mrvn_core_override_cant_run_in_this_channel", channel_list))
             return False
 
         return True
+
+    async def check_guild_only(self, ctx: MrvnCommandContext):
+        allow_dms = (await SettingAllowCommandsInDMs.get_or_create())[0].value
+
+        if not allow_dms:
+            await ctx.respond_embed(Style.ERROR, "mrvn_core_dm_commands_disabled")
+            return True
+
+        obj = ctx.command if isinstance(ctx.command, SlashCommandGroup) else ctx.command.callback
+
+        guild_only = getattr(obj, "__mrvn_guild_only__", False)
+
+        if guild_only:
+            await ctx.respond_embed(Style.ERROR, "mrvn_core_command_is_guild_only")
+
+        return guild_only
 
     @staticmethod
     async def send_command_exception_message(ctx: MrvnCommandContext, exc):

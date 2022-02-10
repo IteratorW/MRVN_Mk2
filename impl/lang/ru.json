@@ -49,5 +49,7 @@
     "mrvn_api_command_not_found": "Команда не найдена.",
     "mrvn_core_command_permission_error": "У вас недостаточно прав для выполнения этой команды.",
     "mrvn_core_override_command_disabled": "Данная команда отключена на этом сервере.",
-    "mrvn_core_override_cant_run_in_this_channel": "Эта команда может быть выполнена только в следующих каналах:\n**%s**"
+    "mrvn_core_override_cant_run_in_this_channel": "Эта команда может быть выполнена только в следующих каналах:\n**%s**",
+    "mrvn_core_dm_commands_disabled": "В этом боте отключена возможность выполнять команды из ЛС.",
+    "mrvn_core_command_is_guild_only": "Эта команда может быть выполнена только на сервере."
 }
