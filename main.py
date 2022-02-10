@@ -2,6 +2,7 @@ import asyncio
 import logging
 import os
 import signal
+import sys
 
 import coloredlogs as coloredlogs
 import discord
@@ -10,7 +11,7 @@ from tortoise import Tortoise
 
 import impl
 from api.extension import extension_manager
-from api.translation import translations
+from api.translation import translations, auto_translate
 from impl import runtime, env
 
 colored_traceback.add_hook(always=True)
@@ -31,6 +32,14 @@ for directory in env.extension_dirs:
         os.mkdir(directory)
 
     extension_manager.scan_directory(directory)
+
+if "auto_translate" in sys.argv:
+    auto_translate.start_auto_translation()
+
+if env.load_auto_translations:
+    logging.info("Loading auto-translations...")
+
+    translations.load_from_path("auto_translations")
 
 logging.info("Running bot...")
 
