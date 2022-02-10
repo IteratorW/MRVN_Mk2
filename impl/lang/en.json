@@ -48,5 +48,7 @@
     "mrvn_api_command_execution_error_title": "An error occurred when trying to execute this command.",
     "mrvn_api_command_execution_error_desc": "Technical information:\n```ansi\n%s```",
     "mrvn_api_command_not_found": "Unknown command.",
-    "mrvn_core_command_permission_error": "You have insufficient permissions for this command."
+    "mrvn_core_command_permission_error": "You have insufficient permissions for this command.",
+    "mrvn_core_override_command_disabled": "This command is disabled on this server.",
+    "mrvn_core_override_cant_run_in_this_channel": "This command can only be executed in following channels:\n**%s**"
 }

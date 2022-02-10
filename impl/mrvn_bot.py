@@ -8,7 +8,7 @@ from typing import Any, Union, Dict, Optional, List
 
 from asciitree import LeftAligned
 from discord import Bot, Message, Interaction, InteractionType, SlashCommand, SlashCommandGroup, UserCommand, \
-    MessageCommand, ApplicationCommand, ApplicationCommandInvokeError, User, Member
+    MessageCommand, ApplicationCommand, ApplicationCommandInvokeError, User
 from discord import command as create_command
 from discord.enums import SlashCommandOptionType
 
@@ -16,6 +16,7 @@ from api.command import categories
 from api.command.args import element
 from api.command.args.arguments import PreparedArguments
 from api.command.command_category import CommandCategory
+from api.command.const import PREFIX_LIST
 from api.command.context.mrvn_command_context import MrvnCommandContext
 from api.command.context.mrvn_message_context import MrvnMessageContext
 from api.command.option.parse_until_ends import ParseUntilEndsOption
@@ -23,7 +24,7 @@ from api.command.permission.mrvn_permission import MrvnPermission
 from api.embed.style import Style
 from api.event_handler import handler_manager
 from api.exc import ArgumentParseException
-from api.models import SettingEnableMessageCommands, MrvnUser
+from api.models import SettingEnableMessageCommands, MrvnUser, CommandOverride, SettingMessageCmdPrefix
 from api.translation.translator import Translator
 from impl import env
 
@@ -181,10 +182,14 @@ class MrvnBot(Bot, ABC):
 
         ctx = MrvnCommandContext(self, interaction)
         ctx.command = command
+        override = await CommandOverride.get_or_none(command_name=command.name, guild_id=ctx.guild_id)
 
-        if not await self.check_permissions(ctx):
+        if not await self.check_permissions(ctx, override):
             await ctx.respond_embed(Style.ERROR, ctx.translate("mrvn_core_command_permission_error"))
 
+            return
+
+        if override and not await self.check_override(ctx, override):
             return
 
         if isinstance(command, SlashCommand) and command.message_only:
@@ -195,11 +200,17 @@ class MrvnBot(Bot, ABC):
         try:
             await ctx.command.invoke(ctx)
         except ApplicationCommandInvokeError as e:
-            await self.send_command_exception_message(ctx, e.original)
+            if type(e.original) == ArgumentParseException:
+                await ctx.respond_embed(Style.ERROR, e.original.message,
+                                        ctx.translate("mrvn_core_commands_parse_error"))
+            else:
+                await self.send_command_exception_message(ctx, e.original)
 
     async def on_message(self, message: Message):
-        if not message.content.startswith("?"):
+        if message.webhook_id or message.author.bot or not message.content or message.content[0] not in PREFIX_LIST:
             return
+
+        prefix = message.content[0]
 
         if message.guild is not None and not env.debug:
             setting = (await SettingEnableMessageCommands.get_or_create(guild_id=message.guild.id))[0]
@@ -219,15 +230,25 @@ class MrvnBot(Bot, ABC):
                 command = cmd
                 break
         else:
-            await ctx.respond_embed(Style.ERROR, ctx.translate("mrvn_api_command_not_found"))
-
             return
 
         ctx.command = command
+        override = await CommandOverride.get_or_none(command_name=command.name, guild_id=ctx.guild_id)
 
-        if not await self.check_permissions(ctx):
+        override_prefix = False
+
+        if override and override.prefix == prefix:
+            override_prefix = True
+
+        if not override_prefix and prefix != (await SettingMessageCmdPrefix.get_or_create(guild_id=ctx.guild_id))[0].value:
+            return
+
+        if not await self.check_permissions(ctx, override):
             await ctx.respond_embed(Style.ERROR, ctx.translate("mrvn_core_command_permission_error"))
 
+            return
+
+        if override and not await self.check_override(ctx, override):
             return
 
         try:
@@ -344,25 +365,43 @@ class MrvnBot(Bot, ABC):
 
         return mrvn_user.is_owner
 
-    async def check_permissions(self, ctx: MrvnCommandContext):
+    async def check_permissions(self, ctx: MrvnCommandContext, override: CommandOverride = None):
         obj = ctx.command if isinstance(ctx.command, SlashCommandGroup) else ctx.command.callback
 
-        if not hasattr(obj, "__mrvn_perm__"):
+        mrvn_perm: MrvnPermission = getattr(obj, "__mrvn_perm__", None)
+
+        if mrvn_perm and mrvn_perm.owners_only:
+            return await self.is_owner(ctx.author)
+        elif override and len(override.discord_permissions):
+            perms = override.discord_permissions
+        elif mrvn_perm:
+            perms = mrvn_perm.discord_permissions
+        else:
             return True
 
-        mrvn_perm = obj.__mrvn_perm__
+        for k, v in iter(ctx.author.guild_permissions):
+            if k in perms and not v:
+                return False
 
-        if mrvn_perm.owners_only:
-            return await self.is_owner(ctx.author)
-        else:
-            for k, v in iter(ctx.author.guild_permissions):
-                if k in mrvn_perm.discord_permissions and not v:
-                    return False
+        return True
+
+    async def check_override(self, ctx: MrvnCommandContext, override: CommandOverride) -> bool:
+        if override.disabled:
+            await ctx.respond_embed(Style.ERROR, ctx.translate("mrvn_core_override_command_disabled"))
+            return False
+        elif len(override.whitelist_channel_ids) and ctx.channel_id not in override.whitelist_channel_ids:
+            channel_list = ", ".join([channel.mention if (channel := self.get_channel(x)) else str(x) for x in
+                                      override.whitelist_channel_ids])
+
+            await ctx.respond_embed(Style.ERROR, ctx.format("mrvn_core_override_cant_run_in_this_channel", channel_list))
+            return False
 
         return True
 
     @staticmethod
     async def send_command_exception_message(ctx: MrvnCommandContext, exc):
+        logger.error(traceback.format_exc())
+
         await ctx.respond_embed(Style.ERROR,
                                 ctx.format("mrvn_api_command_execution_error_desc", "".join(
                                     traceback.format_exception(value=exc, etype=type(exc), tb=exc.__traceback__))),

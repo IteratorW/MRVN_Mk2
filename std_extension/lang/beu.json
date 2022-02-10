@@ -13,5 +13,20 @@
     "std_command_owner_already_an_owner": "Этот хуесос уже в овнерах - ты не можешь добавить его.",
     "std_command_owner_not_an_owner": "Этого хуесоса нет в овнерах - ты не можешь удалить его.",
     "std_command_owner_add": "%s теперь овнер - поздравим, ёпта.",
-    "std_command_owner_remove": "Ну и лох.... %s был удален из овнеров."
+    "std_command_owner_remove": "Ну и лох.... %s был удален из овнеров.",
+    "std_command_override_command_not_found": "Нет такой команды, додик.",
+    "std_command_override_no_override": "На эту команду еще не навешано никакой хуйни.",
+    "std_command_override_info": "Анал включен: **%s**\nПрефикс: **%s**\nПрава: **%s**\nВайтлист аналов: **%s**",
+    "std_command_override_info_title": "Инфа по ov3rwr1te команды %s",
+    "std_command_override_command_enabled": "Ты включил анальную команду **%s**.",
+    "std_command_override_command_disabled": "Ты отключил анальную команду **%s**.",
+    "std_command_override_prefix_changed": "Ты изменил анальный префикс команды **%s**.",
+    "std_command_custom_prefix_disabled": "Ты выключил нахуй префикс для команды **%s**.",
+    "std_command_override_channel_added": "Ты добавил канал %s в вайтлист каналов для **%s**.",
+    "std_command_override_channel_removed": "Ты удалил канал %s из вайтлиста каналов для **%s**.",
+    "std_command_override_invalid_permission": "Чел, ты... Нет такого пермишена.",
+    "std_command_override_permission_added": "Ты добавил пермишен **%s** в права для **%s**.",
+    "std_command_override_permission_removed": "Ты удалил пермишен **%s** из прав для **%s**.",
+    "std_command_override_empty": "*Нихуя нет*",
+    "std_command_override_prefix_not_in_list": "Ты можешь выбрать префикс только из этого обоссанного списка:\n**%s**"
 }

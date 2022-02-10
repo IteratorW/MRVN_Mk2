@@ -35,7 +35,8 @@ async def on_ready():
     logging.info("==================")
     logging.info(
         f"Bot loaded with: "
-        f"[{len(extension_manager.extensions)} EX] "
+        f"[{len(extension_manager.extensions)} EXT] "
         f"[{len(bot.application_commands)} CMD] "
-        f"[L: {', '.join(translations.translations.keys())}]")
+        f"[L: {', '.join(translations.translations.keys())}] "
+        f"[{len(translations.translations[translations.FALLBACK_LANGUAGE])} TR]")
     logging.info("==================")

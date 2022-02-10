@@ -13,5 +13,20 @@
     "std_command_owner_already_an_owner": "Этот пользователь уже добавлен в список владельцев бота.",
     "std_command_owner_not_an_owner": "Этого пользователя нет в списке владельцев бота.",
     "std_command_owner_add": "Вы сделали %s владельцем бота.",
-    "std_command_owner_remove": "Вы удалили %s из владельцев бота."
+    "std_command_owner_remove": "Вы удалили %s из владельцев бота.",
+    "std_command_override_command_not_found": "Неизвестная команда.",
+    "std_command_override_no_override": "Для этой команды не назначено ни одного переопределения.",
+    "std_command_override_info": "Включена: **%s**\nКастомный префикс: **%s**\nПрава: **%s**\nВайтлист каналов: **%s**",
+    "std_command_override_info_title": "Переопределения %s",
+    "std_command_override_command_enabled": "Теперь команда **%s** включена на этом сервере.",
+    "std_command_override_command_disabled": "Теперь команда **%s** выключена на этом сервере.",
+    "std_command_override_prefix_changed": "Вы изменили префикс для команды **%s**.",
+    "std_command_custom_prefix_disabled": "Вы удалили кастомный префикс для команды **%s**.",
+    "std_command_override_channel_added": "Вы добавили %s в вайтлист каналов для команды **%s**.",
+    "std_command_override_channel_removed": "Вы удалили %s из вайтлиста каналов для команды **%s**.",
+    "std_command_override_invalid_permission": "Unknown permission.",
+    "std_command_override_permission_added": "Вы добавили **%s** в список прав для команды **%s**.",
+    "std_command_override_permission_removed": "Вы удалили **%s** из списка прав для команды **%s**.",
+    "std_command_override_empty": "*Пусто*",
+    "std_command_override_prefix_not_in_list": "Вы можете указать префикс только из этого списка:\n**%s**"
 }
