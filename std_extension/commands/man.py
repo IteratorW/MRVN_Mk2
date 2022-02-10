@@ -19,7 +19,7 @@ async def man(ctx: MrvnCommandContext, cmd_name: ParseUntilEndsOption(str)):
             command = cmd
             break
     else:
-        await ctx.respond_embed(Style.ERROR, ctx.translate("builtin_command_help_command_not_found"))
+        await ctx.respond_embed(Style.ERROR, ctx.translate("std_command_help_command_not_found"))
 
         return
 

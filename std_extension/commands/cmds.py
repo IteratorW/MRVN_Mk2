@@ -36,7 +36,7 @@ class CmdsPaginator(MrvnPaginator):
 
     async def get_page_contents(self) -> Union[str, Embed]:
         embed = self.ctx.get_embed(Style.INFO,
-                                   title=self.ctx.format("builtin_command_help_embed_title", self.category_name))
+                                   title=self.ctx.format("std_command_help_embed_title", self.category_name))
         page_commands = self.commands[(self.page_index * PAGE_SIZE):][:PAGE_SIZE]
 
         for command in page_commands:
@@ -55,7 +55,7 @@ async def cmds(ctx: MrvnCommandContext):
 
     view = CategoryView(ctx, items, author=ctx.author, timeout=10)
 
-    message = await ctx.respond(ctx.translate("builtin_command_help_choose_category"), view=view)
+    message = await ctx.respond(ctx.translate("std_command_help_choose_category"), view=view)
 
     await view.wait()
 

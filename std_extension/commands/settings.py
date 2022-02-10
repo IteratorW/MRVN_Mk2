@@ -50,7 +50,7 @@ class CmdsPaginator(MrvnPaginator):
 
     async def get_page_contents(self) -> Union[str, Embed]:
         embed = self.ctx.get_embed(Style.INFO,
-                                   title=f"{self.category_name} ({self.ctx.translate('builtin_command_settings_list_' + ('global' if self.is_global else 'guild'))})")
+                                   title=f"{self.category_name} ({self.ctx.translate('std_command_settings_list_' + ('global' if self.is_global else 'guild'))})")
         page_settings = self.settings_list[(self.page_index * PAGE_SIZE):][:PAGE_SIZE]
 
         for setting in page_settings:
@@ -75,7 +75,7 @@ async def edit_(ctx: MrvnCommandContext, key: str, value: str, global_setting: b
     try:
         setting = next(filter(lambda it: it.key == key, cls.__subclasses__()))
     except StopIteration:
-        await ctx.respond_embed(Style.ERROR, ctx.translate("builtin_command_settings_edit_invalid_key"))
+        await ctx.respond_embed(Style.ERROR, ctx.translate("std_command_settings_edit_invalid_key"))
         return
 
     model = (await setting.get_or_create(guild_id=ctx.guild_id))[0]
@@ -89,17 +89,17 @@ async def edit_(ctx: MrvnCommandContext, key: str, value: str, global_setting: b
         model.value = value
     except SettingsValueWriteError as e:
         await ctx.respond_embed(Style.ERROR, ctx.translate(e.message),
-                                ctx.translate("builtin_command_settings_edit_invalid_value"))
+                                ctx.translate("std_command_settings_edit_invalid_value"))
         return
 
     try:
         await model.save()
     except ValueError:
         await ctx.respond_embed(Style.ERROR,
-                                ctx.format("builtin_command_settings_edit_invalid_value_for_type", value_type.__name__))
+                                ctx.format("std_command_settings_edit_invalid_value_for_type", value_type.__name__))
         return
 
-    await ctx.respond_embed(Style.OK, ctx.translate("builtin_command_settings_edit_value_set"))
+    await ctx.respond_embed(Style.OK, ctx.translate("std_command_settings_edit_value_set"))
 
 
 async def list_(ctx: MrvnCommandContext, global_setting: bool):
@@ -114,7 +114,7 @@ async def list_(ctx: MrvnCommandContext, global_setting: bool):
 
     view = CategoryView(ctx, items, author=ctx.author, timeout=10)
 
-    message = await ctx.respond(ctx.translate("builtin_command_help_choose_category"), view=view)
+    message = await ctx.respond(ctx.translate("std_command_help_choose_category"), view=view)
 
     await view.wait()
 
