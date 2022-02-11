@@ -19,6 +19,7 @@ from impl import runtime
 from . import components_test
 from . import pages_test
 from . import view_test2
+from . import modal_test
 
 test_category = categories.add_category(CommandCategory(Translatable("beu_ext_category_name"), "test_category"))
 
