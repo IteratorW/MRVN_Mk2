@@ -7,7 +7,7 @@ from typing import Any, Union, Optional, List
 
 from asciitree import LeftAligned
 from discord import Bot, Message, Interaction, InteractionType, SlashCommand, SlashCommandGroup, UserCommand, \
-    MessageCommand, ApplicationCommand, ApplicationCommandInvokeError, User
+    MessageCommand, ApplicationCommand, ApplicationCommandInvokeError
 from discord import command as create_command
 from discord.enums import SlashCommandOptionType
 
@@ -18,12 +18,13 @@ from api.command.command_category import CommandCategory
 from api.command.const import PREFIX_LIST, DEFAULT_PREFIX
 from api.command.context.mrvn_command_context import MrvnCommandContext
 from api.command.context.mrvn_message_context import MrvnMessageContext
+from api.command.mrvn_commands_mixin import MrvnCommandsMixin
 from api.command.option.parse_until_ends import ParseUntilEndsOption
 from api.command.permission.mrvn_permission import MrvnPermission
 from api.embed.style import Style
 from api.event_handler import handler_manager
 from api.exc import ArgumentParseException
-from api.models import SettingEnableMessageCommands, MrvnUser, CommandOverride, SettingMessageCmdPrefix, \
+from api.models import SettingEnableMessageCommands, CommandOverride, SettingMessageCmdPrefix, \
     SettingAllowCommandsInDMs
 from api.translation import translations
 from api.translation.translator import Translator
@@ -32,7 +33,7 @@ from impl import env
 logger = logging.getLogger("MrvnBot")
 
 
-class MrvnBot(Bot, ABC):
+class MrvnBot(Bot, MrvnCommandsMixin, ABC):
     def __init__(self, *args, **options):
         super().__init__(*args, **options)
 
@@ -50,7 +51,7 @@ class MrvnBot(Bot, ABC):
             self.add_application_command(result)
 
             if isinstance(result, SlashCommand):
-                kwargs.get("category", categories.uncategorized).add_command(result)
+                result.__mrvn_category__ = kwargs.get("category", categories.uncategorized)
 
             return result
 
@@ -67,7 +68,7 @@ class MrvnBot(Bot, ABC):
     ) -> SlashCommandGroup:
         command = super().create_group(name, description, guild_ids)
 
-        category.add_command(command)
+        command.__mrvn_category__ = category
 
         if discord_permissions or owners_only:
             command.__mrvn_perm__ = MrvnPermission(discord_permissions, owners_only=owners_only)
@@ -134,13 +135,16 @@ class MrvnBot(Bot, ABC):
         try:
             command = self._application_commands[interaction.data["id"]]
         except KeyError:
-            command = next(filter(lambda it:
-                                  isinstance(it, (SlashCommand, SlashCommandGroup, UserCommand, MessageCommand)) and
-                                  it.name == interaction.data["name"] and
-                                  (bool(len(env.debug_guilds)) or
-                                   not len(it.guild_ids) or
-                                   interaction.data.get("guild_id", None) in it.guild_ids),
-                                  self.application_commands))
+            try:
+                command = next(filter(lambda it:
+                                      isinstance(it, (SlashCommand, SlashCommandGroup, UserCommand, MessageCommand)) and
+                                      it.name == interaction.data["name"] and
+                                      (bool(len(env.debug_guilds)) or
+                                       not len(it.guild_ids) or
+                                       interaction.data.get("guild_id", None) in it.guild_ids),
+                                      self.application_commands))
+            except StopIteration:
+                return
 
         if interaction.type is InteractionType.auto_complete:
             ctx = await self.get_autocomplete_context(interaction)
@@ -152,7 +156,7 @@ class MrvnBot(Bot, ABC):
 
         guild_id = ctx.guild_id
 
-        if not guild_id and self.check_guild_only(ctx):
+        if not guild_id and self.process_dm(ctx):
             return
 
         if guild_id:
@@ -160,18 +164,19 @@ class MrvnBot(Bot, ABC):
         else:
             override = None
 
-        if not await self.check_permissions(ctx, override):
+        if not await self.has_permission(ctx.author, ctx.command, override):
             await ctx.respond_embed(Style.ERROR, ctx.translate("mrvn_core_command_permission_error"))
 
             return
 
-        if override and not await self.check_override(ctx, override):
+        if override and not await self.process_override(ctx, override):
             return
 
         try:
             await ctx.command.invoke(ctx)
         except ApplicationCommandInvokeError as e:
             if type(e.original) == ArgumentParseException:
+                # noinspection PyUnresolvedReferences
                 await ctx.respond_embed(Style.ERROR, e.original.message,
                                         ctx.translate("mrvn_core_commands_parse_error"))
             else:
@@ -208,21 +213,21 @@ class MrvnBot(Bot, ABC):
                                   (bool(len(env.debug_guilds)) or
                                    not bool(len(it.guild_ids)) or
                                    guild_id in it.guild_ids), self.application_commands))
+
+            # Bad code. Maybe. The result of filter should always be of SlashCommand*Group*, but IDE doesn't think so
+            assert isinstance(command, (SlashCommand, SlashCommandGroup))
         except StopIteration:
             return
 
         ctx.command = command
 
-        if not guild_id and await self.check_guild_only(ctx):
+        if not guild_id and await self.process_dm(ctx):
             return
 
         if guild_id:
             override = await CommandOverride.get_or_none(command_name=command.name, guild_id=guild_id)
 
-            override_prefix = False
-
-            if override and override.prefix == prefix:
-                override_prefix = True
+            override_prefix = override and override.prefix == prefix
 
             if not override_prefix and prefix != (await SettingMessageCmdPrefix.get_or_create(guild_id=ctx.guild_id))[
                 0].value:
@@ -233,12 +238,11 @@ class MrvnBot(Bot, ABC):
             if prefix != DEFAULT_PREFIX:
                 return
 
-        if not await self.check_permissions(ctx, override):
+        if not await self.has_permission(ctx.author, ctx.command, override):
             await ctx.respond_embed(Style.ERROR, ctx.translate("mrvn_core_command_permission_error"))
 
             return
-
-        if override and not await self.check_override(ctx, override):
+        elif override and not await self.process_override(ctx, override):
             return
 
         try:
@@ -249,7 +253,6 @@ class MrvnBot(Bot, ABC):
         except StopIteration:
             await ctx.respond_embed(Style.ERROR, self.get_command_desc(ctx.command, ctx, as_tree=True),
                                     ctx.translate("mrvn_core_commands_subcommand_error"))
-
             return
 
         ctx.command = command
@@ -268,7 +271,6 @@ class MrvnBot(Bot, ABC):
             parsers.append(parser)
 
         kwargs = {}
-
         attachment_index = 0
 
         try:
@@ -282,7 +284,6 @@ class MrvnBot(Bot, ABC):
                     except IndexError:
                         await ctx.respond_embed(Style.ERROR, ctx.translate("mrvn_core_commands_attach_error"),
                                                 ctx.translate("mrvn_core_commands_parse_error"))
-
                         return
 
                     attachment_index += 1
@@ -347,35 +348,7 @@ class MrvnBot(Bot, ABC):
         except Exception as e:
             await self.send_command_exception_message(ctx, e)
 
-    async def is_owner(self, user: User) -> bool:
-        mrvn_user = await MrvnUser.get_or_none(user_id=user.id)
-
-        if not mrvn_user:
-            return False
-
-        return mrvn_user.is_owner
-
-    async def check_permissions(self, ctx: MrvnCommandContext, override: CommandOverride = None):
-        obj = ctx.command if isinstance(ctx.command, SlashCommandGroup) else ctx.command.callback
-
-        mrvn_perm: MrvnPermission = getattr(obj, "__mrvn_perm__", None)
-
-        if mrvn_perm and mrvn_perm.owners_only:
-            return await self.is_owner(ctx.author)
-        elif override and len(override.discord_permissions):
-            perms = override.discord_permissions
-        elif mrvn_perm:
-            perms = mrvn_perm.discord_permissions
-        else:
-            return True
-
-        for k, v in iter(ctx.author.guild_permissions):
-            if k in perms and not v:
-                return False
-
-        return True
-
-    async def check_override(self, ctx: MrvnCommandContext, override: CommandOverride) -> bool:
+    async def process_override(self, ctx: MrvnCommandContext, override: CommandOverride) -> bool:
         if override.disabled:
             await ctx.respond_embed(Style.ERROR, ctx.translate("mrvn_core_override_command_disabled"))
             return False
@@ -389,7 +362,7 @@ class MrvnBot(Bot, ABC):
 
         return True
 
-    async def check_guild_only(self, ctx: MrvnCommandContext):
+    async def process_dm(self, ctx: MrvnCommandContext):
         allow_dms = (await SettingAllowCommandsInDMs.get_or_create())[0].value
 
         if not allow_dms:
@@ -404,6 +377,48 @@ class MrvnBot(Bot, ABC):
             await ctx.respond_embed(Style.ERROR, "mrvn_core_command_is_guild_only")
 
         return guild_only
+
+    def get_category_commands(self, category: CommandCategory, guild_id: int = None) -> list[ApplicationCommand]:
+        # For some unknown reason, commands are duplicated in self.application_commands.
+        # This is unacceptable in this case.
+
+        deduplicated_commands = []
+
+        for cmd in self.application_commands:
+            if cmd not in deduplicated_commands:
+                deduplicated_commands.append(cmd)
+
+        commands = []
+
+        for cmd in deduplicated_commands:
+            if not isinstance(cmd, (SlashCommand, SlashCommandGroup)) or not hasattr(cmd,
+                                                                                     "__mrvn_category__") or getattr(
+                    cmd, "__mrvn_category__") != category:
+                continue
+
+            if guild_id:
+                if bool(len(cmd.guild_ids)) and guild_id not in cmd.guild_ids:
+                    continue
+            else:
+                if not len(env.debug_guilds) and bool(len(cmd.guild_ids)) or self.is_guild_only(cmd):
+                    continue
+
+            if isinstance(cmd, SlashCommand):
+                commands.append(cmd)
+            elif isinstance(cmd, SlashCommandGroup):
+                commands.extend(self.get_sub_commands(cmd))
+
+        commands = list(commands)
+
+        sub_cmds = []
+
+        for cmd in commands:
+            if isinstance(cmd, SlashCommandGroup):
+                sub_cmds.extend(self.get_sub_commands(cmd))
+
+        commands.extend(sub_cmds)
+
+        return commands
 
     @staticmethod
     async def send_command_exception_message(ctx: MrvnCommandContext, exc):

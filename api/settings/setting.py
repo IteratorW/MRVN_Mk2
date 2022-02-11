@@ -1,4 +1,4 @@
-from typing import Union, TYPE_CHECKING
+from typing import TYPE_CHECKING
 
 from tortoise import Model, fields
 from tortoise.fields import Field

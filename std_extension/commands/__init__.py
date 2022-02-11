@@ -1,6 +1,5 @@
 from . import cmds
 from . import man
-from . import settings
-from . import owners
 from . import override
-
+from . import owners
+from . import settings

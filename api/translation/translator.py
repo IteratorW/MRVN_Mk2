@@ -1,4 +1,4 @@
-from discord import Interaction, Guild
+from discord import Interaction
 
 from api.models import SettingGuildLanguage
 from api.translation import translations

@@ -2,9 +2,8 @@ import json
 import logging
 import os.path
 
-from deep_translator import GoogleTranslator, MyMemoryTranslator, LingueeTranslator
+from deep_translator import GoogleTranslator
 from deep_translator.exceptions import LanguageNotSupportedException
-from deep_translator.parent import BaseTranslator
 
 from api.translation import translations
 

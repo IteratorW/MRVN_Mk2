@@ -3,8 +3,6 @@ import logging
 
 from discord import User, Role, Option, OptionChoice, Member, Attachment
 from discord.abc import Mentionable, GuildChannel
-from discord.commands import permissions
-from discord.enums import SlashCommandOptionType
 
 from api.command import categories
 from api.command.command_category import CommandCategory
@@ -15,13 +13,12 @@ from api.embed.style import Style
 from api.event_handler.decorators import event_handler
 from api.translation.translatable import Translatable
 from impl import runtime
-
 from . import components_test
+from . import modal_test
 from . import pages_test
 from . import view_test2
-from . import modal_test
 
-test_category = categories.add_category(CommandCategory(Translatable("beu_ext_category_name"), "test_category"))
+test_category = categories.add_category(CommandCategory(Translatable("beu_ext_category_name")))
 
 
 @event_handler()
@@ -119,32 +116,20 @@ async def trans(ctx: MrvnCommandContext):
     await ctx.respond_embed(Style.INFO, ctx.translate("test"))
 
 
-@runtime.bot.slash_command(category=test_category)
-async def cat(ctx: MrvnCommandContext):
-    desc = []
-
-    cats = sorted(categories.categories, key=lambda it: len(it.items), reverse=True)
-
-    for category in cats:
-        desc.append(f"{category.name}: {len(category.items)}")
-
-    await ctx.respond_embed(Style.INFO, "\n".join(desc))
-
-
-@runtime.bot.slash_command()
+@runtime.bot.slash_command(category=categories.debug)
 @mrvn_owners_only()
 async def owner_only(ctx: MrvnCommandContext):
     await ctx.respond_embed(Style.OK, "You are the owner!")
 
 
-@runtime.bot.slash_command()
+@runtime.bot.slash_command(category=categories.debug)
 async def exception(ctx: MrvnCommandContext):
     a = 5 / 0
 
     await ctx.respond_embed(Style.OK, "No exception!")
 
 
-@runtime.bot.slash_command()
+@runtime.bot.slash_command(category=categories.debug)
 @mrvn_guild_only()
 async def guild_only(ctx: MrvnCommandContext):
     await ctx.respond_embed(Style.INFO, "This is a guild only command!")

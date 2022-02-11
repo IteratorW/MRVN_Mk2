@@ -5,7 +5,6 @@ from api.settings.setting import GuildSetting, GlobalSetting
 from api.settings.settings_category import SettingsCategory
 from api.translation.translatable import Translatable
 
-
 category = settings.add_category(SettingsCategory("beu_ext", Translatable("beu_ext_settings_category_name")))
 
 

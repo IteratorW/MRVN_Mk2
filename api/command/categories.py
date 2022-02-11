@@ -10,11 +10,10 @@ def add_category(category: CommandCategory):
     return category
 
 
-uncategorized = add_category(CommandCategory(Translatable("mrvn_api_command_category_uncategorized"), "uncategorized"))
-utility = add_category(CommandCategory(Translatable("mrvn_api_command_category_utility"), "utility"))
-moderation = add_category(CommandCategory(Translatable("mrvn_api_command_category_moderation"), "moderation"))
-info = add_category(CommandCategory(Translatable("mrvn_api_command_category_info"), "info"))
-bot_management = add_category(CommandCategory(Translatable("mrvn_api_command_category_bot_management"), "bot_management"))
-debug = add_category(CommandCategory(Translatable("mrvn_api_command_category_debug"), "debug"))
-owners_only = add_category(CommandCategory(Translatable("mrvn_api_command_category_owners_only"), "owners_only"))
-
+uncategorized = add_category(CommandCategory(Translatable("mrvn_api_command_category_uncategorized")))
+utility = add_category(CommandCategory(Translatable("mrvn_api_command_category_utility")))
+moderation = add_category(CommandCategory(Translatable("mrvn_api_command_category_moderation")))
+info = add_category(CommandCategory(Translatable("mrvn_api_command_category_info")))
+bot_management = add_category(CommandCategory(Translatable("mrvn_api_command_category_bot_management")))
+debug = add_category(CommandCategory(Translatable("mrvn_api_command_category_debug")))
+owners_only = add_category(CommandCategory(Translatable("mrvn_api_command_category_owners_only")))

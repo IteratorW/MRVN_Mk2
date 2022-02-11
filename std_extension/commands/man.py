@@ -1,4 +1,4 @@
-from discord import Option, SlashCommand, SlashCommandGroup
+from discord import SlashCommand, SlashCommandGroup
 
 from api.command import categories
 from api.command.context.mrvn_command_context import MrvnCommandContext

@@ -1,6 +1,3 @@
-import discord
-
-
 class MrvnPermission:
     def __init__(self, discord_permissions: list[str] = None, owners_only: bool = False):
         if not discord_permissions and not owners_only:

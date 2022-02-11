@@ -1,10 +1,7 @@
 import json
 import logging
 import os
-import pkgutil
-import sys
 from collections import defaultdict
-from types import ModuleType
 
 FALLBACK_LANGUAGE = "en"
 

@@ -1,4 +1,4 @@
-from typing import Any, Union, Type, TypeVar, Generic
+from typing import Union, Type, TypeVar, Generic
 
 from tortoise import Model
 from tortoise.fields import TextField

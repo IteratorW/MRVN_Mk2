@@ -1,6 +1,7 @@
 from discord import InputTextStyle, Interaction, Embed, Color, ui, ButtonStyle
 from discord.ui import InputText, View
 
+from api.command import categories
 from api.command.context.mrvn_command_context import MrvnCommandContext
 from api.embed.style import Style
 from api.modal.mrvn_modal import MrvnModal
@@ -27,7 +28,7 @@ class MyModal(MrvnModal):
         await interaction.response.send_message(embeds=[embed])
 
 
-@runtime.bot.slash_command()
+@runtime.bot.slash_command(category=categories.debug)
 async def modal(ctx: MrvnCommandContext):
     class MyView(View):
         @ui.button(label="Modal Test", style=ButtonStyle.primary)

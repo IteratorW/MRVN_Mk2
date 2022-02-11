@@ -48,6 +48,9 @@ class MrvnMessageContext(MrvnCommandContext):
 
     @property
     def guild_id(self) -> Optional[int]:
+        if not self.guild:
+            return None
+
         return self.guild.id
 
     @property

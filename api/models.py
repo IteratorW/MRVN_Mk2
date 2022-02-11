@@ -1,18 +1,13 @@
-from abc import ABC, abstractmethod, ABCMeta
-from typing import Union, TYPE_CHECKING
-
 from tortoise import Model, fields
-from tortoise.fields import Field
 
 from api.command.const import PREFIX_LIST
 from api.list_field import ListField
 from api.settings import settings
 from api.settings.exc import SettingsValueWriteError
 from api.settings.setting import GuildSetting, GlobalSetting
+from api.settings.settings_category import SettingsCategory
 from api.translation import translations
 from api.translation.translatable import Translatable
-
-from api.settings.settings_category import SettingsCategory
 
 mrvn_category = settings.add_category(SettingsCategory("mrvn", Translatable("mrvn_api_settings_category_name")))
 

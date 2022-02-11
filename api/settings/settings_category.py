@@ -1,5 +1,3 @@
-from typing import Union
-
 from api.settings.setting import GuildSetting, GlobalSetting
 from api.translation.translatable import Translatable
 

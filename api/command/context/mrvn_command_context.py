@@ -1,6 +1,6 @@
-from typing import Union, Callable, Tuple, Any, Dict, Coroutine
+from typing import Union
 
-from discord import ApplicationContext, Interaction, Color, Embed, WebhookMessage, Message
+from discord import ApplicationContext, Interaction, Color, Embed
 
 from api.embed import styled_embed_generator
 from api.embed.style import Style

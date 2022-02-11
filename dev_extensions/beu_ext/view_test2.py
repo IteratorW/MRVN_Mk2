@@ -3,7 +3,6 @@ from discord.ui import Button, Item
 
 from api.command import categories
 from api.command.context.mrvn_command_context import MrvnCommandContext
-from api.translation.translator import Translator
 from api.view.mrvn_view import MrvnView
 from impl import runtime
 

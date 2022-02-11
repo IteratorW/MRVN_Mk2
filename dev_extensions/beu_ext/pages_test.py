@@ -2,7 +2,6 @@ from typing import Union
 
 from discord import Embed
 from discord.commands import permissions
-from discord.ext.pages import Paginator
 
 from api.command import categories
 from api.command.context.mrvn_command_context import MrvnCommandContext
