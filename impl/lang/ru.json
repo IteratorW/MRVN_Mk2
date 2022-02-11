@@ -51,5 +51,6 @@
     "mrvn_core_override_command_disabled": "Данная команда отключена на этом сервере.",
     "mrvn_core_override_cant_run_in_this_channel": "Эта команда может быть выполнена только в следующих каналах:\n**%s**",
     "mrvn_core_dm_commands_disabled": "В этом боте отключена возможность выполнять команды из ЛС.",
-    "mrvn_core_command_is_guild_only": "Эта команда может быть выполнена только на сервере."
+    "mrvn_core_command_is_guild_only": "Эта команда может быть выполнена только на сервере.",
+    "mrvn_api_command_no_desc": "Нет описания"
 }

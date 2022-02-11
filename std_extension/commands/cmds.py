@@ -8,6 +8,7 @@ from api.command import categories
 from api.command.context.mrvn_command_context import MrvnCommandContext
 from api.embed import styled_embed_generator
 from api.embed.style import Style
+from api.translation.translatable import Translatable
 from api.translation.translator import Translator
 from api.view.mrvn_paginator import MrvnPaginator
 from api.view.mrvn_view import MrvnView
@@ -42,13 +43,14 @@ class CmdsPaginator(MrvnPaginator):
         page_commands = self.commands[(self.page_index * PAGE_SIZE):][:PAGE_SIZE]
 
         for command in page_commands:
-            embed.add_field(name=runtime.bot.get_command_desc(command, self.tr), value=command.description,
+            embed.add_field(name=runtime.bot.get_command_desc(command, self.tr),
+                            value=runtime.bot.get_description(command, self.tr),
                             inline=False)
 
         return embed
 
 
-@runtime.bot.slash_command(category=categories.info)
+@runtime.bot.slash_command(category=categories.info, description=Translatable("std_command_cmds_desc"))
 async def cmds(ctx: MrvnCommandContext):
     cat_commands = {}
 

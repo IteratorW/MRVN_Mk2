@@ -5,9 +5,18 @@ from discord.abc import User
 
 from api.command.permission.mrvn_permission import MrvnPermission
 from api.models import CommandOverride, MrvnUser
+from api.translation.translator import Translator
 
 
 class MrvnCommandsMixin:
+    def get_description(self, command: Union[SlashCommand, SlashCommandGroup], tr: Translator):
+        desc = getattr(command, "__mrvn_description__", None)
+
+        if not desc:
+            return tr.translate("mrvn_api_command_no_desc")
+
+        return tr.translate(desc)
+
     def get_sub_commands(self, group: SlashCommandGroup):
         commands = []
 

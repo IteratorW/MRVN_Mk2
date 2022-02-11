@@ -33,5 +33,6 @@
     "std_command_info_version": "#️⃣ Version",
     "std_command_info_extensions": "⚙ Extensions",
     "std_command_info_commands": "❗ Commands",
-    "std_command_info_authors": "❤ Authors"
+    "std_command_info_authors": "❤ Authors",
+    "std_command_cmds_desc": "Commands list"
 }

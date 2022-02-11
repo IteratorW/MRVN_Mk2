@@ -51,5 +51,6 @@
     "mrvn_core_override_command_disabled": "This command is disabled on this server.",
     "mrvn_core_override_cant_run_in_this_channel": "This command can only be executed in following channels:\n**%s**",
     "mrvn_core_dm_commands_disabled": "Running commands in DMs is disabled in this bot.",
-    "mrvn_core_command_is_guild_only": "This is a guild-only command, you can not run it in DMs."
+    "mrvn_core_command_is_guild_only": "This is a guild-only command, you can not run it in DMs.",
+    "mrvn_api_command_no_desc": "No description."
 }

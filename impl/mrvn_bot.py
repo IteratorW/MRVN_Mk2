@@ -27,6 +27,7 @@ from api.exc import ArgumentParseException
 from api.models import SettingEnableMessageCommands, CommandOverride, SettingMessageCmdPrefix, \
     SettingAllowCommandsInDMs
 from api.translation import translations
+from api.translation.translatable import Translatable
 from api.translation.translator import Translator
 from impl import env
 
@@ -55,6 +56,27 @@ class MrvnBot(Bot, MrvnCommandsMixin, ABC):
 
         handler_manager.post(event_name, *args)
 
+    def set_command_desc(self, command: Union[SlashCommand, SlashCommandGroup], desc: Translatable):
+        command.description = desc
+        command.__mrvn_description__ = desc
+
+    async def sync_commands(
+            self,
+            commands: Optional[List[ApplicationCommand]] = None,
+            force: bool = False,
+            guild_ids: Optional[List[int]] = None,
+            register_guild_commands: bool = True,
+            unregister_guilds: Optional[List[int]] = None,
+    ) -> None:
+        if commands is None:
+            commands = self.pending_application_commands
+
+        for command in commands:
+            if isinstance(command, (SlashCommand, SlashCommandGroup)):
+                command.description = self.get_description(command, Translator())
+
+        await super().sync_commands(commands, force, guild_ids, register_guild_commands, unregister_guilds)
+
     def slash_command(self, category: CommandCategory = categories.uncategorized, **kwargs):
         return self.application_command(cls=SlashCommand, category=category, **kwargs)
 
@@ -65,6 +87,9 @@ class MrvnBot(Bot, MrvnCommandsMixin, ABC):
 
             if isinstance(result, SlashCommand):
                 result.__mrvn_category__ = kwargs.get("category", categories.uncategorized)
+
+                if isinstance((desc := kwargs.get("description", None)), Translatable):
+                    self.set_command_desc(result, desc)
 
             return result
 
@@ -82,6 +107,9 @@ class MrvnBot(Bot, MrvnCommandsMixin, ABC):
         command = super().create_group(name, description, guild_ids)
 
         command.__mrvn_category__ = category
+
+        if isinstance(description, Translatable):
+            self.set_command_desc(command, description)
 
         if discord_permissions or owners_only:
             command.__mrvn_perm__ = MrvnPermission(discord_permissions, owners_only=owners_only)
@@ -309,7 +337,8 @@ class MrvnBot(Bot, MrvnCommandsMixin, ABC):
                     if not args.has_next():
                         embed = ctx.get_embed(Style.ERROR,
                                               title=ctx.translate("mrvn_core_commands_arguments_not_enough"))
-                        embed.add_field(name=self.get_command_desc(command, ctx), value=command.description)
+                        embed.add_field(name=self.get_command_desc(command, ctx),
+                                        value=self.get_description(command, ctx))
 
                         await ctx.respond(embed=embed)
 
@@ -333,7 +362,8 @@ class MrvnBot(Bot, MrvnCommandsMixin, ABC):
                     except StopIteration:
                         embed = ctx.get_embed(Style.ERROR,
                                               title=ctx.translate("mrvn_core_commands_arguments_not_enough"))
-                        embed.add_field(name=self.get_command_desc(command, ctx), value=command.description)
+                        embed.add_field(name=self.get_command_desc(command, ctx),
+                                        value=self.get_description(command, ctx))
 
                         await ctx.respond(embed=embed)
 

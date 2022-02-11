@@ -33,5 +33,6 @@
     "std_command_info_version": "#️⃣ Версия",
     "std_command_info_extensions": "⚙ Расширения",
     "std_command_info_commands": "❗ Команды",
-    "std_command_info_authors": "❤ Авторы"
+    "std_command_info_authors": "❤ Авторы",
+    "std_command_cmds_desc": "Список команд."
 }

@@ -3,5 +3,5 @@ py-cord==2.0.0b4
 asciitree
 tortoise-orm
 colored_traceback
-deep_translator
+    deep_translator
 gitpython
