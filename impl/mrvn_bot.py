@@ -366,7 +366,7 @@ class MrvnBot(Bot, MrvnCommandsMixin, ABC):
         allow_dms = (await SettingAllowCommandsInDMs.get_or_create())[0].value
 
         if not allow_dms:
-            await ctx.respond_embed(Style.ERROR, "mrvn_core_dm_commands_disabled")
+            await ctx.respond_embed(Style.ERROR, ctx.translate("mrvn_core_dm_commands_disabled"))
             return True
 
         obj = ctx.command if isinstance(ctx.command, SlashCommandGroup) else ctx.command.callback
@@ -374,7 +374,7 @@ class MrvnBot(Bot, MrvnCommandsMixin, ABC):
         guild_only = getattr(obj, "__mrvn_guild_only__", False)
 
         if guild_only:
-            await ctx.respond_embed(Style.ERROR, "mrvn_core_command_is_guild_only")
+            await ctx.respond_embed(Style.ERROR, ctx.translate("mrvn_core_command_is_guild_only"))
 
         return guild_only
 
