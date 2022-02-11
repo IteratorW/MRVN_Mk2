@@ -1,6 +1,7 @@
 from typing import Union
 
 from discord import ButtonStyle, Interaction, Embed, Message
+from discord.abc import Messageable, User
 from discord.ui import Button, Item
 
 from api.command.context.mrvn_command_context import MrvnCommandContext
@@ -9,15 +10,15 @@ from api.view.mrvn_view import MrvnView
 
 
 class MrvnPaginator(MrvnView):
-    def __init__(self, ctx: MrvnCommandContext, pages: list[Union[str, Embed]] = None, num_pages=None, **kwargs):
-        super().__init__(ctx, **kwargs)
+    def __init__(self, *args, pages: list[Union[str, Embed]] = None, num_pages=None, original_author: User = None,
+                 **kwargs):
+        super().__init__(*args, **kwargs)
 
         self.children: list[Button] = []
 
-        self.ctx = ctx
-
         self.pages = pages
         self.num_pages = len(pages) if pages is not None else num_pages
+        self.original_author = original_author
 
         self.page_index = 0
 
@@ -76,13 +77,26 @@ class MrvnPaginator(MrvnView):
 
         await self.update()
 
-    async def respond(self):
+    async def _send(self, func) -> Message:
         self.update_buttons()
 
         page = await self.get_page_contents()
         is_embed = isinstance(page, Embed)
 
-        msg = await self.ctx.respond(view=self, content=page if not is_embed else None,
-                                     embed=page if is_embed else None)
+        msg = await func(view=self, content=page if not is_embed else None,
+                         embed=page if is_embed else None)
 
-        self.message = msg
+        self.message = await msg.original_message() if isinstance(msg, Interaction) else msg
+
+        return self.message
+
+    async def send(self, messageable: Messageable) -> Message:
+        return await self._send(messageable.send)
+
+    async def respond_ctx(self, ctx: MrvnCommandContext) -> Message:
+        return await self._send(ctx.respond)
+
+    async def respond_interaction(self, interaction: Interaction) -> Message:
+        func = interaction.response.send_message if not interaction.response.is_done() else interaction.followup.send
+
+        return await self._send(func)

@@ -6,6 +6,7 @@ from discord.ui import Button, Item
 
 from api.command import categories
 from api.command.context.mrvn_command_context import MrvnCommandContext
+from api.embed import styled_embed_generator
 from api.embed.style import Style
 from api.translation.translator import Translator
 from api.view.mrvn_paginator import MrvnPaginator
@@ -28,19 +29,21 @@ class CategoryView(MrvnView):
 
 
 class CmdsPaginator(MrvnPaginator):
-    def __init__(self, ctx: MrvnCommandContext, commands: list, category_name: str, **kwargs):
-        super().__init__(ctx, **kwargs)
+    def __init__(self, tr: Translator, commands: list, category_name: str, **kwargs):
+        super().__init__(tr, **kwargs)
 
         self.commands = commands
         self.category_name = category_name
 
     async def get_page_contents(self) -> Union[str, Embed]:
-        embed = self.ctx.get_embed(Style.INFO,
-                                   title=self.ctx.format("std_command_help_embed_title", self.category_name))
+        embed = styled_embed_generator.get_embed(Style.INFO, title=self.tr.format("std_command_help_embed_title",
+                                                                                  self.category_name),
+                                                 author=self.original_author)
         page_commands = self.commands[(self.page_index * PAGE_SIZE):][:PAGE_SIZE]
 
         for command in page_commands:
-            embed.add_field(name=runtime.bot.get_command_desc(command, self.ctx), value=command.description, inline=False)
+            embed.add_field(name=runtime.bot.get_command_desc(command, self.tr), value=command.description,
+                            inline=False)
 
         return embed
 
@@ -72,6 +75,7 @@ async def cmds(ctx: MrvnCommandContext):
 
     num_pages = math.ceil(count / PAGE_SIZE) if count > PAGE_SIZE else 1
 
-    paginator = CmdsPaginator(ctx, items, ctx.translate(category.name), num_pages=num_pages, timeout=30)
+    paginator = CmdsPaginator(ctx, items, ctx.translate(category.name), num_pages=num_pages, timeout=30,
+                              original_author=ctx.author)
 
     await paginator.attach(message)

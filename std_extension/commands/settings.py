@@ -6,6 +6,7 @@ from discord.ui import Item, Button
 
 from api.command import categories
 from api.command.context.mrvn_command_context import MrvnCommandContext
+from api.embed import styled_embed_generator
 from api.embed.style import Style
 from api.event_handler.decorators import event_handler
 from api.settings import settings
@@ -49,8 +50,9 @@ class CmdsPaginator(MrvnPaginator):
         self.is_global = is_global
 
     async def get_page_contents(self) -> Union[str, Embed]:
-        embed = self.ctx.get_embed(Style.INFO,
-                                   title=f"{self.category_name} ({self.ctx.translate('std_command_settings_list_' + ('global' if self.is_global else 'guild'))})")
+        embed = styled_embed_generator.get_embed(Style.INFO,
+                                                 title=f"{self.category_name} ({self.tr.translate('std_command_settings_list_' + ('global' if self.is_global else 'guild'))})",
+                                                 author=self.original_author)
         page_settings = self.settings_list[(self.page_index * PAGE_SIZE):][:PAGE_SIZE]
 
         for setting in page_settings:
@@ -143,7 +145,8 @@ async def list_(ctx: MrvnCommandContext, global_setting: bool):
 
     paginator = CmdsPaginator(ctx, settings_list, ctx.translate(category.name), is_global=global_setting,
                               num_pages=num_pages,
-                              timeout=30)
+                              timeout=30,
+                              original_author=ctx.author)
 
     await paginator.attach(message)
 

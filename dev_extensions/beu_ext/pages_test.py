@@ -20,4 +20,4 @@ async def pages_test(ctx: MrvnCommandContext):
     await ctx.respond("Test")
 
     paginator = CustomPaginator(ctx, num_pages=10, timeout=10)
-    await paginator.respond()
+    await paginator.respond_ctx(ctx)
