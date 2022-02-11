@@ -1,15 +1,4 @@
 {
-    "beu_ext_category_name": "Test Category",
-    "beu_ext_sex_anal_desc": "U love to take it in the butt",
-    "beu_ext_sex_anal_name": "Anal sex",
-    "beu_ext_sex_message": "Choose your favourite sex type",
-    "beu_ext_sex_oral_desc": "This taste... Can't forget it can u",
-    "beu_ext_sex_oral_name": "Oral sex",
-    "beu_ext_sex_placeholder": "Sex type: ",
-    "beu_ext_sex_title": "Test",
-    "beu_ext_sex_vaginal_desc": "Didn't know u were a girl",
-    "beu_ext_sex_vaginal_name": "Vaginal sex",
-    "builtin_command_help_choose_category": "Choose a category to see its commands.",
     "mrvn_api_command_category_bot_management": "Bot Management",
     "mrvn_api_command_category_debug": "Test/Debug",
     "mrvn_api_command_category_info": "Information",
@@ -66,6 +55,11 @@
     "std_command_custom_prefix_disabled": "You have removed custom prefix for **%s**.",
     "std_command_help_choose_category": "Choose a category to see its commands.",
     "std_command_help_embed_title": "%s Commands",
+    "std_command_info_authors": "❤ Authors",
+    "std_command_info_commands": "❗ Commands",
+    "std_command_info_extensions": "⚙ Extensions",
+    "std_command_info_title": "Bot Information",
+    "std_command_info_version": "#️⃣ Version",
     "std_command_override_channel_added": "You have added %s to the channel whitelist for **%s**.",
     "std_command_override_channel_removed": "You have removed %s from the channel whitelist for **%s**.",
     "std_command_override_command_disabled": "You have disabled **%s** on this server.",
@@ -92,7 +86,5 @@
     "std_command_settings_edit_invalid_value_for_type": "Invalid value for type %s.",
     "std_command_settings_edit_value_set": "Value set!",
     "std_command_settings_list_global": "Global",
-    "std_command_settings_list_guild": "Guild",
-    "test": "Test",
-    "test_suka_blyat": "Testing string please translate"
+    "std_command_settings_list_guild": "Guild"
 }

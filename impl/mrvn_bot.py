@@ -37,6 +37,19 @@ class MrvnBot(Bot, MrvnCommandsMixin, ABC):
     def __init__(self, *args, **options):
         super().__init__(*args, **options)
 
+    @property
+    def unique_app_commands(self):
+        # For some unknown reason, commands are duplicated in self.application_commands.
+        # In some cases, this is unacceptable.
+
+        deduplicated_commands = []
+
+        for cmd in self.application_commands:
+            if cmd not in deduplicated_commands:
+                deduplicated_commands.append(cmd)
+
+        return deduplicated_commands
+
     def dispatch(self, event_name: str, *args: Any, **kwargs: Any) -> None:
         super().dispatch(event_name, *args, *kwargs)
 
@@ -379,18 +392,9 @@ class MrvnBot(Bot, MrvnCommandsMixin, ABC):
         return guild_only
 
     def get_category_commands(self, category: CommandCategory, guild_id: int = None) -> list[ApplicationCommand]:
-        # For some unknown reason, commands are duplicated in self.application_commands.
-        # This is unacceptable in this case.
-
-        deduplicated_commands = []
-
-        for cmd in self.application_commands:
-            if cmd not in deduplicated_commands:
-                deduplicated_commands.append(cmd)
-
         commands = []
 
-        for cmd in deduplicated_commands:
+        for cmd in self.unique_app_commands:
             if not isinstance(cmd, (SlashCommand, SlashCommandGroup)) or not hasattr(cmd,
                                                                                      "__mrvn_category__") or getattr(
                     cmd, "__mrvn_category__") != category:

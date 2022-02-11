@@ -28,5 +28,10 @@
     "std_command_override_permission_added": "Ты добавил пермишен **%s** в права для **%s**.",
     "std_command_override_permission_removed": "Ты удалил пермишен **%s** из прав для **%s**.",
     "std_command_override_empty": "*Нихуя нет*",
-    "std_command_override_prefix_not_in_list": "Ты можешь выбрать префикс только из этого обоссанного списка:\n**%s**"
+    "std_command_override_prefix_not_in_list": "Ты можешь выбрать префикс только из этого обоссанного списка:\n**%s**",
+    "std_command_info_title": "Инфа о ебучем боте",
+    "std_command_info_version": "#️⃣ Версия твоей матери",
+    "std_command_info_extensions": "⚙ Анальные расширители",
+    "std_command_info_commands": "❗ Ебаные команды",
+    "std_command_info_authors": "❤ Ебланы"
 }

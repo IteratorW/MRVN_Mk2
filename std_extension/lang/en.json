@@ -28,5 +28,10 @@
     "std_command_override_permission_added": "You have added **%s** to the permission list for **%s**.",
     "std_command_override_permission_removed": "You have removed **%s** from the permission list for **%s**.",
     "std_command_override_empty": "*Empty*",
-    "std_command_override_prefix_not_in_list": "You can specify a prefix only from this list:\n**%s**"
+    "std_command_override_prefix_not_in_list": "You can specify a prefix only from this list:\n**%s**",
+    "std_command_info_title": "Bot Information",
+    "std_command_info_version": "#️⃣ Version",
+    "std_command_info_extensions": "⚙ Extensions",
+    "std_command_info_commands": "❗ Commands",
+    "std_command_info_authors": "❤ Authors"
 }

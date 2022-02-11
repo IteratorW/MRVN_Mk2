@@ -28,5 +28,10 @@
     "std_command_override_permission_added": "Вы добавили **%s** в список прав для команды **%s**.",
     "std_command_override_permission_removed": "Вы удалили **%s** из списка прав для команды **%s**.",
     "std_command_override_empty": "*Пусто*",
-    "std_command_override_prefix_not_in_list": "Вы можете указать префикс только из этого списка:\n**%s**"
+    "std_command_override_prefix_not_in_list": "Вы можете указать префикс только из этого списка:\n**%s**",
+    "std_command_info_title": "Информация о боте",
+    "std_command_info_version": "#️⃣ Версия",
+    "std_command_info_extensions": "⚙ Расширения",
+    "std_command_info_commands": "❗ Команды",
+    "std_command_info_authors": "❤ Авторы"
 }

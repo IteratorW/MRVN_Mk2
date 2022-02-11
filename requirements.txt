@@ -4,3 +4,4 @@ asciitree
 tortoise-orm
 colored_traceback
 deep_translator
+gitpython
