@@ -20,7 +20,23 @@ def chunks(l, n):
 
 
 def start_auto_translation():
-    to_translate = translations.translations[translations.FALLBACK_LANGUAGE]
+    fallback_translations = translations.translations[translations.FALLBACK_LANGUAGE]
+    to_translate = {}
+
+    if os.path.isfile("auto_translations/fallback.json"):
+        with open("auto_translations/fallback.json", "r", encoding="utf-8") as f:
+            previous = json.load(f)
+
+        for k, v in fallback_translations.items():
+            if k not in previous or previous[k] != v:
+                to_translate[k] = v
+    else:
+        to_translate = fallback_translations
+
+    if not len(to_translate):
+        logger.info("Nothing new to translate")
+
+        return
 
     logger.info(f"Auto-translating {len(to_translate)} lines from fallback lang {translations.FALLBACK_LANGUAGE}")
 
@@ -45,7 +61,13 @@ def start_auto_translation():
         keys = list(to_translate.keys())
         chunks_to_translate = list(chunks(list(values), 10))
 
-        translated = {}
+        lang_path = f"auto_translations/{lang.split('-')[0]}.json"
+
+        if os.path.isfile(lang_path):
+            with open(lang_path, "r", encoding="utf-8") as f:
+                translated = json.load(f)
+        else:
+            translated = {}
 
         for chunk_count, chunk in enumerate(chunks_to_translate):
             logger.info(f"Translating chunk {chunk_count + 1} of {len(chunks_to_translate)} for lang {lang}")
@@ -55,7 +77,10 @@ def start_auto_translation():
             for i, string in enumerate(result):
                 translated[keys[(chunk_count * 10) + i]] = string
 
-        with open(f"auto_translations/{lang.split('-')[0]}.json", "w", encoding="utf-8") as f:
+        with open(lang_path, "w", encoding="utf-8") as f:
             json.dump(translated, f, indent=4, sort_keys=True, ensure_ascii=False)
+
+    with open("auto_translations/fallback.json", "w", encoding="utf-8") as f:
+        json.dump(fallback_translations, f, indent=4, sort_keys=True, ensure_ascii=False)
 
     logger.info("Done")
