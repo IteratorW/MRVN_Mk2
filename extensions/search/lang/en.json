@@ -1,0 +1,17 @@
+{
+  "search_command_category_name": "Search",
+  "search_command_google_desc": "Google Search",
+  "search_command_img_desc": "Google Image Search",
+  "search_command_wiki_desc": "Wikipidea Search",
+  "search_command_yt_desc": "YouTube Videos Search",
+  "search_command_img_title": "\"%s\" Images",
+  "search_command_img_api_data_missing": "This commands is unavailable due to missing API credentials.",
+  "search_connection_error": "API connection error, sorry.",
+  "search_command_img_resource_exhausted": "API Resource is exhausted. Try running this command later, plase.",
+  "search_command_api_error": "An unknown API error has occured:\n%s",
+  "search_command_not_found": "Your query `%s` produced no results.",
+  "search_category_name": "Search",
+  "search_setting_safe_search": "Removes any NSFW content from search commands.",
+  "search_command_yt_title": "**%s** Videos",
+  "search_command_google_title": "**%s** Google Results"
+}

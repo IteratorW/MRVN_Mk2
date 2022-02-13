@@ -29,10 +29,15 @@ class MrvnMessageContext(MrvnCommandContext):
         return await command(self, *args, **kwargs)
 
     async def _defer(self, *args, **kwargs):
+        """
         try:
-            await self.message.add_reaction("⌛")
+            await self._message.add_reaction("⌛")
         except Forbidden:
             pass
+
+        For some reason this makes the bot no longer able execute commands. Commenting it out for now.
+        """
+        pass
 
     @property
     def channel(self):

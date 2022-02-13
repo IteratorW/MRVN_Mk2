@@ -1,0 +1,16 @@
+{
+  "search_command_category_name": "Поиск",
+  "search_command_google_desc": "Поиск в Google",
+  "search_command_img_desc": "Поиск изображений в Google",
+  "search_command_wiki_desc": "Поиск статей в Википедии",
+  "search_command_yt_desc": "Поиск видео в YouTube",
+  "search_command_img_title": "Изображение по запросу %s",
+  "search_command_img_api_data_missing": "Эта команда недоступна ввиду отсутвующих данных API.",
+  "search_connection_error": "Ошибка подключения к API.",
+  "search_command_img_resource_exhausted": "Эта команда была использована слишком раз. Попробуйте позже.",
+  "search_command_api_error": "Произошла ошибка API:\n%s",
+  "search_command_not_found": "По запросу `%s` ничего не найдено.",
+  "search_setting_safe_search": "Убирает NSFW контент из команд поиска.",
+  "search_command_yt_title": "Видео по запросу **%s**",
+  "search_command_google_title": "Результаты поиска по запросу**%s**"
+}

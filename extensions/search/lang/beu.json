@@ -1,0 +1,17 @@
+{
+  "search_command_category_name": "Анальный поиск",
+  "search_command_google_desc": "Погугли",
+  "search_command_img_desc": "Ищет блядские изображения в гугле",
+  "search_command_wiki_desc": "Ищет блядские статьи в Википедии",
+  "search_command_yt_desc": "Ищет видосики для дебилов в ютубе",
+  "search_command_img_title": "Твоя хуйня по запросу %s",
+  "search_command_img_api_data_missing": "Долбоёбом-хозяином этого бота не были указаны API ключи. Команда не работает.",
+  "search_connection_error": "Ошибка подключения к API. Блять.",
+  "search_command_img_resource_exhausted": "Ну пиздец... Ресурс закончился. Вы ебанулись там? Попробуй позже.",
+  "search_command_api_error": "Пиздец, блять. Произошла ошибка API:\n%s",
+  "search_command_not_found": "Ну и что это за хуйня? По твоему запросу `%s` нихуя не найдено.",
+  "search_category_name": "Анус поиск",
+  "search_setting_safe_search": "Если ты зассал искать нормальный контент, можешь включить фильтр для неженок.",
+  "search_command_yt_title": "Твое дебильное видео по запросу **%s**",
+  "search_command_google_title": "Поисковые запросы по ебанутому запросу **%s**"
+}
