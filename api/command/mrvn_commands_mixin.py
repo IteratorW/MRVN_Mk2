@@ -1,6 +1,7 @@
-from typing import Union
+from abc import ABC
+from typing import Union, List
 
-from discord import Member, SlashCommand, SlashCommandGroup
+from discord import Member, SlashCommand, SlashCommandGroup, Bot, ApplicationCommand
 from discord.abc import User
 
 from api.command.permission.mrvn_permission import MrvnPermission
@@ -8,7 +9,7 @@ from api.models import CommandOverride, MrvnUser
 from api.translation.translator import Translator
 
 
-class MrvnCommandsMixin:
+class MrvnCommandsMixin(Bot, ABC):
     def get_description(self, command: Union[SlashCommand, SlashCommandGroup], tr: Translator):
         desc = getattr(command, "__mrvn_description__", None)
 
@@ -43,7 +44,8 @@ class MrvnCommandsMixin:
         mrvn_perm: MrvnPermission = getattr(obj, "__mrvn_perm__", None)
 
         if mrvn_perm and mrvn_perm.owners_only:
-            return await self.is_owner(member)
+            test = await self.is_owner(member)
+            return test
         elif override and len(override.discord_permissions):
             perms = override.discord_permissions
         elif mrvn_perm:

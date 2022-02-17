@@ -1,0 +1,11 @@
+{
+  "execute_command_execute_desc": "Выполняет твой говнокод. Пиздец опасная команда.",
+  "execute_command_exception_occurred": "А вот теперь что-то пошло по пизде:",
+  "execute_command_execute_error": "Твой говнокод выполнися с ошибкой",
+  "execute_command_execute_ok": "Твой говнокод успешно выполнен",
+  "execute_command_shell_desc": "Выполняет консольную команду. Тоже пиздец как опасно.",
+  "execute_command_shell_prohibited_word": "Использование этой команды - нарушение закона!. Закона жизни, который гласит:\nПеред пацанами базар держи\nПеред другом - слово.\nРодителей и девушку люби, \nИ храни веру перед Богом...",
+  "execute_command_shell_executed_timeout": "Не ебу, мб команда выполнилась, но я заебался ждать пока она что-нибудь высрет.",
+  "execute_command_shell_error": "Консольная команда обосралась",
+  "execute_command_shell_ok": "Анальная команда выполнена"
+}

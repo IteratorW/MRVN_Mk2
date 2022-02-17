@@ -1,0 +1,11 @@
+{
+  "execute_command_execute_desc": "Executes Python code. Very dangerous in wrong hands!",
+  "execute_command_exception_occurred": "Exception occurred:",
+  "execute_command_execute_error": "Failed to completely execute your code",
+  "execute_command_execute_ok": "Code executed",
+  "execute_command_shell_desc": "Executes a console command. Dangerous too.",
+  "execute_command_shell_prohibited_word": "Your command contains a prohibited word.",
+  "execute_command_shell_executed_timeout": "Timeout for command output exceeded.",
+  "execute_command_shell_error": "Error executing your console command",
+  "execute_command_shell_ok": "Command executed"
+}

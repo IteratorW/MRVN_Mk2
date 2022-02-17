@@ -1,0 +1,11 @@
+{
+  "execute_command_execute_desc": "Выполняет Python-код. Опасная команда.",
+  "execute_command_exception_occurred": "Произошла ошибка:",
+  "execute_command_execute_error": "Код выполнен с ошибкой",
+  "execute_command_execute_ok": "Код выполнен",
+  "execute_command_shell_desc": "Выполняет консольную команду. Тоже опасно.",
+  "execute_command_shell_prohibited_word": "Использование этой команды - нарушение закона!",
+  "execute_command_shell_executed_timeout": "Время ожидания ответа команды вышло.",
+  "execute_command_shell_error": "Консольная команда выполнена с ошибкой",
+  "execute_command_shell_ok": "Консольная команда выполнена"
+}

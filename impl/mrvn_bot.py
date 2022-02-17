@@ -34,7 +34,7 @@ from impl import env
 logger = logging.getLogger("MrvnBot")
 
 
-class MrvnBot(Bot, MrvnCommandsMixin, ABC):
+class MrvnBot(MrvnCommandsMixin):
     def __init__(self, *args, **options):
         super().__init__(*args, **options)
 
@@ -205,7 +205,9 @@ class MrvnBot(Bot, MrvnCommandsMixin, ABC):
         else:
             override = None
 
-        if not await self.has_permission(ctx.author, ctx.command, override):
+        test = await self.has_permission(ctx.author, ctx.command, override)
+
+        if not test:
             await ctx.respond_embed(Style.ERROR, ctx.translate("mrvn_core_command_permission_error"))
 
             return
