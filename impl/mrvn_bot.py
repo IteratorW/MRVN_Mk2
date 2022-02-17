@@ -224,6 +224,8 @@ class MrvnBot(MrvnCommandsMixin):
                                         ctx.translate("mrvn_core_commands_parse_error"))
             else:
                 await self.send_command_exception_message(ctx, e.original)
+        else:
+            self.dispatch("application_command_completion", ctx)
 
     async def on_message(self, message: Message):
         if message.webhook_id or message.author.bot or not message.content or message.content[0] not in PREFIX_LIST:
@@ -392,6 +394,8 @@ class MrvnBot(MrvnCommandsMixin):
             await command(ctx, **kwargs)
         except Exception as e:
             await self.send_command_exception_message(ctx, e)
+        else:
+            self.dispatch("application_command_completion", ctx)
 
     async def process_override(self, ctx: MrvnCommandContext, override: CommandOverride) -> bool:
         if override.disabled:
