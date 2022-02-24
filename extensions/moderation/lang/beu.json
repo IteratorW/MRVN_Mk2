@@ -1,0 +1,17 @@
+{
+  "moderation_command_ban_desc": "Дать по ебалу указанному пользователю.",
+  "moderation_cant_do_this_to_bot": "Ты не можешь дать по ебалу боту, долбоёб.",
+  "moderation_cant_do_this_to_self": "Мать жива? Зачем ты себе по ебалу дать хочешь?",
+  "moderation_cant_do_this_to_this_user": "А вот этому челу ты разбить ебало не сможешь.",
+  "moderation_bot_insufficient_perms": "У бота недостаточно прав, чтобы дать этому юзеру по ебалу.",
+  "moderation_command_ban_success": "Ты разбил ебало %s.",
+  "moderation_command_unban_desc": "Вылечить ебало указанному пользователю.",
+  "moderation_command_unban_successful": "Ты вылечил ебало %s. Нахуя?...",
+  "moderation_command_mute_desc": "Заткнуть ебало резиновым кляпом указанному пользователю.",
+  "moderation_command_mute_cant_mute_administrator": "Прав не завезли. Ебало админу не заткнешь.",
+  "moderation_command_mute_successful": "Ты заткнул ебало %s.",
+  "moderation_command_unmute_desc": "Вытащить кляп у указанного пользователя.",
+  "moderation_command_unmute_successful": "Ты вытащил кляп у %s.",
+  "moderation_command_purge_desc": "Удаляет дохуя сообщений за раз.",
+  "moderation_command_purge_messages_removed": "*Хуесос %s удалил %s сообщений.*"
+}
