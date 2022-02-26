@@ -1,0 +1,10 @@
+{
+  "statistics_command_commands_desc": "Показывает статистику команд на этом сервере",
+  "statistics_command_commands_title": "Статистика команд",
+  "statistics_command_commands_command_top": "Топ команд:",
+  "statistics_command_commands_user_top": "Топ пользователей:",
+  "statistics_command_messages_desc": "Показывает статистику сообщений на этом сервере",
+  "statistics_command_messages_legend": "Статистика по сообщениям - %s",
+  "statistics_stats_category_name": "Cтатистика",
+  "statistics_command_stats_desc": "Cтатистика"
+}

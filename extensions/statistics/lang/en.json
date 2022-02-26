@@ -1,0 +1,10 @@
+{
+  "statistics_command_commands_desc": "Shows command statistics on this server.",
+  "statistics_command_commands_title": "Command Statistics",
+  "statistics_command_commands_command_top": "Top Commands:",
+  "statistics_command_commands_user_top": "Top Users:",
+  "statistics_command_messages_desc": "Shows message statistics on this server.",
+  "statistics_command_messages_legend": "Guild Message Stats - %s",
+  "statistics_stats_category_name": "Statistics",
+  "statistics_command_stats_desc": "Statistics"
+}
