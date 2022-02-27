@@ -39,7 +39,7 @@ if "auto_translate" in sys.argv:
 if env.load_auto_translations:
     logging.info("Loading auto-translations...")
 
-    translations.load_from_path("auto_translations")
+    translations.load_from_path(auto_translate.LANG_PATH)
 
 logging.info("Running bot...")
 

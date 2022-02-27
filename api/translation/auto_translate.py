@@ -8,10 +8,11 @@ from deep_translator.exceptions import LanguageNotSupportedException
 from api.translation import translations
 
 DISCORD_LANGS = ["bg", "zh-CN", "cs", "fr", "de", "it", "ja", "ko", "pl", "ru", "uk"]
+AUTO_TRANSLATIONS_PATH = "./auto_translations"
+FALLBACK_PATH = f"{AUTO_TRANSLATIONS_PATH}/fallback.json"
+LANG_PATH = f"{AUTO_TRANSLATIONS_PATH}/lang"
 
 logger = logging.getLogger("Auto Translation")
-
-translator_index = -1
 
 
 def chunks(l, n):
@@ -23,8 +24,8 @@ def start_auto_translation():
     fallback_translations = translations.translations[translations.FALLBACK_LANGUAGE]
     to_translate = {}
 
-    if os.path.isfile("auto_translations/fallback.json"):
-        with open("auto_translations/fallback.json", "r", encoding="utf-8") as f:
+    if os.path.isfile(FALLBACK_PATH):
+        with open(FALLBACK_PATH, "r", encoding="utf-8") as f:
             previous = json.load(f)
 
         for k, v in fallback_translations.items():
@@ -40,8 +41,11 @@ def start_auto_translation():
 
     logger.info(f"Auto-translating {len(to_translate)} lines from fallback lang {translations.FALLBACK_LANGUAGE}")
 
-    if not os.path.isdir("auto_translations"):
-        os.mkdir("auto_translations")
+    if not os.path.isdir(AUTO_TRANSLATIONS_PATH):
+        os.mkdir(AUTO_TRANSLATIONS_PATH)
+
+    if not os.path.isdir(LANG_PATH):
+        os.mkdir(LANG_PATH)
 
     values = [x.replace('\n', ' ').replace('\r', '') for x in to_translate.values()]
 
@@ -61,7 +65,7 @@ def start_auto_translation():
         keys = list(to_translate.keys())
         chunks_to_translate = list(chunks(list(values), 10))
 
-        lang_path = f"auto_translations/{lang.split('-')[0]}.json"
+        lang_path = f"{LANG_PATH}/{lang.split('-')[0]}.json"
 
         if os.path.isfile(lang_path):
             with open(lang_path, "r", encoding="utf-8") as f:
@@ -80,7 +84,7 @@ def start_auto_translation():
         with open(lang_path, "w", encoding="utf-8") as f:
             json.dump(translated, f, indent=4, sort_keys=True, ensure_ascii=False)
 
-    with open("auto_translations/fallback.json", "w", encoding="utf-8") as f:
+    with open(FALLBACK_PATH, "w", encoding="utf-8") as f:
         json.dump(fallback_translations, f, indent=4, sort_keys=True, ensure_ascii=False)
 
     logger.info("Done")
