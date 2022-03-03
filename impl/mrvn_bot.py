@@ -181,7 +181,7 @@ class MrvnBot(MrvnCommandsMixin):
                                       isinstance(it, (SlashCommand, SlashCommandGroup, UserCommand, MessageCommand)) and
                                       it.name == interaction.data["name"] and
                                       (bool(len(env.debug_guilds)) or
-                                       not len(it.guild_ids) or
+                                       not it.guild_ids or
                                        interaction.data.get("guild_id", None) in it.guild_ids),
                                       self.application_commands))
             except StopIteration:
@@ -256,7 +256,7 @@ class MrvnBot(MrvnCommandsMixin):
                                   isinstance(it, (SlashCommand, SlashCommandGroup)) and
                                   it.name == cmd_name and
                                   (bool(len(env.debug_guilds)) or
-                                   not bool(len(it.guild_ids)) or
+                                   not it.guild_ids or
                                    guild_id in it.guild_ids), self.application_commands))
 
             # Bad code. Maybe. The result of filter should always be of SlashCommand*Group*, but IDE doesn't think so
@@ -435,10 +435,10 @@ class MrvnBot(MrvnCommandsMixin):
                 continue
 
             if guild_id:
-                if bool(len(cmd.guild_ids)) and guild_id not in cmd.guild_ids:
+                if cmd.guild_ids and guild_id not in cmd.guild_ids:
                     continue
             else:
-                if not len(env.debug_guilds) and bool(len(cmd.guild_ids)) or self.is_guild_only(cmd):
+                if not len(env.debug_guilds) and cmd.guild_ids or self.is_guild_only(cmd):
                     continue
 
             if isinstance(cmd, SlashCommand):
