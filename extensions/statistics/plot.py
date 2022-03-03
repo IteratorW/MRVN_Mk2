@@ -39,7 +39,6 @@ def get_plot(messages: dict[str, int], legend_text: str):
     ax.set_ylim([0, max_y + 1])
 
     plt.xticks(rotation=45)
-    plt.yticks(np.arange(min(y), max_y + 1, 5))
 
     buf = io.BytesIO()
     plt.savefig(buf, format='png')
