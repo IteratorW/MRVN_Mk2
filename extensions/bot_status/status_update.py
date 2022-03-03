@@ -11,7 +11,7 @@ task = None
 
 
 def get_uptime():
-    return time.strftime('%H:%M:%S', time.gmtime(time.time() - runtime.start_time))
+    return time.strftime('%D:%H:%M', time.gmtime(time.time() - runtime.start_time))
 
 
 def get_activity_and_status(entry: BotStatusEntry):
