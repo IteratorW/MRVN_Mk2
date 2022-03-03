@@ -197,7 +197,7 @@ class MrvnBot(MrvnCommandsMixin):
 
         guild_id = ctx.guild_id
 
-        if not guild_id and self.process_dm(ctx):
+        if not guild_id and await self.process_dm(ctx):
             return
 
         if guild_id:
