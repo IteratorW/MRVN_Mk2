@@ -33,6 +33,9 @@ class MrvnCommandsMixin(Bot, ABC):
         return commands
 
     async def is_owner(self, user: User) -> bool:
+        if super().is_owner(user):
+            return True
+
         mrvn_user = await MrvnUser.get_or_none(user_id=user.id)
 
         if not mrvn_user:
