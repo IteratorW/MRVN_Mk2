@@ -159,6 +159,7 @@
     "std_command_owners_list": "Liste des propriétaires de bot : %s",
     "std_command_owners_no_owners": "Il semble qu'il n'y ait personne dans la liste des propriétaires. Comment as-tu écrit cette commande alors ??",
     "std_command_owners_unknown": "*Utilisateur inconnu*",
+    "std_command_settings_choose_category": "Choisissez une catégorie pour voir ses paramètres",
     "std_command_settings_edit_desc": "Modifie un paramètre de guilde",
     "std_command_settings_edit_invalid_key": "Paramètre invalide.",
     "std_command_settings_edit_invalid_value": "valeur invalide",

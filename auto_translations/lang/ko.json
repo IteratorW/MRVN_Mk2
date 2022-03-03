@@ -159,6 +159,7 @@
     "std_command_owners_list": "봇 소유자 목록: %s",
     "std_command_owners_no_owners": "소유자 목록에 아무도 없는 것 같습니다. 그럼 이 명령어는 어떻게 작성하셨나요??",
     "std_command_owners_unknown": "*알 수없는 사용자*",
+    "std_command_settings_choose_category": "카테고리를 선택하여 설정을 확인하세요",
     "std_command_settings_edit_desc": "길드 설정 수정",
     "std_command_settings_edit_invalid_key": "잘못된 설정입니다.",
     "std_command_settings_edit_invalid_value": "잘못된 값",

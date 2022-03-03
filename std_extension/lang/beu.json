@@ -51,5 +51,6 @@
     "std_command_settings_list_desc": "Список дебильных настроек на сервере",
     "std_command_settings_edit_desc": "Поменять дебильную настройку на сервере",
     "std_command_gl_settings_list_desc": "Список глобальных дебильных настроек",
-    "std_command_gl_settings_edit_desc": "Поменять глобальную дебильную настройку"
+    "std_command_gl_settings_edit_desc": "Поменять глобальную дебильную настройку",
+    "std_command_settings_choose_category": "Тыкни на категорию настроек"
 }

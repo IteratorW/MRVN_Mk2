@@ -159,6 +159,7 @@
     "std_command_owners_list": "ボット所有者リスト：％s",
     "std_command_owners_no_owners": "オーナーリストには誰もいないようです。では、このコマンドをどのように作成しましたか？",
     "std_command_owners_unknown": "*不明なユーザー*",
+    "std_command_settings_choose_category": "カテゴリを選択して、その設定を確認してください",
     "std_command_settings_edit_desc": "ギルド設定を編集します",
     "std_command_settings_edit_invalid_key": "設定が無効です。",
     "std_command_settings_edit_invalid_value": "無効な値",

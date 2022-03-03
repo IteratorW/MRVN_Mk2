@@ -159,6 +159,7 @@
     "std_command_owners_list": "Seznam vlastníků robotů: %s",
     "std_command_owners_no_owners": "Zdá se, že v seznamu vlastníků nikdo není. Jak jsi potom napsal tento příkaz??",
     "std_command_owners_unknown": "*Neznámý uživatel*",
+    "std_command_settings_choose_category": "Výběrem kategorie zobrazíte její nastavení",
     "std_command_settings_edit_desc": "Upraví nastavení cechu",
     "std_command_settings_edit_invalid_key": "Neplatné nastavení.",
     "std_command_settings_edit_invalid_value": "neplatná hodnota",

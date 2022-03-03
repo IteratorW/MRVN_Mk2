@@ -159,6 +159,7 @@
     "std_command_owners_list": "Liste der Bot-Besitzer: %s",
     "std_command_owners_no_owners": "Es scheint, dass es niemanden in der Eigentümerliste gibt. Wie hast du denn diesen Befehl geschrieben??",
     "std_command_owners_unknown": "*Unbekannter Benutzer*",
+    "std_command_settings_choose_category": "Wählen Sie eine Kategorie aus, um ihre Einstellungen anzuzeigen",
     "std_command_settings_edit_desc": "Bearbeitet eine Gildeneinstellung",
     "std_command_settings_edit_invalid_key": "Ungültige Einstellung.",
     "std_command_settings_edit_invalid_value": "Ungültiger Wert",

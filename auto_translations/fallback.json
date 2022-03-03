@@ -145,6 +145,7 @@
     "std_command_owners_list": "Bot owners list:\n%s",
     "std_command_owners_no_owners": "It seems that there's no one in the owners list. How did you write this command then??",
     "std_command_owners_unknown": "*Unknown User*",
+    "std_command_settings_choose_category": "Choose a category to see its settings",
     "std_command_settings_edit_desc": "Edits a Guild Setting",
     "std_command_settings_edit_invalid_key": "Invalid setting.",
     "std_command_settings_edit_invalid_value": "Invalid value",

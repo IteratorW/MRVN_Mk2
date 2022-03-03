@@ -159,6 +159,7 @@
     "std_command_owners_list": "Список власників ботів: %s",
     "std_command_owners_no_owners": "Здається, у списку власників нікого немає. Як ти тоді написав цю команду??",
     "std_command_owners_unknown": "*Невідомий користувач*",
+    "std_command_settings_choose_category": "Виберіть категорію, щоб переглянути її налаштування",
     "std_command_settings_edit_desc": "Редагує налаштування гільдії",
     "std_command_settings_edit_invalid_key": "Недійсне налаштування.",
     "std_command_settings_edit_invalid_value": "Недійсне значення",

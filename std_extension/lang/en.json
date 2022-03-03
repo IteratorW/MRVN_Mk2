@@ -51,5 +51,6 @@
     "std_command_settings_list_desc": "Guild Settings List",
     "std_command_settings_edit_desc": "Edits a Guild Setting",
     "std_command_gl_settings_list_desc": "Global Settings List",
-    "std_command_gl_settings_edit_desc": "Edits a Global Setting"
+    "std_command_gl_settings_edit_desc": "Edits a Global Setting",
+    "std_command_settings_choose_category": "Choose a category to see its settings"
 }

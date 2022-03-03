@@ -159,6 +159,7 @@
     "std_command_owners_list": "Elenco dei proprietari di bot: %s",
     "std_command_owners_no_owners": "Sembra che non ci sia nessuno nell'elenco dei proprietari. Come hai scritto questo comando allora??",
     "std_command_owners_unknown": "*Utente sconosciuto*",
+    "std_command_settings_choose_category": "Scegli una categoria per vedere le sue impostazioni",
     "std_command_settings_edit_desc": "Modifica un'impostazione di gilda",
     "std_command_settings_edit_invalid_key": "Impostazione non valida.",
     "std_command_settings_edit_invalid_value": "valore non valido",

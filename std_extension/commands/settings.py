@@ -1,8 +1,9 @@
 import math
 from typing import Union
 
-from discord import Interaction, ButtonStyle, Embed, Option
+from discord import Interaction, ButtonStyle, Embed, Option, AutocompleteContext
 from discord.ui import Item, Button
+from discord.utils import basic_autocomplete
 
 from api.command import categories
 from api.command.context.mrvn_command_context import MrvnCommandContext
@@ -63,6 +64,10 @@ class CmdsPaginator(MrvnPaginator):
         return embed
 
 
+async def setting_autocomplete(ctx: AutocompleteContext):
+    return autocomplete_guild if ctx.command.qualified_name == "settings" else autocomplete_global
+
+
 @event_handler
 async def on_startup():
     global autocomplete_global
@@ -120,7 +125,7 @@ async def list_(ctx: MrvnCommandContext, global_setting: bool):
 
     view = CategoryView(ctx, items, author=ctx.author, timeout=10)
 
-    message = await ctx.respond(ctx.translate("std_command_help_choose_category"), view=view)
+    message = await ctx.respond(ctx.translate("std_command_settings_choose_category"), view=view)
 
     await view.wait()
 
@@ -158,7 +163,7 @@ async def list_cmd(ctx: MrvnCommandContext):
 
 
 @settings_group.command(description=Translatable("std_command_settings_edit_desc"))
-async def edit(ctx: MrvnCommandContext, key: Option(str),
+async def edit(ctx: MrvnCommandContext, key: Option(str, autocomplete=basic_autocomplete(setting_autocomplete)),
                value: str):
     await edit_(ctx, key, value, False)
 
@@ -169,6 +174,6 @@ async def list_cmd(ctx: MrvnCommandContext):
 
 
 @global_settings_group.command(description=Translatable("std_command_gl_settings_edit_desc"))
-async def edit(ctx: MrvnCommandContext, key: Option(str),
+async def edit(ctx: MrvnCommandContext, key: Option(str, autocomplete=basic_autocomplete(setting_autocomplete)),
                value: str):
     await edit_(ctx, key, value, True)

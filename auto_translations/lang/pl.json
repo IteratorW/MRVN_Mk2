@@ -159,6 +159,7 @@
     "std_command_owners_list": "Lista właścicieli botów: %s",
     "std_command_owners_no_owners": "Wygląda na to, że na liście właścicieli nie ma nikogo. Jak wtedy napisałeś to polecenie?",
     "std_command_owners_unknown": "*Nieznany użytkownik*",
+    "std_command_settings_choose_category": "Wybierz kategorię, aby zobaczyć jej ustawienia",
     "std_command_settings_edit_desc": "Edytuje ustawienia gildii",
     "std_command_settings_edit_invalid_key": "Nieprawidłowe ustawienie.",
     "std_command_settings_edit_invalid_value": "niewłaściwa wartość",

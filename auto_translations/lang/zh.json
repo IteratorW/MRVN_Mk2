@@ -159,6 +159,7 @@
     "std_command_owners_list": "机器人所有者列表：%s",
     "std_command_owners_no_owners": "所有者列表中似乎没有人。那你是怎么写这个命令的？",
     "std_command_owners_unknown": "*未知用户*",
+    "std_command_settings_choose_category": "选择一个类别以查看其设置",
     "std_command_settings_edit_desc": "编辑公会设置",
     "std_command_settings_edit_invalid_key": "设置无效。",
     "std_command_settings_edit_invalid_value": "无效值",
