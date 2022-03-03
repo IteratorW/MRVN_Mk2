@@ -17,7 +17,7 @@ class MrvnCommandContext(ApplicationContext, Translator):
                             color: Union[int, Color] = None, **kwargs):
         embed = self.get_embed(style, desc, title, color)
 
-        await self.respond(embed=embed, **kwargs)
+        return await self.respond(embed=embed, **kwargs)
 
     def get_embed(self, style: Style, desc: str = None, title: str = None,
                   color: Union[int, Color] = None) -> Embed:

@@ -80,7 +80,7 @@ class MrvnBot(MrvnCommandsMixin):
             if isinstance(command, (SlashCommand, SlashCommandGroup)):
                 self.process_command_translatable_description(command)
 
-        await super().sync_commands(commands, force, guild_ids, register_guild_commands, unregister_guilds)
+        await super().sync_commands(commands, True, guild_ids, register_guild_commands, unregister_guilds)
 
     def process_attributes(self, command: Union[SlashCommand, SlashCommandGroup], **kwargs):
         discord_permissions = kwargs.get("discord_permissions", [])

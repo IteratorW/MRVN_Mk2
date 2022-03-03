@@ -1,4 +1,5 @@
 import logging
+import time
 
 from discord import Intents
 from tortoise import Tortoise
@@ -12,6 +13,7 @@ from impl.mrvn_bot import MrvnBot
 
 bot = MrvnBot(debug_guilds=env.debug_guilds, intents=Intents.all())
 startup_done = False
+start_time = 0
 
 
 async def run_tortoise():
@@ -25,13 +27,16 @@ async def run_tortoise():
 @bot.event
 async def on_ready():
     global startup_done
+    global start_time
 
     if not startup_done:
-        handler_manager.post("startup")
-
         await run_tortoise()
 
+        handler_manager.post("startup")
+
         startup_done = True
+
+    start_time = time.time()
 
     logging.info("==================")
     logging.info(
