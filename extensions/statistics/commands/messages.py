@@ -6,7 +6,6 @@ from typing import Optional
 from discord import File
 
 from api.command.context.mrvn_command_context import MrvnCommandContext
-from api.command.permission.decorators import mrvn_guild_only
 from api.translation.translatable import Translatable
 from extensions.statistics import plot
 from extensions.statistics.commands import stats

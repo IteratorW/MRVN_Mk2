@@ -44,7 +44,7 @@ class CmdsPaginator(MrvnPaginator):
 
         for command in page_commands:
             embed.add_field(name=runtime.bot.get_command_desc(command, self.tr),
-                            value=runtime.bot.get_description(command, self.tr),
+                            value=runtime.bot.get_translatable_desc(command, self.tr),
                             inline=False)
 
         return embed

@@ -12,6 +12,7 @@ from api.event_handler.decorators import event_handler
 from api.settings import settings
 from api.settings.exc import SettingsValueWriteError
 from api.settings.setting import GuildSetting, GlobalSetting
+from api.translation.translatable import Translatable
 from api.translation.translator import Translator
 from api.view.mrvn_paginator import MrvnPaginator
 from api.view.mrvn_view import MrvnView
@@ -22,9 +23,9 @@ PAGE_SIZE = 5
 autocomplete_guild = None
 autocomplete_global = None
 
-settings_group = runtime.bot.create_group("settings", "Edit and list settings.", category=categories.bot_management,
+settings_group = runtime.bot.create_group("settings", category=categories.bot_management,
                                           discord_permissions=["administrator"])
-global_settings_group = runtime.bot.create_group("global_settings", "Edit and list global settings.",
+global_settings_group = runtime.bot.create_group("global_settings",
                                                  category=categories.owners_only, owners_only=True)
 
 
@@ -151,23 +152,23 @@ async def list_(ctx: MrvnCommandContext, global_setting: bool):
     await paginator.attach(message)
 
 
-@settings_group.command(name="list")
+@settings_group.command(name="list", description=Translatable("std_command_settings_list_desc"))
 async def list_cmd(ctx: MrvnCommandContext):
     await list_(ctx, False)
 
 
-@settings_group.command()
+@settings_group.command(description=Translatable("std_command_settings_edit_desc"))
 async def edit(ctx: MrvnCommandContext, key: Option(str),
                value: str):
     await edit_(ctx, key, value, False)
 
 
-@global_settings_group.command(name="list")
+@global_settings_group.command(name="list", description=Translatable("std_command_gl_settings_list_desc"))
 async def list_cmd(ctx: MrvnCommandContext):
     await list_(ctx, True)
 
 
-@global_settings_group.command()
+@global_settings_group.command(description=Translatable("std_command_gl_settings_edit_desc"))
 async def edit(ctx: MrvnCommandContext, key: Option(str),
                value: str):
     await edit_(ctx, key, value, True)

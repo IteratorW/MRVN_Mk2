@@ -8,7 +8,7 @@ from api.command import categories
 from api.command.command_category import CommandCategory
 from api.command.context.mrvn_command_context import MrvnCommandContext
 from api.command.option.parse_until_ends import ParseUntilEndsOption
-from api.command.permission.decorators import mrvn_owners_only, mrvn_guild_only
+from api.command.decorators import mrvn_owners_only, mrvn_guild_only
 from api.embed.style import Style
 from api.event_handler.decorators import event_handler
 from api.translation.translatable import Translatable

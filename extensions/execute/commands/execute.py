@@ -4,7 +4,6 @@ from contextlib import redirect_stdout
 
 from api.command.context.mrvn_command_context import MrvnCommandContext
 from api.command.option.parse_until_ends import ParseUntilEndsOption
-from api.command.permission.decorators import mrvn_owners_only
 from api.embed.style import Style
 from api.translation.translatable import Translatable
 from impl import runtime
@@ -40,8 +39,7 @@ async def async_exec(code: str, globs, locs):
     return await d.globals.get("__ex")()
 
 
-@runtime.bot.slash_command(description=Translatable("execute_command_execute_desc"))
-@mrvn_owners_only()
+@runtime.bot.slash_command(description=Translatable("execute_command_execute_desc"), owners_only=True)
 async def execute(ctx: MrvnCommandContext, code: ParseUntilEndsOption(str)):
     # Indents are not supported yet lol.
 

@@ -1,12 +1,11 @@
 import logging
 import logging
 import traceback
-from abc import ABC
 from collections import defaultdict
 from typing import Any, Union, Optional, List
 
 from asciitree import LeftAligned
-from discord import Bot, Message, Interaction, InteractionType, SlashCommand, SlashCommandGroup, UserCommand, \
+from discord import Message, Interaction, InteractionType, SlashCommand, SlashCommandGroup, UserCommand, \
     MessageCommand, ApplicationCommand, ApplicationCommandInvokeError
 from discord import command as create_command
 from discord.enums import SlashCommandOptionType
@@ -56,9 +55,15 @@ class MrvnBot(MrvnCommandsMixin):
 
         handler_manager.post(event_name, *args)
 
-    def set_command_desc(self, command: Union[SlashCommand, SlashCommandGroup], desc: Translatable):
-        command.description = desc
-        command.__mrvn_description__ = desc
+    def process_command_translatable_description(self, command: Union[SlashCommand, SlashCommandGroup]):
+        if isinstance(command, SlashCommandGroup):
+            for cmd in command.subcommands:
+                self.process_command_translatable_description(cmd)
+        else:
+            if isinstance(command.description, Translatable):
+                setattr(command, "__mrvn_translatable_desc__", command.description)
+
+                command.description = translations.translate(command.description, translations.FALLBACK_LANGUAGE)
 
     async def sync_commands(
             self,
@@ -73,12 +78,21 @@ class MrvnBot(MrvnCommandsMixin):
 
         for command in commands:
             if isinstance(command, (SlashCommand, SlashCommandGroup)):
-                command.description = self.get_description(command, Translator())
+                self.process_command_translatable_description(command)
 
         await super().sync_commands(commands, force, guild_ids, register_guild_commands, unregister_guilds)
 
-    def slash_command(self, category: CommandCategory = categories.uncategorized, **kwargs):
-        return self.application_command(cls=SlashCommand, category=category, **kwargs)
+    def process_attributes(self, command: Union[SlashCommand, SlashCommandGroup], **kwargs):
+        discord_permissions = kwargs.get("discord_permissions", [])
+        owners_only = kwargs.get("owners_only", False)
+        guild_only = True if len(discord_permissions) else kwargs.get("guild_only", False)
+        category = kwargs.get("category", categories.uncategorized)
+
+        if owners_only or len(discord_permissions):
+            setattr(command, "__mrvn_perm__", MrvnPermission(discord_permissions, owners_only))
+
+        setattr(command, "__mrvn_guild_only__", guild_only)
+        setattr(command, "__mrvn_category__", category)
 
     def application_command(self, **kwargs):
         def decorator(func) -> ApplicationCommand:
@@ -86,10 +100,7 @@ class MrvnBot(MrvnCommandsMixin):
             self.add_application_command(result)
 
             if isinstance(result, SlashCommand):
-                result.__mrvn_category__ = kwargs.get("category", categories.uncategorized)
-
-                if isinstance((desc := kwargs.get("description", None)), Translatable):
-                    self.set_command_desc(result, desc)
+                self.process_attributes(result, **kwargs)
 
             return result
 
@@ -100,22 +111,11 @@ class MrvnBot(MrvnCommandsMixin):
             name: str,
             description: Optional[str] = None,
             guild_ids: Optional[List[int]] = None,
-            category: CommandCategory = categories.uncategorized,
-            discord_permissions: list[str] = None,
-            owners_only: bool = False
+            **kwargs
     ) -> SlashCommandGroup:
         command = super().create_group(name, description, guild_ids)
 
-        command.__mrvn_category__ = category
-
-        if isinstance(description, Translatable):
-            self.set_command_desc(command, description)
-
-        if discord_permissions or owners_only:
-            command.__mrvn_perm__ = MrvnPermission(discord_permissions, owners_only=owners_only)
-
-            if discord_permissions:
-                command.__mrvn_guild_only__ = True
+        self.process_attributes(command, **kwargs)
 
         return command
 
@@ -342,7 +342,7 @@ class MrvnBot(MrvnCommandsMixin):
                         embed = ctx.get_embed(Style.ERROR,
                                               title=ctx.translate("mrvn_core_commands_arguments_not_enough"))
                         embed.add_field(name=self.get_command_desc(command, ctx),
-                                        value=self.get_description(command, ctx))
+                                        value=self.get_translatable_desc(command, ctx))
 
                         await ctx.respond(embed=embed)
 
@@ -367,7 +367,7 @@ class MrvnBot(MrvnCommandsMixin):
                         embed = ctx.get_embed(Style.ERROR,
                                               title=ctx.translate("mrvn_core_commands_arguments_not_enough"))
                         embed.add_field(name=self.get_command_desc(command, ctx),
-                                        value=self.get_description(command, ctx))
+                                        value=self.get_translatable_desc(command, ctx))
 
                         await ctx.respond(embed=embed)
 
@@ -418,9 +418,7 @@ class MrvnBot(MrvnCommandsMixin):
             await ctx.respond_embed(Style.ERROR, ctx.translate("mrvn_core_dm_commands_disabled"))
             return True
 
-        obj = ctx.command if isinstance(ctx.command, SlashCommandGroup) else ctx.command.callback
-
-        guild_only = getattr(obj, "__mrvn_guild_only__", False)
+        guild_only = self.is_guild_only(ctx.command)
 
         if guild_only:
             await ctx.respond_embed(Style.ERROR, ctx.translate("mrvn_core_command_is_guild_only"))

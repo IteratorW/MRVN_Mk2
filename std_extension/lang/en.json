@@ -34,5 +34,22 @@
     "std_command_info_extensions": "⚙ Extensions",
     "std_command_info_commands": "❗ Commands",
     "std_command_info_authors": "❤ Authors",
-    "std_command_cmds_desc": "Commands list"
+    "std_command_cmds_desc": "Commands list",
+    "std_command_info_desc": "Bot Information",
+    "std_command_man_desc": "Shows command arguments and description",
+    "std_command_override_info_desc": "Shows Command Overrides info",
+    "std_command_override_set_enabled_desc": "Enables/disables a command in this guild",
+    "std_command_override_prefix_set_desc": "Sets a custom prefix for a command",
+    "std_command_override_prefix_disable_desc": "Disables a custom prefix for a command",
+    "std_command_override_channel_add_desc": "Adds a channel to a command's channel whitelist",
+    "std_command_override_channel_remove_desc": "Removes a channel from a command's channel whitelist",
+    "std_command_override_perm_add_desc": "Adds a permission to a command's permission list",
+    "std_command_override_perm_remove_desc": "Removes a permission from a command's permission list",
+    "std_command_owner_list": "Shows bot owners list",
+    "std_command_owner_add_desc": "Add a user to the owners list",
+    "std_command_owner_remove_desc": "Removes a user from the owners list",
+    "std_command_settings_list_desc": "Guild Settings List",
+    "std_command_settings_edit_desc": "Edits a Guild Setting",
+    "std_command_gl_settings_list_desc": "Global Settings List",
+    "std_command_gl_settings_edit_desc": "Edits a Global Setting"
 }

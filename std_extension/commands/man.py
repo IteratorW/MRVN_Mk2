@@ -4,10 +4,11 @@ from api.command import categories
 from api.command.context.mrvn_command_context import MrvnCommandContext
 from api.command.option.parse_until_ends import ParseUntilEndsOption
 from api.embed.style import Style
+from api.translation.translatable import Translatable
 from impl import runtime
 
 
-@runtime.bot.slash_command(category=categories.info)
+@runtime.bot.slash_command(category=categories.info, description=Translatable("std_command_man_desc"))
 async def man(ctx: MrvnCommandContext, cmd_name: ParseUntilEndsOption(str)):
     cmd_split = iter(cmd_name.split())
 

@@ -34,5 +34,22 @@
     "std_command_info_extensions": "⚙ Расширения",
     "std_command_info_commands": "❗ Команды",
     "std_command_info_authors": "❤ Авторы",
-    "std_command_cmds_desc": "Список команд."
+    "std_command_cmds_desc": "Список команд.",
+    "std_command_info_desc": "Информация о боте",
+    "std_command_man_desc": "Показывает аргументы и описание команды",
+    "std_command_override_info_desc": "Показывает информацию о переопределениях команды",
+    "std_command_override_set_enabled_desc": "Включить/выключить команду",
+    "std_command_override_prefix_set_desc": "Установить собственный префикс для команды",
+    "std_command_override_prefix_disable_desc": "Выключить собственный префикс для команды",
+    "std_command_override_channel_add_desc": "Добавить канал в вайтлист для команды",
+    "std_command_override_channel_remove_desc": "Удалить канал из вайтлиста для команды",
+    "std_command_override_perm_add_desc": "Добавить право для команды",
+    "std_command_override_perm_remove_desc": "Удалить право для команды",
+    "std_command_owner_list": "Показывает список владельцев бота",
+    "std_command_owner_add_desc": "Добавляет пользователя в список владельцев",
+    "std_command_owner_remove_desc": "Убирает пользователя из списка владельцев",
+    "std_command_settings_list_desc": "Список настроек на сервере",
+    "std_command_settings_edit_desc": "Поменять настройку на сервере",
+    "std_command_gl_settings_list_desc": "Список глобальных настроек",
+    "std_command_gl_settings_edit_desc": "Поменять глобальную настройку"
 }

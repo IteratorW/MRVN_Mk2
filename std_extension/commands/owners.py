@@ -4,13 +4,14 @@ from api.command import categories
 from api.command.context.mrvn_command_context import MrvnCommandContext
 from api.embed.style import Style
 from api.models import MrvnUser
+from api.translation.translatable import Translatable
 from impl import runtime
 
-owners_group = runtime.bot.create_group("owners", "Owner management.", category=categories.owners_only,
+owners_group = runtime.bot.create_group("owners", category=categories.owners_only,
                                         owners_only=True)
 
 
-@owners_group.command(name="list")
+@owners_group.command(name="list", description=Translatable("std_command_owner_list"))
 async def owner_list(ctx: MrvnCommandContext):
     users = await MrvnUser.filter(is_owner=True)
 
@@ -43,11 +44,11 @@ async def edit_owner(ctx: MrvnCommandContext, user: User, add_: bool):
     await ctx.respond_embed(Style.OK, ctx.format("std_command_owner_add" if add_ else "std_command_owner_remove", user.mention))
 
 
-@owners_group.command()
+@owners_group.command(description=Translatable("std_command_owner_add_desc"))
 async def add(ctx: MrvnCommandContext, user: User):
     await edit_owner(ctx, user, True)
 
 
-@owners_group.command()
+@owners_group.command(description=Translatable("std_command_owner_remove_desc"))
 async def remove(ctx: MrvnCommandContext, user: User):
     await edit_owner(ctx, user, False)

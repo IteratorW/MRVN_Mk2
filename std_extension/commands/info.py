@@ -5,6 +5,7 @@ from api.command import categories
 from api.command.context.mrvn_command_context import MrvnCommandContext
 from api.embed.style import Style
 from api.extension import extension_manager
+from api.translation.translatable import Translatable
 from impl import runtime
 
 
@@ -27,7 +28,7 @@ def get_version():
 current_version = get_version()
 
 
-@runtime.bot.slash_command(category=categories.info)
+@runtime.bot.slash_command(category=categories.info, description=Translatable("std_command_info_desc"))
 async def info(ctx: MrvnCommandContext):
     embed = ctx.get_embed(Style.INFO, title=ctx.translate("std_command_info_title"))
 

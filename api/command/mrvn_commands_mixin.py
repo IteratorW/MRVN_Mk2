@@ -10,8 +10,11 @@ from api.translation.translator import Translator
 
 
 class MrvnCommandsMixin(Bot, ABC):
-    def get_description(self, command: Union[SlashCommand, SlashCommandGroup], tr: Translator):
-        desc = getattr(command, "__mrvn_description__", None)
+    def is_guild_only(self, command: Union[SlashCommand, SlashCommandGroup]):
+        return getattr(command, "__mrvn_guild_only__", False)
+
+    def get_translatable_desc(self, command: Union[SlashCommand, SlashCommandGroup], tr: Translator):
+        desc = getattr(command, "__mrvn_translatable_desc__", None)
 
         if not desc:
             return tr.translate("mrvn_api_command_no_desc")
@@ -39,9 +42,7 @@ class MrvnCommandsMixin(Bot, ABC):
 
     async def has_permission(self, member: Member, command: Union[SlashCommand, SlashCommandGroup],
                              override: CommandOverride = None):
-        obj = command if isinstance(command, SlashCommandGroup) else command.callback
-
-        mrvn_perm: MrvnPermission = getattr(obj, "__mrvn_perm__", None)
+        mrvn_perm: MrvnPermission = getattr(command, "__mrvn_perm__", None)
 
         if mrvn_perm and mrvn_perm.owners_only:
             test = await self.is_owner(member)
@@ -58,8 +59,3 @@ class MrvnCommandsMixin(Bot, ABC):
                 return False
 
         return True
-
-    def is_guild_only(self, command: Union[SlashCommand, SlashCommandGroup]):
-        obj = command if isinstance(command, SlashCommandGroup) else command.callback
-
-        return getattr(obj, "__mrvn_guild_only__", False)

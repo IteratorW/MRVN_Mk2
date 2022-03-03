@@ -34,5 +34,22 @@
     "std_command_info_extensions": "⚙ Анальные расширители",
     "std_command_info_commands": "❗ Ебаные команды",
     "std_command_info_authors": "❤ Ебланы",
-    "std_command_cmds_desc": "Список ебаных команд"
+    "std_command_cmds_desc": "Список ебаных команд",
+    "std_command_info_desc": "Инфа по ебучему боту",
+    "std_command_man_desc": "Чувствуешь себя ебланом? Эта команда поможет исправить.",
+    "std_command_override_info_desc": "Показать инфу по переёбыванию команд",
+    "std_command_override_set_enabled_desc": "Включить/выключить ебучую команду",
+    "std_command_override_prefix_set_desc": "Установить кастом префикс для ебучей команды",
+    "std_command_override_prefix_disable_desc": "Выключить кастом префикс для ебучей команды",
+    "std_command_override_channel_add_desc": "Добавить анал в вайтлист для ебучей команды",
+    "std_command_override_channel_remove_desc": "Удалить анал из вайтлиста для ебучей команды",
+    "std_command_override_perm_add_desc": "Добавить право дристкорда для ебучей команды",
+    "std_command_override_perm_remove_desc": "Удалить право дристкорда для ебучей команды",
+    "std_command_owner_list": "Показывает список долбоёбов бота",
+    "std_command_owner_add_desc": "Посвятить юзера в список долбоёбов бота",
+    "std_command_owner_remove_desc": "Убрать юзера из списка долбоебов бота",
+    "std_command_settings_list_desc": "Список дебильных настроек на сервере",
+    "std_command_settings_edit_desc": "Поменять дебильную настройку на сервере",
+    "std_command_gl_settings_list_desc": "Список глобальных дебильных настроек",
+    "std_command_gl_settings_edit_desc": "Поменять глобальную дебильную настройку"
 }

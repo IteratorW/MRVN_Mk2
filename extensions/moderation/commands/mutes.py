@@ -1,10 +1,9 @@
 import datetime
 
-from discord import Option, OptionChoice, User, Member, Forbidden
+from discord import Option, OptionChoice, Member, Forbidden
 
 from api.command import categories
 from api.command.context.mrvn_command_context import MrvnCommandContext
-from api.command.permission.decorators import mrvn_discord_permissions
 from api.embed.style import Style
 from api.translation.translatable import Translatable
 from impl import runtime
@@ -20,8 +19,8 @@ TIME_DICT = {
 }
 
 
-@runtime.bot.slash_command(category=categories.moderation, description=Translatable("moderation_command_mute_desc"))
-@mrvn_discord_permissions("moderate_members")
+@runtime.bot.slash_command(category=categories.moderation, description=Translatable("moderation_command_mute_desc"),
+                           discord_permissions=["moderate_members"])
 async def mute(ctx: MrvnCommandContext, member: Member, time: int, unit: Option(str, choices=[
     OptionChoice("Seconds", "s"),
     OptionChoice("Minutes", "m"),
@@ -57,8 +56,8 @@ async def mute(ctx: MrvnCommandContext, member: Member, time: int, unit: Option(
         await ctx.respond_embed(Style.OK, ctx.format("moderation_command_mute_successful", member.mention))
 
 
-@runtime.bot.slash_command(category=categories.moderation, description=Translatable("moderation_command_unmute_desc"))
-@mrvn_discord_permissions("moderate_members")
+@runtime.bot.slash_command(category=categories.moderation, description=Translatable("moderation_command_unmute_desc"),
+                           discord_permissions=["moderate_members"])
 async def unmute(ctx: MrvnCommandContext, member: Member):
     try:
         await member.edit(communication_disabled_until=None)

@@ -11,9 +11,10 @@ from api.embed.style import Style
 from api.event_handler.decorators import event_handler
 from api.exc import ArgumentParseException
 from api.models import CommandOverride
+from api.translation.translatable import Translatable
 from impl import runtime
 
-override_group = runtime.bot.create_group("override", "Command overrides.", category=categories.bot_management,
+override_group = runtime.bot.create_group("override", category=categories.bot_management,
                                           discord_permissions=["administrator"])
 prefix_group = override_group.create_subgroup("prefix", "Prefix management.")
 channel_whitelist = override_group.create_subgroup("channel_whitelist", "Channel whitelist.")
@@ -53,7 +54,7 @@ async def startup():
         [cmd.name for cmd in runtime.bot.application_commands if isinstance(cmd, (SlashCommand, SlashCommandGroup))])
 
 
-@override_group.command()
+@override_group.command(description=Translatable("std_command_override_info_desc"))
 async def info(ctx: MrvnCommandContext, command: command_option):
     override = await CommandOverride.get_or_none(guild_id=ctx.guild_id, command_name=command.name)
 
@@ -75,7 +76,7 @@ async def info(ctx: MrvnCommandContext, command: command_option):
                             ctx.format("std_command_override_info_title", command.name))
 
 
-@override_group.command(name="set_enabled")
+@override_group.command(name="set_enabled", description=Translatable("std_command_override_set_enabled_desc"))
 async def command_set_enabled(ctx: MrvnCommandContext, command: command_option, enable: bool):
     override = (await CommandOverride.get_or_create(guild_id=ctx.guild_id, command_name=command.name))[0]
 
@@ -87,7 +88,7 @@ async def command_set_enabled(ctx: MrvnCommandContext, command: command_option, 
         f"std_command_override_command_{'enabled' if enable else 'disabled'}", command.name))
 
 
-@prefix_group.command(name="set")
+@prefix_group.command(name="set", description=Translatable("std_command_override_prefix_set_desc"))
 async def set_prefix(ctx: MrvnCommandContext, command: command_option, prefix: str):
     if prefix not in PREFIX_LIST:
         await ctx.respond_embed(Style.ERROR, ctx.format("std_command_override_prefix_not_in_list", " ".join(PREFIX_LIST)))
@@ -102,7 +103,7 @@ async def set_prefix(ctx: MrvnCommandContext, command: command_option, prefix: s
     await ctx.respond_embed(Style.OK, ctx.format("std_command_override_prefix_changed", command.name))
 
 
-@prefix_group.command(name="disable")
+@prefix_group.command(name="disable", description=Translatable("std_command_override_prefix_disable_desc"))
 async def prefix_disable(ctx: MrvnCommandContext, command: command_option):
     override = (await CommandOverride.get_or_create(guild_id=ctx.guild_id, command_name=command.name))[0]
 
@@ -131,12 +132,12 @@ async def channel_edit(ctx: MrvnCommandContext, command: SlashCommand, channel: 
         f"std_command_override_channel_{'added' if add_ else 'removed'}", channel.mention, command.name))
 
 
-@channel_whitelist.command(name="add")
+@channel_whitelist.command(name="add", description=Translatable("std_command_override_channel_add_desc"))
 async def channel_add(ctx: MrvnCommandContext, command: command_option, channel: TextChannel):
     await channel_edit(ctx, command, channel, True)
 
 
-@channel_whitelist.command(name="remove")
+@channel_whitelist.command(name="remove", description=Translatable("std_command_override_channel_remove_desc"))
 async def channel_remove(ctx: MrvnCommandContext, command: command_option, channel: TextChannel):
     await channel_edit(ctx, command, channel, False)
 
@@ -167,11 +168,11 @@ async def permissions_edit(ctx: MrvnCommandContext, command: command_option, per
 permission_option = Option(str, autocomplete=basic_autocomplete(Permissions.VALID_FLAGS.keys()))
 
 
-@permissions.command(name="add")
+@permissions.command(name="add", description=Translatable("std_command_override_perm_add_desc"))
 async def permissions_add(ctx: MrvnCommandContext, command: command_option, permission: permission_option):
     await permissions_edit(ctx, command, permission, True)
 
 
-@permissions.command(name="remove")
+@permissions.command(name="remove", description=Translatable("std_command_override_perm_remove_desc"))
 async def permissions_remove(ctx: MrvnCommandContext, command: command_option, permission: permission_option):
     await permissions_edit(ctx, command, permission, False)
