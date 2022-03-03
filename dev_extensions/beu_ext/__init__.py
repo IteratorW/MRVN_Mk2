@@ -8,7 +8,6 @@ from api.command import categories
 from api.command.command_category import CommandCategory
 from api.command.context.mrvn_command_context import MrvnCommandContext
 from api.command.option.parse_until_ends import ParseUntilEndsOption
-from api.command.decorators import mrvn_owners_only, mrvn_guild_only
 from api.embed.style import Style
 from api.event_handler.decorators import event_handler
 from api.translation.translatable import Translatable
@@ -27,7 +26,6 @@ async def on_startup():
 
 
 @runtime.bot.slash_command(category=categories.debug)
-@mrvn_owners_only()
 async def test(ctx: MrvnCommandContext, arg_1: str, arg_2: str):
     """Test command"""
 
@@ -116,8 +114,7 @@ async def trans(ctx: MrvnCommandContext):
     await ctx.respond_embed(Style.INFO, ctx.translate("test"))
 
 
-@runtime.bot.slash_command(category=categories.debug)
-@mrvn_owners_only()
+@runtime.bot.slash_command(category=categories.debug, owners_only=True)
 async def owner_only(ctx: MrvnCommandContext):
     await ctx.respond_embed(Style.OK, "You are the owner!")
 
@@ -129,7 +126,6 @@ async def exception(ctx: MrvnCommandContext):
     await ctx.respond_embed(Style.OK, "No exception!")
 
 
-@runtime.bot.slash_command(category=categories.debug)
-@mrvn_guild_only()
+@runtime.bot.slash_command(category=categories.debug, owners_only=True)
 async def guild_only(ctx: MrvnCommandContext):
     await ctx.respond_embed(Style.INFO, "This is a guild only command!")
