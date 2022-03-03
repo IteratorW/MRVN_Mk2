@@ -1,0 +1,9 @@
+{
+  "bot_status_command_add_desc": "Добавить статус в список",
+  "bot_status_command_add_limit_reached": "Превышен лимит статусов, необходимо удалить хотя-бы один.",
+  "bot_status_command_add_text_too_long": "Текст статуса слишком длинный.",
+  "bot_status_command_add_status_added": "Статус был добавлен в список.",
+  "bot_status_command_remove_choose_status": "Выберите статус, который необходимо удалить",
+  "bot_status_command_remove_desc": "Удалить статус из списка",
+  "bot_status_command_remove_no_entries": "Сейчас не добавлено ни одного статуса"
+}

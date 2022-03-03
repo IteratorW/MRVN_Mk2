@@ -1,0 +1,9 @@
+{
+  "bot_status_command_add_desc": "Добавить выебон в список",
+  "bot_status_command_add_limit_reached": "Слишком дохуя выебонов, удали что-нибудь",
+  "bot_status_command_add_text_too_long": "Слишком много текста, укороти базар",
+  "bot_status_command_add_status_added": "Ты добавил выебон в список",
+  "bot_status_command_remove_choose_status": "Выбери выебон, который хочешь удалить",
+  "bot_status_command_remove_desc": "Удалить выебон из списка",
+  "bot_status_command_remove_no_entries": "Сейчас не добавлено ни одного выебона"
+}

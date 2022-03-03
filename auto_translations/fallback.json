@@ -1,4 +1,11 @@
 {
+    "bot_status_command_add_desc": "Adds a status to the list. Status are cycled each 30 seconds.",
+    "bot_status_command_add_limit_reached": "There are too many statuses added. Remove some of them.",
+    "bot_status_command_add_status_added": "You have added this status to the list.",
+    "bot_status_command_add_text_too_long": "This status text is too long.",
+    "bot_status_command_remove_choose_status": "Choose a status to remove",
+    "bot_status_command_remove_desc": "Removes a status from the list.",
+    "bot_status_command_remove_no_entries": "There are no statuses added yet.",
     "execute_command_exception_occurred": "Exception occurred:",
     "execute_command_execute_desc": "Executes Python code. Very dangerous in wrong hands!",
     "execute_command_execute_error": "Failed to completely execute your code",
