@@ -176,5 +176,10 @@
     "std_command_settings_list_global": "グローバル",
     "std_command_settings_list_guild": "ギルド",
     "test": "テスト",
-    "test_suka_blyat": "テスト文字列を翻訳してください"
+    "test_suka_blyat": "テスト文字列を翻訳してください",
+    "vision_command_vision_connection_error": "接続できなかったか、タイムアウトしました。",
+    "vision_command_vision_desc": "画像のすべてのテキストを説明してスキャンします",
+    "vision_command_vision_fail": "この画像のスキャンに失敗しました。",
+    "vision_command_vision_invalid_content_type": "コンテンツタイプが無効です。画像を送ってください。",
+    "vision_command_vision_title": "画像スキャン結果"
 }

@@ -176,5 +176,10 @@
     "std_command_settings_list_global": "Światowy",
     "std_command_settings_list_guild": "Gildia",
     "test": "Test",
-    "test_suka_blyat": "Ciąg testowy proszę przetłumacz"
+    "test_suka_blyat": "Ciąg testowy proszę przetłumacz",
+    "vision_command_vision_connection_error": "Nie udało się połączyć lub upłynął limit czasu.",
+    "vision_command_vision_desc": "Opisuje i skanuje cały tekst z obrazu",
+    "vision_command_vision_fail": "Nie udało się zeskanować tego obrazu.",
+    "vision_command_vision_invalid_content_type": "Nieprawidłowy typ treści. Proszę o przesłanie zdjęcia.",
+    "vision_command_vision_title": "Wynik skanowania obrazu"
 }

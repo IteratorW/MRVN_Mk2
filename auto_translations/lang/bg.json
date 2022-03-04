@@ -176,5 +176,10 @@
     "std_command_settings_list_global": "Глобални",
     "std_command_settings_list_guild": "гилдия",
     "test": "Тест",
-    "test_suka_blyat": "Тестващ низ, моля, преведете"
+    "test_suka_blyat": "Тестващ низ, моля, преведете",
+    "vision_command_vision_connection_error": "Не можа да се свърже или изтече времето за изчакване.",
+    "vision_command_vision_desc": "Описва и сканира целия текст от вашето изображение",
+    "vision_command_vision_fail": "Сканирането на това изображение не бе успешно.",
+    "vision_command_vision_invalid_content_type": "Невалиден тип съдържание. Моля, изпратете изображение.",
+    "vision_command_vision_title": "Резултат от сканиране на изображението"
 }

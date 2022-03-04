@@ -176,5 +176,10 @@
     "std_command_settings_list_global": "Глобальна",
     "std_command_settings_list_guild": "гільдії",
     "test": "Тест",
-    "test_suka_blyat": "Тестовий рядок, будь ласка, перекладіть"
+    "test_suka_blyat": "Тестовий рядок, будь ласка, перекладіть",
+    "vision_command_vision_connection_error": "Не вдалося підключитися або минув час очікування.",
+    "vision_command_vision_desc": "Описує та сканує весь текст із вашого зображення",
+    "vision_command_vision_fail": "Не вдалося відсканувати це зображення.",
+    "vision_command_vision_invalid_content_type": "Недійсний тип вмісту. Будь ласка, надішліть зображення.",
+    "vision_command_vision_title": "Результат сканування зображення"
 }

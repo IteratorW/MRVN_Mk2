@@ -176,5 +176,10 @@
     "std_command_settings_list_global": "Global",
     "std_command_settings_list_guild": "Gilde",
     "test": "Prüfen",
-    "test_suka_blyat": "Teststring bitte übersetzen"
+    "test_suka_blyat": "Teststring bitte übersetzen",
+    "vision_command_vision_connection_error": "Verbindung nicht möglich oder Zeitüberschreitung.",
+    "vision_command_vision_desc": "Beschreibt und scannt den gesamten Text Ihres Bildes",
+    "vision_command_vision_fail": "Dieses Bild konnte nicht gescannt werden.",
+    "vision_command_vision_invalid_content_type": "Ungültiger Inhaltstyp. Bitte senden Sie ein Bild.",
+    "vision_command_vision_title": "Ergebnis des Bildscans"
 }

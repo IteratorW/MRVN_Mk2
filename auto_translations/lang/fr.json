@@ -176,5 +176,10 @@
     "std_command_settings_list_global": "Global",
     "std_command_settings_list_guild": "Guilde",
     "test": "Test",
-    "test_suka_blyat": "Chaîne de test, veuillez la traduire"
+    "test_suka_blyat": "Chaîne de test, veuillez la traduire",
+    "vision_command_vision_connection_error": "Connexion impossible ou expiration du délai.",
+    "vision_command_vision_desc": "Décrit et analyse tout le texte de votre image",
+    "vision_command_vision_fail": "Échec de la numérisation de cette image.",
+    "vision_command_vision_invalid_content_type": "Type de contenu non valide. Veuillez envoyer une image.",
+    "vision_command_vision_title": "Résultat de numérisation d'image"
 }

@@ -176,5 +176,10 @@
     "std_command_settings_list_global": "Globale",
     "std_command_settings_list_guild": "Gilda",
     "test": "Test",
-    "test_suka_blyat": "Stringa di prova traduci"
+    "test_suka_blyat": "Stringa di prova traduci",
+    "vision_command_vision_connection_error": "Impossibile connettersi o è scaduto il timeout.",
+    "vision_command_vision_desc": "Descrive ed esegue la scansione di tutto il testo dall'immagine",
+    "vision_command_vision_fail": "Scansione dell'immagine non riuscita.",
+    "vision_command_vision_invalid_content_type": "Tipo di contenuto non valido. Si prega di inviare un'immagine.",
+    "vision_command_vision_title": "Risultato della scansione dell'immagine"
 }

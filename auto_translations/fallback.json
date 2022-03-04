@@ -160,5 +160,10 @@
     "std_command_settings_edit_value_set": "Value set!",
     "std_command_settings_list_desc": "Guild Settings List",
     "std_command_settings_list_global": "Global",
-    "std_command_settings_list_guild": "Guild"
+    "std_command_settings_list_guild": "Guild",
+    "vision_command_vision_connection_error": "Couldn't connect or timed out.",
+    "vision_command_vision_desc": "Describes and scans all text from your image",
+    "vision_command_vision_fail": "Failed to scan this image.",
+    "vision_command_vision_invalid_content_type": "Invalid content type. Please send an image.",
+    "vision_command_vision_title": "Image scan result"
 }

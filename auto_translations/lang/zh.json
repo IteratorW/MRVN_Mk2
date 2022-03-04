@@ -176,5 +176,10 @@
     "std_command_settings_list_global": "全球的",
     "std_command_settings_list_guild": "公会",
     "test": "测试",
-    "test_suka_blyat": "测试字符串请翻译"
+    "test_suka_blyat": "测试字符串请翻译",
+    "vision_command_vision_connection_error": "无法连接或超时。",
+    "vision_command_vision_desc": "描述并扫描图像中的所有文本",
+    "vision_command_vision_fail": "无法扫描此图像。",
+    "vision_command_vision_invalid_content_type": "内容类型无效。请发送图像。",
+    "vision_command_vision_title": "图像扫描结果"
 }

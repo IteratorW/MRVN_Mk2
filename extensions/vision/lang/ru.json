@@ -1,0 +1,7 @@
+{
+  "vision_command_vision_desc": "Описывает и сканирует весь текст с вашего изображения",
+  "vision_command_vision_invalid_content_type": "Неверный тип файла. Необходимо изображение",
+  "vision_command_vision_connection_error": "Ошибка подключения или вышло время ожидания.",
+  "vision_command_vision_fail": "Не удалось получить результат распознавания.",
+  "vision_command_vision_title": "Результат распознавания"
+}

@@ -176,5 +176,10 @@
     "std_command_settings_list_global": "Globální",
     "std_command_settings_list_guild": "Cech",
     "test": "Test",
-    "test_suka_blyat": "Testovací řetězec prosím přeložte"
+    "test_suka_blyat": "Testovací řetězec prosím přeložte",
+    "vision_command_vision_connection_error": "Nelze se připojit nebo vypršel časový limit.",
+    "vision_command_vision_desc": "Popisuje a skenuje veškerý text z vašeho obrázku",
+    "vision_command_vision_fail": "Tento obrázek se nepodařilo naskenovat.",
+    "vision_command_vision_invalid_content_type": "Neplatný typ obsahu. Pošlete prosím obrázek.",
+    "vision_command_vision_title": "Výsledek skenování obrázku"
 }
