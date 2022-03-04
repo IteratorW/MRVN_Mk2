@@ -39,7 +39,8 @@ class CmdsPaginator(MrvnPaginator):
     async def get_page_contents(self) -> Union[str, Embed]:
         embed = styled_embed_generator.get_embed(Style.INFO, title=self.tr.format("std_command_help_embed_title",
                                                                                   self.category_name),
-                                                 author=self.original_author)
+                                                 author=self.original_author,
+                                                 guild=self.guild)
         page_commands = self.commands[(self.page_index * PAGE_SIZE):][:PAGE_SIZE]
 
         for command in page_commands:
@@ -78,6 +79,6 @@ async def cmds(ctx: MrvnCommandContext):
     num_pages = math.ceil(count / PAGE_SIZE) if count > PAGE_SIZE else 1
 
     paginator = CmdsPaginator(ctx, items, ctx.translate(category.name), num_pages=num_pages, timeout=30,
-                              original_author=ctx.author)
+                              original_author=ctx.author, guild=ctx.guild)
 
     await paginator.attach(message)

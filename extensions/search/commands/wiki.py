@@ -52,7 +52,8 @@ class WikiPaginator(MrvnPaginator):
         text = data["query"]["pages"][next(iter(pages))]["extract"]
         text = markdownify(text, strip=["img"])
 
-        embed = styled_embed_generator.get_embed(Style.INFO, text, title=title, author=self.original_author)
+        embed = styled_embed_generator.get_embed(Style.INFO, text, title=title, author=self.original_author,
+                                                 guild=self.guild)
 
         return embed
 
@@ -88,6 +89,7 @@ async def wiki(ctx: MrvnCommandContext, query: ParseUntilEndsOption(str)):
 
         return
 
-    paginator = WikiPaginator("ru", tr=ctx, author=ctx.author, original_author=ctx.author, timeout=30, pages=items)
+    paginator = WikiPaginator("ru", tr=ctx, author=ctx.author, original_author=ctx.author, timeout=30, pages=items,
+                              guild=ctx.guild)
 
     await paginator.respond_ctx(ctx)

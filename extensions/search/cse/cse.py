@@ -37,7 +37,8 @@ class CSEPaginator(MrvnPaginator):
 
                 embed = styled_embed_generator.get_embed(Style.INFO, title=self.tr.format("search_command_google_title",
                                                                                           self.query),
-                                                         author=self.original_author)
+                                                         author=self.original_author,
+                                                         guild=self.guild)
 
                 for result in page_results:
                     embed.add_field(name=result.title, value=f"[{result.snippet}]({result.url})", inline=False)
@@ -46,7 +47,8 @@ class CSEPaginator(MrvnPaginator):
 
                 embed = styled_embed_generator.get_embed(Style.INFO,
                                                          title=self.tr.format("search_command_img_title", self.query),
-                                                         author=self.original_author)
+                                                         author=self.original_author,
+                                                         guild=self.guild)
                 embed.set_image(url=image.url)
                 embed.set_author(name=image.title, url=image.context_url)
 
@@ -112,6 +114,6 @@ async def search(ctx: MrvnCommandContext, q: str, search_type: SearchType):
 
     paginator = CSEPaginator(q, items, search_type, tr=ctx, author=ctx.author,
                              original_author=None if ctx.interaction else ctx.author, timeout=30,
-                             num_pages=num_pages)
+                             num_pages=num_pages, guild=ctx.guild)
 
     await paginator.respond_ctx(ctx)

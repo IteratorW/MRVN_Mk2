@@ -1,6 +1,6 @@
 from typing import Union
 
-from discord import ButtonStyle, Interaction, Embed, Message
+from discord import ButtonStyle, Interaction, Embed, Message, Guild
 from discord.abc import Messageable, User
 from discord.ui import Button, Item
 
@@ -11,7 +11,7 @@ from api.view.mrvn_view import MrvnView
 
 class MrvnPaginator(MrvnView):
     def __init__(self, *args, pages: list[Union[str, Embed]] = None, num_pages=None, original_author: User = None,
-                 **kwargs):
+                 guild: Guild, **kwargs):
         super().__init__(*args, **kwargs)
 
         self.children: list[Button] = []
@@ -19,6 +19,7 @@ class MrvnPaginator(MrvnView):
         self.pages = pages
         self.num_pages = len(pages) if pages is not None else num_pages
         self.original_author = original_author
+        self.guild = guild
 
         self.page_index = 0
 
