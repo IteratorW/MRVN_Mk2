@@ -21,8 +21,8 @@ from impl import runtime
 
 PAGE_SIZE = 5
 
-autocomplete_guild = None
-autocomplete_global = None
+autocomplete_guild = []
+autocomplete_global = []
 
 settings_group = runtime.bot.create_group("settings", category=categories.bot_management,
                                           discord_permissions=["administrator"])
@@ -65,10 +65,10 @@ class CmdsPaginator(MrvnPaginator):
 
 
 async def setting_autocomplete(ctx: AutocompleteContext):
-    return autocomplete_guild if ctx.command.qualified_name == "settings" else autocomplete_global
+    return autocomplete_guild if ctx.command.qualified_name == "settings edit" else autocomplete_global
 
 
-@event_handler
+@event_handler()
 async def on_startup():
     global autocomplete_global
     global autocomplete_guild
