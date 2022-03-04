@@ -11,7 +11,15 @@ task = None
 
 
 def get_uptime():
-    return time.strftime('%D:%H:%M', time.gmtime(time.time() - runtime.start_time))
+    uptime = time.time() - runtime.start_time
+
+    days = round(uptime // 86400)
+    hours = round((uptime - days * 86400) // 3600)
+    minutes = round((uptime - days * 86400 - hours * 3600) // 60)
+
+    formatted = ":".join([str(x) for x in [days, hours, minutes]])
+
+    return formatted
 
 
 def get_activity_and_status(entry: BotStatusEntry):
