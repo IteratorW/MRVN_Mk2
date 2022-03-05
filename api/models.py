@@ -56,7 +56,7 @@ class SettingEnableMessageCommands(GuildSetting):
     description = Translatable("mrvn_api_setting_enable_message_commands_desc")
     category = mrvn_category
 
-    value_field = fields.BooleanField(default=False)
+    value_field = fields.BooleanField(default=True)
 
 
 class SettingMessageCmdPrefix(GuildSetting):
