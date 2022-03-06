@@ -1,0 +1,6 @@
+{
+  "fun_stuff_command_glados_desc": "Потому что я - КАРТОФЕЛИНА",
+  "fun_stuff_command_glados_request_error": "Глэдос жидко обосралась и более недоступна.",
+  "fun_stuff_command_glados_api_error": "Ошибка апи. Возможно, ты указал какую-то хуйню, а не текст.",
+  "fun_stuff_command_glados_download_error": "Не удалось скачать файл. Пиздец."
+}

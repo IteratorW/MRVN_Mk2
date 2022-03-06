@@ -1,0 +1,6 @@
+{
+  "fun_stuff_command_glados_desc": "Генерирует голос GLaDOS используя сервис 15.ai.",
+  "fun_stuff_command_glados_request_error": "Не удалось совершить запрос к сервису.",
+  "fun_stuff_command_glados_api_error": "Произошла ошибка API. Возможно, вы указали неверный текст.",
+  "fun_stuff_command_glados_download_error": "Не удалось скачать файл."
+}

@@ -1,0 +1,6 @@
+{
+  "fun_stuff_command_glados_desc": "Uses 15.ai to generate GLaDOS voice from text.",
+  "fun_stuff_command_glados_request_error": "Error sending request to 15.ai.",
+  "fun_stuff_command_glados_api_error": "An API error occurred. You may have entered invalid text, try again.",
+  "fun_stuff_command_glados_download_error": "Failed to download TTS file."
+}
