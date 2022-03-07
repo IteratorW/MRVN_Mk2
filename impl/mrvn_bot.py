@@ -195,6 +195,8 @@ class MrvnBot(MrvnCommandsMixin):
         ctx = MrvnCommandContext(self, interaction)
         ctx.command = command
 
+        await ctx.set_from_interaction(interaction)
+
         guild_id = ctx.guild_id
 
         if not guild_id and await self.process_dm(ctx):

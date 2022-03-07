@@ -11,8 +11,6 @@ class MrvnCommandContext(ApplicationContext, Translator):
     def __init__(self, bot, interaction: Union[Interaction, None]):
         super().__init__(bot, interaction)
 
-        self.set_from_interaction(interaction)
-
     async def respond_embed(self, style: Style, desc: str = None, title: str = None,
                             color: Union[int, Color] = None, **kwargs):
         embed = self.get_embed(style, desc, title, color)

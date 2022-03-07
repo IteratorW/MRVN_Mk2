@@ -51,6 +51,14 @@ class SettingGuildLanguage(GuildSetting):
         self.value_field = new_value
 
 
+class SettingForceGuildLang(GuildSetting):
+    key = "force_guild_lang"
+    description = Translatable("mrvn_api_setting_force_guild_language_desc")
+    category = mrvn_category
+
+    value_field = fields.BooleanField(default=False)
+
+
 class SettingEnableMessageCommands(GuildSetting):
     key = "message_commands"
     description = Translatable("mrvn_api_setting_enable_message_commands_desc")
