@@ -33,7 +33,7 @@ class MrvnCommandsMixin(Bot, ABC):
         return commands
 
     async def is_owner(self, user: User) -> bool:
-        if super().is_owner(user):
+        if await super().is_owner(user):
             return True
 
         mrvn_user = await MrvnUser.get_or_none(user_id=user.id)
@@ -48,8 +48,7 @@ class MrvnCommandsMixin(Bot, ABC):
         mrvn_perm: MrvnPermission = getattr(command, "__mrvn_perm__", None)
 
         if mrvn_perm and mrvn_perm.owners_only:
-            test = await self.is_owner(member)
-            return test
+            return await self.is_owner(member)
         elif override and len(override.discord_permissions):
             perms = override.discord_permissions
         elif mrvn_perm:
