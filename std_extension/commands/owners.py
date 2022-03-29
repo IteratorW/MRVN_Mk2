@@ -13,14 +13,20 @@ owners_group = runtime.bot.create_group("owners", category=categories.owners_onl
 
 @owners_group.command(name="list", description=Translatable("std_command_owner_list"))
 async def owner_list(ctx: MrvnCommandContext):
-    users = await MrvnUser.filter(is_owner=True)
+    owner_ids = list([x.user_id for x in await MrvnUser.filter(is_owner=True)])
 
-    if not len(users):
+    app = await runtime.bot.application_info()  # type: ignore
+    if app.team:
+        owner_ids.extend([m.id for m in app.team.members])
+    else:
+        owner_ids.append(app.owner.id)
+
+    if not len(owner_ids):
         await ctx.respond_embed(Style.ERROR, ctx.translate("std_command_owners_no_owners"))
 
         return
 
-    owners = [user.mention if (user := runtime.bot.get_user(x.user_id)) else ctx.translate("std_command_owners_unknown") for x in users]
+    owners = [user.mention if (user := runtime.bot.get_user(x)) else ctx.translate("std_command_owners_unknown") for x in owner_ids]
 
     await ctx.respond_embed(Style.INFO, ctx.format("std_command_owners_list", "\n".join(owners)))
 
