@@ -7,5 +7,6 @@
   "execute_command_shell_prohibited_word": "Your command contains a prohibited word.",
   "execute_command_shell_executed_timeout": "Timeout for command output exceeded.",
   "execute_command_shell_error": "Error executing your console command",
-  "execute_command_shell_ok": "Command executed"
+  "execute_command_shell_ok": "Command executed",
+  "execute_command_execute_invalid_format": "Invalid format. Make sure to put your code in exactly one code block (defined by ``` at the beginning and the end)"
 }

@@ -41,10 +41,13 @@ async def async_exec(code: str, globs, locs):
 
 @runtime.bot.slash_command(description=Translatable("execute_command_execute_desc"), owners_only=True)
 async def execute(ctx: MrvnCommandContext, code: ParseUntilEndsOption(str)):
-    # Indents are not supported yet lol.
+    if ctx.interaction is None:
+        if len((splitted := ctx.message.content.split("```"))) == 3:
+            code = splitted[1].rstrip()
+        else:
+            await ctx.respond_embed(Style.ERROR, ctx.translate("execute_command_execute_invalid_format"))
 
-    if len((splitted := code.split("```"))) == 3:
-        code = splitted[1].rstrip()
+            return
 
     await ctx.defer()
 
