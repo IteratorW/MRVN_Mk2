@@ -1,7 +1,7 @@
 coloredlogs~=15.0.1
 py-cord==2.0.0b5
 asciitree~=0.3.3
-tortoise-orm
+tortoise-orm==0.18.1
 colored_traceback
 deep_translator
 gitpython

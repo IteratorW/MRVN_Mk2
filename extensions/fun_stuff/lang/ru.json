@@ -2,5 +2,9 @@
   "fun_stuff_command_glados_desc": "Генерирует голос GLaDOS используя сервис 15.ai.",
   "fun_stuff_command_glados_request_error": "Не удалось совершить запрос к сервису.",
   "fun_stuff_command_glados_api_error": "Произошла ошибка API. Возможно, вы указали неверный текст.",
-  "fun_stuff_command_glados_download_error": "Не удалось скачать файл."
+  "fun_stuff_command_glados_download_error": "Не удалось скачать файл.",
+  "fun_stuff_command_sus_desc": "Преобразовать картинку в мозайку из анимированных амогусов",
+  "fun_stuff_command_sus_invalid_content_type": "Неверное вложение.",
+  "fun_stuff_command_sus_fail": "Не удалось преобразовать эту картинку.",
+  "fun_stuff_command_sus_title": "Image-Sussificator"
 }

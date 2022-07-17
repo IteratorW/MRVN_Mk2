@@ -34,8 +34,6 @@ def translate(key: str, lang: str):
     try:
         text = translations[lang][key]
 
-        text = " ".join(["cum"] * len(text.split()))
-
         return text
     except KeyError:
         # If not found for this lang, try to fall back to default
