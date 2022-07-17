@@ -12,14 +12,14 @@ from PIL import Image
 
 FFMPEG_CMD = "ffmpeg " \
              "-f image2 " \
-             "-i sussified_%d.png " \
+             "-i sussified_{0}_%d.png " \
              "-filter_complex \"[0:v] " \
              "scale=sws_dither=none:,split [a][b];[a] " \
              "palettegen=max_colors=255:stats_mode=single [p];[b][p] paletteuse=dither=none\" " \
              "-r 20 " \
              "-y -hide_banner " \
              "-loglevel error " \
-             "sussified.gif"
+             "sussified_{0}.gif"
 
 logger = logging.getLogger("fun stuff sussifier")
 
@@ -43,7 +43,7 @@ def prepare_sus_twerk():
         twerk_frames_data.append(np.array(img))
 
 
-def sussify(image: typing.IO, output_width: int = 21) -> Optional[bytes]:
+def sussify(image: typing.IO, filename: str, output_width: int = 21) -> Optional[bytes]:
     if len(twerk_frames) + len(twerk_frames_data) != 12:
         return None
 
@@ -86,26 +86,33 @@ def sussify(image: typing.IO, output_width: int = 21) -> Optional[bytes]:
 
                 # Slap said frame onto the background
                 background.paste(sussified_frame, (x * twerk_width, y * twerk_height))
-        background.save(f"sussified_{frame_number}.png")
+        background.save(f"sussified_{filename}_{frame_number}.png")
 
     # Convert sussied frames to gif. PIL has a built-in method to save gifs but
     # it has dithering which looks sus, so we use ffmpeg with dither=none
 
     try:
-        subprocess.call(
-            FFMPEG_CMD,
+        subprocess.check_output(
+            FFMPEG_CMD.format(filename),
             shell=True)
     except subprocess.SubprocessError:
         return None
 
+    with open(f"./sussified_{filename}.gif", "rb") as f:
+        result = f.read()
+
     # Remove temp files
     for frame_number in range(6):
-        os.remove(f"sussified_{frame_number}.png")
+        os.remove(f"sussified_{filename}_{frame_number}.png")
 
-    with open("./sussified.gif", "rb") as f:
-        result = f.read()
+    os.remove(f"./sussified_{filename}.gif")
 
     return result
 
+
+try:
+    subprocess.check_output("ffmpeg -version", shell=True, stderr=subprocess.DEVNULL)
+except subprocess.SubprocessError:
+    logger.error("ffmpeg is not installed :(")
 
 prepare_sus_twerk()

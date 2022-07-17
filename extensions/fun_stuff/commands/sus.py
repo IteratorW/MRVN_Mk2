@@ -1,3 +1,5 @@
+import asyncio
+import functools
 from io import BytesIO
 
 import discord
@@ -22,14 +24,16 @@ async def sus(ctx: MrvnCommandContext, image: Option(Attachment)):
     image_bytes = BytesIO()
     await image.save(image_bytes)
 
-    result = sussifier.sussify(image_bytes)
+    this_id = ctx.message.id if not ctx.interaction else ctx.interaction.id
+
+    result = await asyncio.get_event_loop().run_in_executor(None, functools.partial(sussifier.sussify, image_bytes, str(this_id)))
 
     if not result:
         await ctx.respond_embed(Style.ERROR, ctx.translate("fun_stuff_command_sus_fail"))
 
         return
 
-    file = discord.File(BytesIO(result), filename=f"{ctx.message.id if not ctx.interaction else ctx.interaction.id}_sussified.gif")
+    file = discord.File(BytesIO(result), filename=f"{this_id}_sussified.gif")
     embed = ctx.get_embed(Style.INFO, title=ctx.translate("fun_stuff_command_sus_title"))
     embed.set_image(url=f"attachment://{file.filename}")
 
