@@ -1,4 +1,7 @@
 {
+    "ai_command_kaizen_desc": "Vygeneruje nějaký text z vlastního modelu GPT-2.",
+    "ai_command_model_not_loaded": "Model není načten.",
+    "ai_command_title": "Kaizen AI Mk2",
     "anal_vaginal_sex": "AAnnaall vvaaggiinnaall sseexx",
     "beu_ext_category_name": "Kategorie testu",
     "beu_ext_sex_anal_desc": "Rád to bereš do zadku",
@@ -32,7 +35,7 @@
     "fun_stuff_command_glados_desc": "Používá 15.ai ke generování GLaDOS hlasu z textu.",
     "fun_stuff_command_glados_download_error": "Stažení souboru TTS se nezdařilo.",
     "fun_stuff_command_glados_request_error": "Chyba při odesílání požadavku na 15.ai.",
-    "fun_stuff_command_sus_desc": "SUSSIFY IMAGE: převeďte vše, co pošlete, na animovanou mozaiku amogus",
+    "fun_stuff_command_sus_desc": "SUSSIFY IMAGE: převeďte vše, co pošlete, do animované amogusové mozaiky",
     "fun_stuff_command_sus_fail": "Nepodařilo se upevnit tento obrázek.",
     "fun_stuff_command_sus_invalid_content_type": "Neplatný typ obsahu! Obrázek je povinný.",
     "fun_stuff_command_sus_title": "Image-Sussificator",
