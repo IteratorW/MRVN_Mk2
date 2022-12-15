@@ -12,7 +12,7 @@ class MrvnCommandContext(ApplicationContext, Translator):
         super().__init__(bot, interaction)
 
     async def respond_embed(self, style: Style, desc: str = None, title: str = None,
-                            color: Union[int, Color] = None, **kwargs):
+                            color: Union[int, Color] = None, **kwargs: object) -> object:
         embed = self.get_embed(style, desc, title, color)
 
         return await self.respond(embed=embed, **kwargs)

@@ -340,7 +340,7 @@ class MrvnBot(MrvnCommandsMixin):
                 if isinstance(option, ParseUntilEndsOption):
                     values = []
 
-                    if not args.has_next():
+                    if not args.has_next() and option.default is None:
                         embed = ctx.get_embed(Style.ERROR,
                                               title=ctx.translate("mrvn_core_commands_arguments_not_enough"))
                         embed.add_field(name=self.get_command_desc(command, ctx),
