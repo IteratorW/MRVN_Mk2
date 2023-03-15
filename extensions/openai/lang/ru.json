@@ -1,0 +1,12 @@
+{
+  "openai_settings_category_name": "OpenAI",
+  "openai_setting_prompt_char_limit_desc": "Максимальное количество символов в запросе.",
+  "openai_setting_max_requests_per_minute_desc": "Максимальное количество запросов в минуту.",
+  "openai_setting_system_message": "Сообщение, которое передается ИИ при каждом запросе.",
+  "openai_setting_temperature": "(0-1) Отвечает за предсказуемость ответа. Температура ближе к нулю означает более предсказуемые ответы.",
+  "openai_setting_temperature_invalid": "Температура должна быть в пределах от 0 до 1.",
+  "openai_command_ai_desc": "Чатбот \"ChatGPT\"",
+  "openai_command_ai_max_requests_reached": "Было достигнуто максимальное количество запросов. (%s)",
+  "openai_command_ai_success": "GPT 3.5 Turbo",
+  "openai_command_ai_char_limit": "Вы превысили лимит символов в запросе (%s)"
+}
