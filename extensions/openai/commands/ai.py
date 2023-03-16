@@ -4,6 +4,7 @@ import openai
 
 from api.command import categories
 from api.command.context.mrvn_command_context import MrvnCommandContext
+from api.command.context.mrvn_message_context import MrvnMessageContext
 from api.command.option.parse_until_ends import ParseUntilEndsOption
 from api.embed.style import Style
 from api.translation.translatable import Translatable
@@ -47,6 +48,9 @@ async def ai(ctx: MrvnCommandContext, prompt: ParseUntilEndsOption(str)):
     temperature = (await SettingTemperature.get_or_create())[0].value
 
     await ctx.defer(ephemeral=False)
+
+    if isinstance(ctx, MrvnMessageContext):
+        await ctx.message.add_reaction("⌛")
 
     try:
         response = await openai.ChatCompletion.acreate(
