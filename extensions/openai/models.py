@@ -48,7 +48,12 @@ class SettingTemperature(GlobalSetting):
 
     @value.setter
     def value(self, new_value: any):
-        if not 0 < new_value < 1:
+        try:
+            new_value = float(new_value)
+        except ValueError:
+            new_value = None
+
+        if new_value is None or not 0 < new_value < 1:
             raise SettingsValueWriteError(Translatable("openai_setting_temperature_invalid"))
 
         self.value_field = new_value
