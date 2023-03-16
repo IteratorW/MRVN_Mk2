@@ -8,5 +8,7 @@
   "openai_command_ai_desc": "Чатбот \"ChatGPT\"",
   "openai_command_ai_max_requests_reached": "Было достигнуто максимальное количество запросов. (%s)",
   "openai_command_ai_success": "GPT 3.5 Turbo",
-  "openai_command_ai_char_limit": "Вы превысили лимит символов в запросе (%s)"
+  "openai_command_ai_char_limit": "Вы превысили лимит символов в запросе (%s)",
+  "openai_command_ai_rate_limited": "В данный момент сервис перегружен. Попробуйте снова через некоторое время.",
+  "openai_command_ai_api_error": "Произошла ошибка API: %s"
 }

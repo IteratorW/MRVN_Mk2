@@ -8,5 +8,7 @@
   "openai_command_ai_desc": "ChatGPT chatbot",
   "openai_command_ai_max_requests_reached": "A maximum amount of request per minute reached. (%s)",
   "openai_command_ai_success": "GPT 3.5 Turbo",
-  "openai_command_ai_char_limit": "You have exceeded maximum character limit for a prompt. (%s)"
+  "openai_command_ai_char_limit": "You have exceeded maximum character limit for a prompt. (%s)",
+  "openai_command_ai_rate_limited": "The service is currently overloaded. Please try again in some time.",
+  "openai_command_ai_api_error": "An API error occurred: %s"
 }

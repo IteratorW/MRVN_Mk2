@@ -8,5 +8,7 @@
   "openai_command_ai_desc": "Чатбот-хуеглот \"ChatGPT\"",
   "openai_command_ai_max_requests_reached": "Охуеть, ну вы и насрали. Слишком много запросов в минуту (%s)",
   "openai_command_ai_success": "GPT 3.5 Turbo",
-  "openai_command_ai_char_limit": "Ты высрал слишком много говна. Лимит %s символов."
+  "openai_command_ai_char_limit": "Ты высрал слишком много говна. Лимит %s символов.",
+  "openai_command_ai_rate_limited": "В данный момент в сервис поступает слишком много сруаутпута. Попробуй позже!",
+  "openai_command_ai_api_error": "API жидко обосралось: %s"
 }

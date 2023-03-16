@@ -48,14 +48,22 @@ async def ai(ctx: MrvnCommandContext, prompt: ParseUntilEndsOption(str)):
 
     await ctx.defer(ephemeral=False)
 
-    response = await openai.ChatCompletion.acreate(
-        model="gpt-3.5-turbo",
-        messages=[
-            {"role": "system", "content": system_message},
-            {"role": "user", "content": prompt}
-        ],
-        temperature=temperature
-    )
+    try:
+        response = await openai.ChatCompletion.acreate(
+            model="gpt-3.5-turbo",
+            messages=[
+                {"role": "system", "content": system_message},
+                {"role": "user", "content": prompt}
+            ],
+            temperature=temperature
+        )
+    except openai.error.OpenAIError as ex:
+        text = ctx.translate("openai_command_ai_rate_limited") if isinstance(ex, openai.error.RateLimitError) else \
+            ctx.format("openai_command_ai_api_error", ex.__name__)
+
+        await ctx.respond_embed(Style.ERROR, text)
+
+        return
 
     last_minute_request_count += 1
 
