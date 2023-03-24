@@ -59,3 +59,9 @@ class SettingTemperature(GlobalSetting):
         self.value_field = new_value
 
 
+class SettingOpenAiMaxHistoryLen(GlobalSetting):
+    key = "openai_max_history_len"
+    description = Translatable("openai_setting_max_history_len")
+    category = openai_category
+
+    value_field = fields.IntField(default=10)
