@@ -1,5 +1,0 @@
-{
-  "ai_command_title": "Kaizen AI Mk2",
-  "ai_command_kaizen_desc": "Generates some text from a custom GPT-2 model.",
-  "ai_command_model_not_loaded": "The model is not loaded."
-}
