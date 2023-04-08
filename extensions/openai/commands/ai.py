@@ -116,8 +116,10 @@ async def ai_system_message(ctx: MrvnCommandContext, new_message: ParseUntilEnds
         await ctx.respond_embed(Style.INFO, ctx.format("openai_command_ai_sys_message_current",
                                                        setting.value))
     else:
-        if len(new_message) > 256:
-            await ctx.respond_embed(Style.ERROR, ctx.format("openai_command_ai_sys_message_too_long", "256"))
+        max_chars = (await SettingPromptCharLimit.get_or_create())[0].value
+        
+        if len(new_message) > max_chars:
+            await ctx.respond_embed(Style.ERROR, ctx.format("openai_command_ai_sys_message_too_long", str(max_chars)))
 
             return
 
