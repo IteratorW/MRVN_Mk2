@@ -1,16 +1,22 @@
 import datetime
+import json
+import re
 from collections import defaultdict
+from typing import Optional
 
 import openai
+from discord import Embed
 
 from api.command import categories
 from api.command.context.mrvn_command_context import MrvnCommandContext
 from api.command.context.mrvn_message_context import MrvnMessageContext
 from api.command.option.parse_until_ends import ParseUntilEndsOption
+from api.embed import styled_embed_generator
 from api.embed.style import Style
 from api.translation.translatable import Translatable
+from extensions.openai.ai_commands import parse_and_run_gpt_commands
 from extensions.openai.models import SettingSystemMessage, SettingMaxRequestsPerMinute, SettingTemperature, \
-    SettingPromptCharLimit, SettingOpenAiMaxHistoryLen
+    SettingPromptCharLimit, SettingOpenAiMaxHistoryLen, SettingEnableAiCommands
 from impl import runtime
 
 last_request_minute = 0
@@ -33,6 +39,8 @@ async def ai(ctx: MrvnCommandContext, prompt: ParseUntilEndsOption(str)):
 
     max_chars = (await SettingPromptCharLimit.get_or_create())[0].value
 
+    prompt = f"{ctx.author.id}: {prompt}"
+
     if len(prompt) > max_chars:
         await ctx.respond_embed(Style.ERROR, ctx.format("openai_command_ai_char_limit", str(max_chars)))
 
@@ -51,6 +59,7 @@ async def ai(ctx: MrvnCommandContext, prompt: ParseUntilEndsOption(str)):
     system_message = (await SettingSystemMessage.get_or_create())[0].value
     temperature = (await SettingTemperature.get_or_create())[0].value
     history_max_len = (await SettingOpenAiMaxHistoryLen.get_or_create())[0].value
+    enable_commands = (await SettingEnableAiCommands.get_or_create())[0].value
 
     source_id = ctx.guild_id if ctx.guild_id else ctx.author.id
 
@@ -88,10 +97,19 @@ async def ai(ctx: MrvnCommandContext, prompt: ParseUntilEndsOption(str)):
     if len(history) > history_max_len:
         history.pop(0)
 
+    commands_result = None if not enable_commands else await parse_and_run_gpt_commands(ctx, response_text)
+
+    if commands_result:
+        response_text = commands_result[0]
+
     bot_response = await ctx.respond(
         response_text
         if isinstance(ctx, MrvnMessageContext) else
         ctx.format("openai_command_ai_text_slash", prompt, response_text),
+        embed=
+        styled_embed_generator.get_embed(Style.INFO, commands_result[1], ctx.translate("openai_ai_commands_title"))
+        if commands_result is not None else
+        None,
         **({"reference": ctx.message} if isinstance(ctx, MrvnMessageContext) else {})
     )
 

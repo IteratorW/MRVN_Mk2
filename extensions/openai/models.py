@@ -65,3 +65,11 @@ class SettingOpenAiMaxHistoryLen(GlobalSetting):
     category = openai_category
 
     value_field = fields.IntField(default=10)
+
+
+class SettingEnableAiCommands(GlobalSetting):
+    key = "openai_enable_ai_commands"
+    description = Translatable("openai_enable_ai_commands")
+    category = openai_category
+
+    value_field = fields.BooleanField(default=True)

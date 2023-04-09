@@ -24,5 +24,14 @@
   "openai_command_history_ai_name": "ИИ",
   "openai_command_history_user_name": "Пользователь",
   "openai_command_history_title": "История диалога",
-  "openai_reply_command_error": "Не удалось обработать этот ответ."
+  "openai_reply_command_error": "Не удалось обработать этот ответ.",
+  "openai_command_ai_command_mute": "[Выдан таймаут %s на %s мин. по причине **%s**]",
+  "openai_command_ai_command_channel": "[Создан новый канал %s]",
+  "openai_command_ai_command_server_name": "[Имя сервера изменено на %s]",
+  "openai_command_ai_command_msg": "[Отправлено сообщение]",
+  "openai_command_ai_command_emb": "[Отправлен Embed]",
+  "openai_command_ai_command_unknown": "[Неизвестная команда: %s]",
+  "openai_command_ai_command_error": "[Ошибка команды: %s]",
+  "openai_ai_commands_title": "ИИ выполнил команды:",
+  "openai_enable_ai_commands": "Включить/выключить ИИ возможность использовать команды"
 }

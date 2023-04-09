@@ -24,5 +24,14 @@
   "openai_command_history_ai_name": "AI",
   "openai_command_history_user_name": "User",
   "openai_command_history_title": "Conversation History",
-  "openai_reply_command_error": "Could not process this reply."
+  "openai_reply_command_error": "Could not process this reply.",
+  "openai_command_ai_command_mute": "[Muted %s for %s min with reason **%s**]",
+  "openai_command_ai_command_channel": "[Created new channel %s]",
+  "openai_command_ai_command_server_name": "[Changed server name to %s]",
+  "openai_command_ai_command_msg": "[Sent a message]",
+  "openai_command_ai_command_emb": "[Sent an embed]",
+  "openai_command_ai_command_unknown": "[Unknown command: %s]",
+  "openai_command_ai_command_error": "[Command error: %s]",
+  "openai_ai_commands_title": "AI executed commands:",
+  "openai_enable_ai_commands": "Enable AI commands"
 }

@@ -24,5 +24,14 @@
   "openai_command_history_ai_name": "ЖИ",
   "openai_command_history_user_name": "Мешок с мясом",
   "openai_command_history_title": "Диалог с ЖИ",
-  "openai_reply_command_error": "Что-то жидко обосралось, не удалось обработать ответ."
+  "openai_reply_command_error": "Что-то жидко обосралось, не удалось обработать ответ.",
+  "openai_command_ai_command_mute": "[Выдан мут %s на %s мин. по причине **%s**]",
+  "openai_command_ai_command_channel": "[Создан новый анал %s]",
+  "openai_command_ai_command_server_name": "[Имя помойки изменено на %s]",
+  "openai_command_ai_command_msg": "[Отправлено говно]",
+  "openai_command_ai_command_emb": "[Отправлено красивое говно]",
+  "openai_command_ai_command_unknown": "[Жидкая команда: %s]",
+  "openai_command_ai_command_error": "[Понос команды: %s]",
+  "openai_ai_commands_title": "ИИ выполнил команды:",
+  "openai_enable_ai_commands": "Включить команды ЖИ"
 }
