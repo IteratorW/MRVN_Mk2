@@ -30,6 +30,12 @@ global_settings_group = runtime.bot.create_group("global_settings",
                                                  category=categories.owners_only, owners_only=True)
 
 
+def truncate(string, width):
+    if len(string) > width:
+        string = string[:width-3] + '...'
+    return string
+
+
 class CategoryView(MrvnView):
     def __init__(self, tr: Translator, items: list[Item], **kwargs):
         super().__init__(tr, *items, **kwargs)
@@ -147,6 +153,8 @@ async def list_(ctx: MrvnCommandContext, global_setting: bool):
             value = (await setting.get_or_create())[0].value
         else:
             value = (await setting.get_or_create(guild_id=ctx.guild_id))[0].value
+
+        value = truncate(str(value), 64)
 
         settings_list.append((f"{setting.key} [{value}]", ctx.translate(setting.description)))
 
