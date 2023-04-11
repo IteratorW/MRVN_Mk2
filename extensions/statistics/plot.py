@@ -1,12 +1,13 @@
 import hashlib
 import io
+import os
 import random
 
 import mplcyberpunk
 import numpy as np
 from matplotlib import pyplot as plt, patches, cm
 
-plt.style.use("E:\Projects\Code\Python\MRVN_Mk2\extensions\statistics\mrvn.mplstyle")
+plt.style.use(f"{os.path.dirname(__file__)}\mrvn.mplstyle")
 
 
 def get_plot(dates_list: list[str], counts: dict[str, list[int]], legend_text: str = None):
