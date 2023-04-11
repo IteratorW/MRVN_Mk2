@@ -6,5 +6,9 @@
   "statistics_command_messages_desc": "Shows message statistics on this server.",
   "statistics_command_messages_legend": "Guild Message Stats - %s",
   "statistics_stats_category_name": "Statistics",
-  "statistics_command_stats_desc": "Statistics"
+  "statistics_command_stats_desc": "Statistics",
+  "stats_daily_stats_title": "Daily guild channel statistics:",
+  "stats_autopost_enable": "Enable daily guild channel stats posting",
+  "statistics_command_channels_desc": "Show channel statistics for the past 30 days",
+  "stats_settings_category_name": "Statistics"
 }

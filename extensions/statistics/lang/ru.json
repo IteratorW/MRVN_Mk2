@@ -6,5 +6,9 @@
   "statistics_command_messages_desc": "Показывает статистику сообщений на этом сервере",
   "statistics_command_messages_legend": "Статистика по сообщениям - %s",
   "statistics_stats_category_name": "Cтатистика",
-  "statistics_command_stats_desc": "Cтатистика"
+  "statistics_command_stats_desc": "Cтатистика",
+  "stats_daily_stats_title": "Ежедневная статистика каналов на сервере:",
+  "stats_autopost_enable": "Включить отправку статистики каналов каждый день",
+  "statistics_command_channels_desc": "Показать статистику каналов на этом сервере",
+  "stats_settings_category_name": "Статистика"
 }

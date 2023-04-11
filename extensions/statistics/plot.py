@@ -1,53 +1,71 @@
+import hashlib
 import io
+import random
 
 import mplcyberpunk
 import numpy as np
-from matplotlib import pyplot as plt, patches
+from matplotlib import pyplot as plt, patches, cm
 
-plt.style.use("cyberpunk")
+plt.style.use("E:\Projects\Code\Python\MRVN_Mk2\extensions\statistics\mrvn.mplstyle")
 
 
-def get_plot(messages: dict[str, int], legend_text: str):
+def get_plot(dates_list: list[str], counts: dict[str, list[int]], legend_text: str = None):
+    """
+    Make a message statistics plot for at least one channel
+
+    :param dates_list: Dates list (x-axis)
+    :param counts: Message counts (y-axis). Key is the channel name, value is the message count in that channel
+    :param legend_text: Guild name (unused if multiple channels are passed, safe to provide None in this case)
+    :return: PNG image BytesIO
+    """
     fig, ax = plt.subplots(figsize=(12, 6))
 
-    x = list(messages.keys())
-    y = list(messages.values())
+    x = dates_list
 
-    ax.plot(x, y, marker="o")
+    for name, chan_counts in counts.items():
+        line = ax.plot(x, chan_counts, marker="o")[0]
+        line.set_label(name)
 
-    mplcyberpunk.add_glow_effects()
+        make_line_glow(line, ax)
+
+    multiple_channels = len(counts.keys()) > 1
 
     # Trend Line ================
 
-    np_array = np.array(y)
-    x_numbers = list(range(len(x)))
+    if not multiple_channels:
+        np_array = np.array(next(iter(counts.values())))
+        x_numbers = list(range(len(x)))
 
-    z = np.polyfit(x_numbers, np_array, 1)
-    p = np.poly1d(z)
+        z = np.polyfit(x_numbers, np_array, 1)
+        p = np.poly1d(z)
 
-    line = ax.plot(x, p(x_numbers), "--", color="#00ff41")[0]
-    make_line_glow(line, ax)
+        line = ax.plot(x, p(x_numbers), "--", color="#00ff41")[0]
+        make_line_glow(line, ax)
 
     # Legend ====================
 
-    plt.legend([legend_text])
+    if not multiple_channels:
+        plt.legend([legend_text])
+    else:
+        ax.legend(loc="upper center", bbox_to_anchor=(0.5, -0.1),
+                  ncol=5)
 
     # Plot Config ===============
 
-    max_y = max(y)
+    max_y = max([max(x) for x in counts.values()])
 
-    ax.set_ylim([0, max_y + 1])
+    ax.set_ylim([0, max_y + 10])
 
     plt.xticks(rotation=45)
 
     buf = io.BytesIO()
-    plt.savefig(buf, format='png')
+    plt.savefig(buf, format="png", bbox_inches="tight")
     buf.seek(0)
 
     return buf
 
 
-def make_line_glow(line, ax, n_glow_lines=10, diff_linewidth=1.05, alpha_line=0.3):
+def make_line_glow(line, ax, n_glow_lines=10, diff_linewidth=1.05, alpha_line=0.7):
     """Add a glow effect to the lines in an axis object.
 
     Each existing line is redrawn several times with increasing width and low alpha to create the glow effect.
@@ -58,7 +76,7 @@ def make_line_glow(line, ax, n_glow_lines=10, diff_linewidth=1.05, alpha_line=0.
     linewidth = line.get_linewidth()
 
     try:
-        step_type = line.get_drawstyle().split('-')[1]
+        step_type = line.get_drawstyle().split("-")[1]
     except:
         step_type = None
 
@@ -69,6 +87,7 @@ def make_line_glow(line, ax, n_glow_lines=10, diff_linewidth=1.05, alpha_line=0.
             glow_line, = ax.plot(*data)
         glow_line.update_from(
             line)
+        glow_line.set_label(None)  # Remove the label from glow lines, so that there won"t be duplicates in the legend.
 
         glow_line.set_alpha(alpha_value)
         glow_line.set_linewidth(linewidth + (diff_linewidth * n))

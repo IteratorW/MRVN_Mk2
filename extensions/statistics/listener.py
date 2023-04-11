@@ -2,7 +2,7 @@ from discord import Message
 
 from api.command.context.mrvn_command_context import MrvnCommandContext
 from api.event_handler.decorators import event_handler
-from extensions.statistics.models import StatsCommandEntry, StatsUserCommandsEntry, StatsDailyGuildMessages
+from extensions.statistics.models import StatsCommandEntry, StatsUserCommandsEntry, StatsDailyGuildChannelMessages
 
 
 @event_handler()
@@ -25,7 +25,7 @@ async def on_message(message: Message):
     if not message.guild:
         return
 
-    entry = await StatsDailyGuildMessages.get_for_now(message.guild.id)
+    entry = await StatsDailyGuildChannelMessages.get_for_now(message.guild.id, message.channel.id)
 
     entry.increment()
 

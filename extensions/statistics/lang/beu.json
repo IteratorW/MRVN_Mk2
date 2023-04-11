@@ -6,5 +6,9 @@
   "statistics_command_messages_desc": "Показывает статистику сообщений в этой ебучей яме",
   "statistics_command_messages_legend": "Анальные сообщения в %s",
   "statistics_stats_category_name": "Анальная статистика",
-  "statistics_command_stats_desc": "Анальная статистика"
+  "statistics_command_stats_desc": "Анальная статистика",
+  "stats_daily_stats_title": "С новым дном! Ежедневная статистика каналов в этой помойке:",
+  "stats_autopost_enable": "Включить ежедневный постинг говна",
+  "statistics_command_channels_desc": "Показать статистику говна за последние 30 дней",
+  "stats_settings_category_name": "Вагинальная статистика"
 }
