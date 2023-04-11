@@ -116,6 +116,8 @@
     "openai_command_ai_command_channel": "[Vytvořen nový kanál %s]",
     "openai_command_ai_command_emb": "[Poslal vložení]",
     "openai_command_ai_command_error": "[Chyba příkazu: %s]",
+    "openai_command_ai_command_image": "[Nalezen obrázek (%s)]",
+    "openai_command_ai_command_image_failed": "[Nepodařilo se získat obrázek]",
     "openai_command_ai_command_msg": "[Poslal zprávu]",
     "openai_command_ai_command_mute": "[Vypnuto %s na %s min s důvodem **%s**]",
     "openai_command_ai_command_name": "**[AI Command]*",

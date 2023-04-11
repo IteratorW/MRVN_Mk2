@@ -116,6 +116,8 @@
     "openai_command_ai_command_channel": "[Створено новий канал %s]",
     "openai_command_ai_command_emb": "[Надіслав вбудовування]",
     "openai_command_ai_command_error": "[Помилка команди: %s]",
+    "openai_command_ai_command_image": "[Знайдено зображення (%s)]",
+    "openai_command_ai_command_image_failed": "[Не вдалося отримати зображення]",
     "openai_command_ai_command_msg": "[Надіслав повідомлення]",
     "openai_command_ai_command_mute": "[%s вимкнено на %s хв з причини **%s**]",
     "openai_command_ai_command_name": "*[Команда ШІ]*",

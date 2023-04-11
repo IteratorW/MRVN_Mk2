@@ -116,6 +116,8 @@
     "openai_command_ai_command_channel": "[创建了新频道 %s]",
     "openai_command_ai_command_emb": "[发送嵌入]",
     "openai_command_ai_command_error": "[命令错误：%s]",
+    "openai_command_ai_command_image": "[找到图像 (%s)]",
+    "openai_command_ai_command_image_failed": "[获取图片失败]",
     "openai_command_ai_command_msg": "[发送消息]",
     "openai_command_ai_command_mute": "[由于 **%s** 原因将 %s 静音了 %s 分钟]",
     "openai_command_ai_command_name": "*[人工智能指令]*",

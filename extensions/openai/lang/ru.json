@@ -33,5 +33,7 @@
   "openai_command_ai_command_unknown": "[Неизвестная команда: %s]",
   "openai_command_ai_command_error": "[Ошибка команды: %s]",
   "openai_ai_commands_title": "ИИ выполнил команды:",
-  "openai_enable_ai_commands": "Включить/выключить ИИ возможность использовать команды"
+  "openai_enable_ai_commands": "Включить/выключить ИИ возможность использовать команды",
+  "openai_command_ai_command_image_failed": "[Не удалось получить картинку]",
+  "openai_command_ai_command_image": "[Найдена картинка (%s)]"
 }

@@ -1,11 +1,15 @@
+import asyncio
 import datetime
 import json
 import re
+import traceback
 from typing import Optional
 
+from aiohttp import ClientConnectionError, ClientSession, ClientTimeout
 from discord import Embed
 
 from api.command.context.mrvn_command_context import MrvnCommandContext
+from api.extension import extension_manager
 
 
 async def parse_and_run_gpt_commands(ctx: MrvnCommandContext, response_text: str) -> Optional[tuple[str, str]]:
@@ -63,9 +67,60 @@ async def parse_and_run_gpt_commands(ctx: MrvnCommandContext, response_text: str
                 await ctx.respond(embed=Embed.from_dict(json.loads(" ".join(args))))
 
                 command_desc_list.append(ctx.translate("openai_command_ai_command_emb"))
+            elif name == "IMG":
+                query = " ".join(args)
+
+                result_url = await picture_search(query)
+
+                if not result_url:
+                    command_desc_list.append(ctx.translate("openai_command_ai_command_image_failed"))
+
+                    continue
+
+                await ctx.respond(result_url)
+
+                command_desc_list.append(ctx.format("openai_command_ai_command_image", query))
             else:
                 command_desc_list.append(ctx.format("openai_command_ai_command_unknown", command))
         except Exception as e:
+            print(traceback.format_exc())
             command_desc_list.append(ctx.format("openai_command_ai_command_error", type(e).__name__))
 
     return (response_text, "\n".join(command_desc_list)) if len(command_desc_list) else None
+
+
+async def picture_search(query: str) -> Optional[str]:
+    if "search" not in extension_manager.extensions:
+        return None
+
+    import extensions.search.env as senv
+
+    if not (senv.cse_cx is not None and senv.cse_api_key is not None):
+        return None
+
+    session = ClientSession(timeout=ClientTimeout(20))
+
+    params = {"q": query, "num": 1, "start": 1,
+              "key": senv.cse_api_key,
+              "cx": senv.cse_cx,
+              "safe": "off",
+              "searchType": "image"}
+
+    try:
+        response = await session.get("https://www.googleapis.com/customsearch/v1",
+                                     params=params)
+    except (asyncio.TimeoutError, ClientConnectionError):
+        return None
+
+    data = await response.json()
+
+    await session.close()
+    response.close()
+
+    if response.status != 200:
+        return None
+
+    if data["searchInformation"]["totalResults"] == "0":
+        return None
+
+    return data["items"][0]["link"]

@@ -32,6 +32,8 @@
   "openai_command_ai_command_emb": "[Отправлено красивое говно]",
   "openai_command_ai_command_unknown": "[Жидкая команда: %s]",
   "openai_command_ai_command_error": "[Понос команды: %s]",
-  "openai_ai_commands_title": "ИИ выполнил команды:",
-  "openai_enable_ai_commands": "Включить команды ЖИ"
+  "openai_ai_commands_title": "ЖИ выполнил команды:",
+  "openai_enable_ai_commands": "Включить команды ЖИ",
+  "openai_command_ai_command_image_failed": "[Картинка проебалась]",
+  "openai_command_ai_command_image": "[Нашёл картинку (%s)]"
 }

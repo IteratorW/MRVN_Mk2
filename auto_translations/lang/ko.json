@@ -116,6 +116,8 @@
     "openai_command_ai_command_channel": "[새 채널 %s 생성됨]",
     "openai_command_ai_command_emb": "[임베딩 전송]",
     "openai_command_ai_command_error": "[명령 오류: %s]",
+    "openai_command_ai_command_image": "[이미지(%s)를 찾았습니다]",
+    "openai_command_ai_command_image_failed": "[이미지를 가져오지 못했습니다]",
     "openai_command_ai_command_msg": "[메시지를 보냈다]",
     "openai_command_ai_command_mute": "[이유 **%s**로 인해 %s이(가) %s분 동안 음소거됨]",
     "openai_command_ai_command_name": "*[AI 커맨드]*",

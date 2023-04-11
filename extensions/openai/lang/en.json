@@ -33,5 +33,7 @@
   "openai_command_ai_command_unknown": "[Unknown command: %s]",
   "openai_command_ai_command_error": "[Command error: %s]",
   "openai_ai_commands_title": "AI executed commands:",
-  "openai_enable_ai_commands": "Enable AI commands"
+  "openai_enable_ai_commands": "Enable AI commands",
+  "openai_command_ai_command_image_failed": "[Failed to get an image]",
+  "openai_command_ai_command_image": "[Found an image (%s)]"
 }

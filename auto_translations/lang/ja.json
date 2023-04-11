@@ -116,6 +116,8 @@
     "openai_command_ai_command_channel": "[新しいチャネル %s を作成しました]",
     "openai_command_ai_command_emb": "[埋め込みを送信]",
     "openai_command_ai_command_error": "[コマンドエラー: %s]",
+    "openai_command_ai_command_image": "[画像が見つかりました (%s)]",
+    "openai_command_ai_command_image_failed": "【画像取得失敗】",
     "openai_command_ai_command_msg": "【メッセージを送った】",
     "openai_command_ai_command_mute": "[理由 **%s** により %s 分間 %s をミュートしました]",
     "openai_command_ai_command_name": "*[AI コマンド]*",

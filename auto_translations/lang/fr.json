@@ -116,6 +116,8 @@
     "openai_command_ai_command_channel": "[Nouvelle chaîne %s créée]",
     "openai_command_ai_command_emb": "[Envoyé une intégration]",
     "openai_command_ai_command_error": "[Erreur de commande : %s]",
+    "openai_command_ai_command_image": "[Trouvé une image (%s)]",
+    "openai_command_ai_command_image_failed": "[Impossible d'obtenir une image]",
     "openai_command_ai_command_msg": "[Envoyé un message]",
     "openai_command_ai_command_mute": "[Ignoré %s pendant %s min avec raison **%s**]",
     "openai_command_ai_command_name": "*[Commande IA]*",

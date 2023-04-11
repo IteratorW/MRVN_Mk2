@@ -116,6 +116,8 @@
     "openai_command_ai_command_channel": "[Utworzono nowy kanał %s]",
     "openai_command_ai_command_emb": "[Wysłano osadzenie]",
     "openai_command_ai_command_error": "[Błąd polecenia: %s]",
+    "openai_command_ai_command_image": "[Znaleziono obraz (%s)]",
+    "openai_command_ai_command_image_failed": "[Nie udało się pobrać obrazu]",
     "openai_command_ai_command_msg": "[Wysłano wiadomość]",
     "openai_command_ai_command_mute": "[Wyciszony %s przez %s min z powodu **%s**]",
     "openai_command_ai_command_name": "*[Polecenie SI]*",

@@ -101,6 +101,8 @@
     "openai_command_ai_command_channel": "[Created new channel %s]",
     "openai_command_ai_command_emb": "[Sent an embed]",
     "openai_command_ai_command_error": "[Command error: %s]",
+    "openai_command_ai_command_image": "[Found an image (%s)]",
+    "openai_command_ai_command_image_failed": "[Failed to get an image]",
     "openai_command_ai_command_msg": "[Sent a message]",
     "openai_command_ai_command_mute": "[Muted %s for %s min with reason **%s**]",
     "openai_command_ai_command_server_name": "[Changed server name to %s]",

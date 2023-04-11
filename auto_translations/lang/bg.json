@@ -116,6 +116,8 @@
     "openai_command_ai_command_channel": "[Създаден нов канал %s]",
     "openai_command_ai_command_emb": "[Изпрати вграждане]",
     "openai_command_ai_command_error": "[Грешка в командването: %s]",
+    "openai_command_ai_command_image": "[Намерено изображение (%s)]",
+    "openai_command_ai_command_image_failed": "[Неуспешно получаване на изображение]",
     "openai_command_ai_command_msg": "[Изпрати съобщение]",
     "openai_command_ai_command_mute": "[Заглушен %s за %s мин с причина **%s**]",
     "openai_command_ai_command_name": "*[AI команда]*",

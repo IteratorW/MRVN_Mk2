@@ -116,6 +116,8 @@
     "openai_command_ai_command_channel": "[Neuen Kanal %s erstellt]",
     "openai_command_ai_command_emb": "[Einbettung gesendet]",
     "openai_command_ai_command_error": "[Befehlsfehler: %s]",
+    "openai_command_ai_command_image": "[Bild gefunden (%s)]",
+    "openai_command_ai_command_image_failed": "[Bild konnte nicht abgerufen werden]",
     "openai_command_ai_command_msg": "[Nachricht gesendet]",
     "openai_command_ai_command_mute": "[%s für %s min stumm geschaltet mit Grund **%s**]",
     "openai_command_ai_command_name": "*[AI-Befehl]*",

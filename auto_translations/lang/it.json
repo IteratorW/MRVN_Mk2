@@ -116,6 +116,8 @@
     "openai_command_ai_command_channel": "[Creato nuovo canale %s]",
     "openai_command_ai_command_emb": "[Inviato un embed]",
     "openai_command_ai_command_error": "[Errore di comando: %s]",
+    "openai_command_ai_command_image": "[Trovato un'immagine (%s)]",
+    "openai_command_ai_command_image_failed": "[Impossibile ottenere un'immagine]",
     "openai_command_ai_command_msg": "[Invia un messaggio]",
     "openai_command_ai_command_mute": "[Disattivato %s per %s min con motivo **%s**]",
     "openai_command_ai_command_name": "*[Comando AI]*",
