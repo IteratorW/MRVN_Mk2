@@ -80,6 +80,13 @@ async def parse_and_run_gpt_commands(ctx: MrvnCommandContext, response_text: str
                 await ctx.respond(result_url)
 
                 command_desc_list.append(ctx.format("openai_command_ai_command_image", query))
+            elif name == "NICK":
+                user_id = int(args.pop(0))
+                nick = " ".join(args)
+
+                await ctx.guild.get_member(user_id).edit(nick=nick)
+
+                command_desc_list.append(ctx.format("openai_command_ai_command_nick", nick))
             else:
                 command_desc_list.append(ctx.format("openai_command_ai_command_unknown", command))
         except Exception as e:
