@@ -19,20 +19,21 @@ if "openai" in extension_manager.extensions:
 
 AI_TITLE_PROMPT_TEXT = \
 """
-Сгенерируй заголовок для сообщения о статистики сообщений в каналах чата за прошедший день.
+Сгенерируй заголовок для сообщения о статистики сообщений в каналах Discord сервера за прошедший день.
 В заголовок включи следующие слова: "С новым дном!".
-Сделай этот заголовок странным и смешным.
+Сделай этот заголовок смешным и саркастическим. Можешь пошутить про участников сервера и админа.
 """
 
 
 async def schedule_task():
-    dt = datetime.datetime.now()
-    tomorrow = dt + datetime.timedelta(days=1)
-    seconds_until_new_day = datetime.datetime.combine(tomorrow, datetime.time.min) - dt
+    while True:
+        dt = datetime.datetime.now()
+        tomorrow = dt + datetime.timedelta(days=1)
+        seconds_until_new_day = datetime.datetime.combine(tomorrow, datetime.time.min) - dt
 
-    await asyncio.sleep(seconds_until_new_day.seconds)
+        await asyncio.sleep(seconds_until_new_day.seconds)
 
-    await autopost_task()
+        await autopost_task()
 
 
 async def autopost_task():
@@ -53,8 +54,6 @@ async def autopost_task():
             await send_plot_to_channel(sys_channel)
         except Exception:
             pass
-
-    await schedule_task()
 
 
 async def prompt_ai_stats_title():
@@ -93,4 +92,4 @@ async def send_plot_to_channel(channel: discord.TextChannel):
 
 @event_handler()
 async def on_startup():
-    await schedule_task()
+    asyncio.ensure_future(schedule_task())
