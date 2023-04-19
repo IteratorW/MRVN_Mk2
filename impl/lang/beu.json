@@ -45,12 +45,14 @@
     "mrvn_api_setting_guild_language_error": "Долбоёб, этот язык не поддерживается ботом.",
     "mrvn_api_setting_allow_dm_commands": "Разрешает выебываться на бота в ЛС.",
     "mrvn_api_command_execution_error_title": "Криворукий уебан, у тебя ошибка!",
-    "mrvn_api_command_execution_error_desc": "Анальный стектрейс:\n```ansi\n%s```",
+    "mrvn_api_command_execution_error_desc": "Анальный стектрейс:\n%s",
     "mrvn_api_command_not_found": "Идиот, нет такой команды.",
     "mrvn_core_command_permission_error": "Уёбище, у тебя нет прав.",
     "mrvn_core_override_command_disabled": "Хмм... Админ-уебище отключил эту команду на этом сервере, сори.",
     "mrvn_core_override_cant_run_in_this_channel": "Бля, я маслину поймал....\nА по поводу команды, ты можешь выполнить её только в этих каналах: **%s**",
     "mrvn_core_dm_commands_disabled": "С бошкой все нормально? Ты не можешь выполнять команды из ЛС.",
     "mrvn_core_command_is_guild_only": "Бля, ну и тупой... Эта команда может быть выполнена только на сервере!",
-    "mrvn_api_command_no_desc": "Нихуя нет описания"
+    "mrvn_api_command_no_desc": "Нихуя нет описания",
+    "mrvn_core_command_bad_user_input": "Ты указал какую-то хуйню. Ошибка в аргументах команды:\n%s",
+    "mrvn_core_command_unknown_library_error": "Pycord жидко обосрался:\n%s"
 }

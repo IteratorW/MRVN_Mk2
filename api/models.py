@@ -17,19 +17,6 @@ class MrvnUser(Model):
     is_owner = fields.BooleanField(default=False)
 
 
-class CommandOverride(Model):
-    command_name = fields.CharField(max_length=32)
-    guild_id = fields.IntField()
-
-    disabled = fields.BooleanField(default=False)
-    discord_permissions = ListField[str](default=[])
-    whitelist_channel_ids = ListField[int](default=[])
-    prefix = fields.CharField(max_length=1, default="")
-
-    class Meta:
-        unique_together = (("command_name", "guild_id"), )
-
-
 # Settings ======================
 
 class SettingGuildLanguage(GuildSetting):

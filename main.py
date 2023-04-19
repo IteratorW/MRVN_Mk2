@@ -24,7 +24,7 @@ logging.basicConfig(level=logging.INFO if not env.debug else logging.DEBUG)
 
 logging.info("Loading extensions...")
 
-extension_manager.load_from_path("std_extension")
+# extension_manager.load_from_path("std_extension")
 translations.load_from_path(f"{os.path.dirname(impl.__file__)}/lang")
 
 for directory in env.extension_dirs:

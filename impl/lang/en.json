@@ -45,12 +45,14 @@
     "mrvn_api_setting_guild_language_error": "This language is not supported by the bot.",
     "mrvn_api_setting_allow_dm_commands": "Allows executing bot commands in Direct Messages.",
     "mrvn_api_command_execution_error_title": "An error occurred when trying to execute this command.",
-    "mrvn_api_command_execution_error_desc": "Technical information:\n```ansi\n%s```",
+    "mrvn_api_command_execution_error_desc": "Technical information:\n%s",
     "mrvn_api_command_not_found": "Unknown command.",
     "mrvn_core_command_permission_error": "You have insufficient permissions for this command.",
     "mrvn_core_override_command_disabled": "This command is disabled on this server.",
     "mrvn_core_override_cant_run_in_this_channel": "This command can only be executed in following channels:\n**%s**",
     "mrvn_core_dm_commands_disabled": "Running commands in DMs is disabled in this bot.",
     "mrvn_core_command_is_guild_only": "This is a guild-only command, you can not run it in DMs.",
-    "mrvn_api_command_no_desc": "No description."
+    "mrvn_api_command_no_desc": "No description.",
+    "mrvn_core_command_bad_user_input": "You have provided invalid arguments for this command:\n%s",
+    "mrvn_core_command_unknown_library_error": "An unknown library error occurred while trying to execute this command:\n%s"
 }

@@ -45,12 +45,14 @@
     "mrvn_api_setting_guild_language_error": "Этот язык не поддерживается ботом.",
     "mrvn_api_setting_allow_dm_commands": "Разрешает использовать бота в ЛС.",
     "mrvn_api_command_execution_error_title": "Произошла ошибка при выполнении этой команды.",
-    "mrvn_api_command_execution_error_desc": "Техническая информация:\n```ansi\n%s```",
+    "mrvn_api_command_execution_error_desc": "Техническая информация:\n%s",
     "mrvn_api_command_not_found": "Команда не найдена.",
     "mrvn_core_command_permission_error": "У вас недостаточно прав для выполнения этой команды.",
     "mrvn_core_override_command_disabled": "Данная команда отключена на этом сервере.",
     "mrvn_core_override_cant_run_in_this_channel": "Эта команда может быть выполнена только в следующих каналах:\n**%s**",
     "mrvn_core_dm_commands_disabled": "В этом боте отключена возможность выполнять команды из ЛС.",
     "mrvn_core_command_is_guild_only": "Эта команда может быть выполнена только на сервере.",
-    "mrvn_api_command_no_desc": "Нет описания"
+    "mrvn_api_command_no_desc": "Нет описания",
+    "mrvn_core_command_bad_user_input": "Указаны неверные аргументы для этой команды:\n%s",
+    "mrvn_core_command_unknown_library_error": "Произошла неизвестная ошибка библиотеке при попытке выполнить эту команду:\n%s"
 }
