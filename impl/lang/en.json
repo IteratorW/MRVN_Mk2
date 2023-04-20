@@ -54,5 +54,8 @@
     "mrvn_core_command_is_guild_only": "This is a guild-only command, you can not run it in DMs.",
     "mrvn_api_command_no_desc": "No description.",
     "mrvn_core_command_bad_user_input": "You have provided invalid arguments for this command:\n%s",
-    "mrvn_core_command_unknown_library_error": "An unknown library error occurred while trying to execute this command:\n%s"
+    "mrvn_core_command_unknown_library_error": "An unknown library error occurred while trying to execute this command:\n%s",
+    "mrvn_core_command_is_nsfw_only": "This command can be executed only in NSFW channels.",
+    "mrvn_core_command_is_dm_only": "This command can be executed only in DMs.",
+    "mrvn_core_bot_insufficient_perms": "The bot has insufficient permissions to do this."
 }

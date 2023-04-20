@@ -5,3 +5,8 @@ from . import test_int
 from . import test_exception
 from . import test_whole_string
 from . import test_multi_arg
+from . import test_guild_only
+from . import test_nsfw_only
+from . import test_owner_only
+from . import test_dm_only
+from . import test_permissions
