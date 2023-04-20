@@ -57,5 +57,7 @@
     "mrvn_core_command_unknown_library_error": "Pycord жидко обосрался:\n%s",
     "mrvn_core_command_is_nsfw_only": "Эта команда доступна к выполнению только в каналах с порнухой.",
     "mrvn_core_command_is_dm_only": "Эту команду можно выполнить только 1 на 1 с ботом.",
-    "mrvn_core_bot_insufficient_perms": "Бот бессилен, у него нет прав."
+    "mrvn_core_bot_insufficient_perms": "Бот бессилен, у него нет прав.",
+    "mrvn_core_bot_unknown_command_title": "Нет такой команды",
+    "mrvn_core_bot_similar_commands": "Мб ты хотел: **%s** ?"
 }

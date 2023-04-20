@@ -57,5 +57,7 @@
     "mrvn_core_command_unknown_library_error": "An unknown library error occurred while trying to execute this command:\n%s",
     "mrvn_core_command_is_nsfw_only": "This command can be executed only in NSFW channels.",
     "mrvn_core_command_is_dm_only": "This command can be executed only in DMs.",
-    "mrvn_core_bot_insufficient_perms": "The bot has insufficient permissions to do this."
+    "mrvn_core_bot_insufficient_perms": "The bot has insufficient permissions to do this.",
+    "mrvn_core_bot_unknown_command_title": "Command Not Found",
+    "mrvn_core_bot_similar_commands": "Perhaps you meant: **%s**"
 }

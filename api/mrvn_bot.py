@@ -1,4 +1,6 @@
+import difflib
 import logging
+import re
 import traceback
 
 import discord.errors
@@ -100,6 +102,8 @@ class MrvnBot(bridge.Bot):
             await ctx.respond_embed(Style.ERROR, ctx.tr.translate("mrvn_core_command_is_dm_only"))
         elif isinstance(exception, errors.BotMissingPermissions):
             await ctx.respond_embed(Style.ERROR, ctx.tr.translate("mrvn_core_bot_insufficient_perms"))
+        elif isinstance(exception, errors.CommandNotFound):
+            await self.process_unknown_command(ctx)
         elif isinstance(exception, MrvnCheckError):
             pass  # The global MRVN check sends out an error message by itself
         else:
@@ -125,6 +129,25 @@ class MrvnBot(bridge.Bot):
             message += f"[DM {ctx.author.id} {ctx.author.name}#{ctx.author.discriminator}]"
 
         logging.info(message)
+
+    async def process_unknown_command(self, ctx: MrvnPrefixContext):
+        command_name = ctx.invoked_with
+
+        similar_commands = {}
+        matcher = difflib.SequenceMatcher(None, command_name)
+        for command in [x.name for x in self.commands]:
+            matcher.set_seq2(command)
+
+            if (ratio := matcher.ratio()) > 0.5:
+                similar_commands[ratio] = ctx.clean_prefix + command
+
+        similar_commands = {k: v for k, v in sorted(similar_commands.items(), reverse=True, key=lambda item: item[0])}
+        similar_commands = {k: v for i, (k, v) in enumerate(similar_commands.items()) if i < 3}
+
+        await ctx.respond_embed(
+            Style.ERROR,
+            ctx.tr.format("mrvn_core_bot_similar_commands", ", ".join(similar_commands.values())) if len(similar_commands) else "",
+            ctx.tr.translate("mrvn_core_bot_unknown_command_title"))
 
     async def mrvn_check(self, ctx: MrvnApplicationContext | MrvnPrefixContext):
         if ctx.guild is None:

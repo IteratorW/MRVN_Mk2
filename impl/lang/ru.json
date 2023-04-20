@@ -57,5 +57,7 @@
     "mrvn_core_command_unknown_library_error": "Произошла неизвестная ошибка библиотеке при попытке выполнить эту команду:\n%s",
     "mrvn_core_command_is_nsfw_only": "Эту команду можно выполнить только в NSFW каналах.",
     "mrvn_core_command_is_dm_only": "Эту команду можно выполнить только в личных сообщениях с ботом.",
-    "mrvn_core_bot_insufficient_perms": "У бота недостаточно прав чтобы выполнить эту команду."
+    "mrvn_core_bot_insufficient_perms": "У бота недостаточно прав чтобы выполнить эту команду.",
+    "mrvn_core_bot_unknown_command_title": "Команда не найдена",
+    "mrvn_core_bot_similar_commands": "Возможно, вы имели ввиду: **%s**"
 }
