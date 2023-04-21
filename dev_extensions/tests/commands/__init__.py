@@ -10,3 +10,5 @@ from . import test_nsfw_only
 from . import test_owner_only
 from . import test_dm_only
 from . import test_permissions
+from . import test_trans_desc
+from . import test_trans_options

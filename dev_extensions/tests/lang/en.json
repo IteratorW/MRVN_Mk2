@@ -1,0 +1,8 @@
+{
+  "tests_command_desc_test_desc": "Test translatable description",
+  "tests_command_options_test_desc": "Test command with translatable options!",
+  "tests_command_options_test_response": "You have selected option: %s",
+  "tests_command_options_test_option_1_name": "Option #1",
+  "tests_command_options_test_option_2_name": "Option #2",
+  "tests_command_options_test_option_3_name": "Option #3"
+}

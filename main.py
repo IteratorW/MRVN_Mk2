@@ -10,7 +10,7 @@ from colored_traceback import colored_traceback
 from tortoise import Tortoise
 
 import impl
-from api.extension import extension_manager
+from api.extensions import extension_manager
 from api.translation import translations, auto_translate
 from impl import runtime, env
 
@@ -21,6 +21,11 @@ coloredlogs.install(fmt="[%(asctime)s] [%(name)s/%(levelname)s]: %(message)s", d
                                   'asctime': {'color': 'blue', "bright": True},
                                   "message": {"color": "white", "bright": True}})
 logging.basicConfig(level=logging.INFO if not env.debug else logging.DEBUG)
+
+if env.load_auto_translations:
+    logging.info("Loading auto-translations...")
+
+    translations.load_from_path(auto_translate.LANG_PATH)
 
 logging.info("Loading extensions...")
 
@@ -35,11 +40,6 @@ for directory in env.extension_dirs:
 
 if "auto_translate" in sys.argv:
     auto_translate.start_auto_translation()
-
-if env.load_auto_translations:
-    logging.info("Loading auto-translations...")
-
-    translations.load_from_path(auto_translate.LANG_PATH)
 
 logging.info("Running bot...")
 

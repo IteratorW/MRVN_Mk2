@@ -13,20 +13,21 @@ logger = logging.getLogger("Extensions")
 
 def load_from_path(path: str):
     name = path.split(".")[-1]
+    feature_list = []
+
+    # We really need to load extension lang files before importing it... Shitcode
+
+    if os.path.isdir(lang_path := f"./{path.replace('.', '/')}/lang"):
+        translations.load_from_path(lang_path)
+
+        feature_list.append("[T]")
 
     module = __import__(path, fromlist=[''])
-
-    feature_list = []
 
     if importlib.util.find_spec(model_path := f"{path}.models") is not None:
         extensions_models.append(model_path)
 
         feature_list.append("[M]")
-
-    if os.path.isdir(lang_path := f"{os.path.dirname(module.__file__)}/lang"):
-        translations.load_from_path(lang_path)
-
-        feature_list.append("[T]")
 
     extensions[name] = module
 

@@ -1,0 +1,8 @@
+{
+  "tests_command_desc_test_desc": "Описание на разных языках жиес",
+  "tests_command_options_test_desc": "Опции на разных языках жиес",
+  "tests_command_options_test_response": "Ты выбрал жидкую опцию: %s",
+  "tests_command_options_test_option_1_name": "Говно #1",
+  "tests_command_options_test_option_2_name": "Говно #2",
+  "tests_command_options_test_option_3_name": "Говно #3"
+}

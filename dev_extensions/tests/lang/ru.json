@@ -1,0 +1,8 @@
+{
+  "tests_command_desc_test_desc": "Тест описания на разных языках",
+  "tests_command_options_test_desc": "Тест команды с опциями на разных языках!",
+  "tests_command_options_test_response": "Ты выбрал опцию: %s",
+  "tests_command_options_test_option_1_name": "Опция #1",
+  "tests_command_options_test_option_2_name": "Опция #2",
+  "tests_command_options_test_option_3_name": "Опция #3"
+}

@@ -9,7 +9,7 @@ from aiohttp import ClientConnectionError, ClientSession, ClientTimeout
 from discord import Embed
 
 from api.command.context.mrvn_command_context import MrvnCommandContext
-from api.extension import extension_manager
+from api.extensions import extension_manager
 
 
 async def parse_and_run_gpt_commands(ctx: MrvnCommandContext, response_text: str) -> Optional[tuple[str, str]]:

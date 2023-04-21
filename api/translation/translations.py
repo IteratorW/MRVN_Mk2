@@ -5,6 +5,7 @@ import traceback
 from collections import defaultdict
 
 FALLBACK_LANGUAGE = "en"
+DISCORD_LANGS = ["bg", "zh-CN", "cs", "fr", "de", "it", "ja", "ko", "pl", "ru", "uk"]
 
 translations = defaultdict(dict[str, str])
 
@@ -27,8 +28,6 @@ def translate(key: str, lang: str):
             logger.error("Fallback language doesn't exist.")
 
             return key
-
-        logger.error(f"Unknown lang {lang}")
 
         return translate(key, FALLBACK_LANGUAGE)
 

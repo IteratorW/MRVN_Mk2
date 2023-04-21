@@ -5,7 +5,7 @@ from discord import Intents
 from tortoise import Tortoise
 
 from api.event_handler import handler_manager
-from api.extension import extension_manager
+from api.extensions import extension_manager
 from api.mrvn_bot import MrvnBot
 from api.translation import translations
 from impl import env

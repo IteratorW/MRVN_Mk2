@@ -6,7 +6,7 @@ import discord
 from discord import File
 
 from api.event_handler.decorators import event_handler
-from api.extension import extension_manager
+from api.extensions import extension_manager
 from api.models import SettingGuildLanguage
 from api.translation.translator import Translator
 from extensions.statistics import plot

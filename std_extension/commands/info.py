@@ -4,7 +4,7 @@ from git import InvalidGitRepositoryError
 from api.command import categories
 from api.command.context.mrvn_command_context import MrvnCommandContext
 from api.embed.style import Style
-from api.extension import extension_manager
+from api.extensions import extension_manager
 from api.translation.translatable import Translatable
 from impl import runtime
 

@@ -6,8 +6,8 @@ from deep_translator import GoogleTranslator
 from deep_translator.exceptions import LanguageNotSupportedException
 
 from api.translation import translations
+from api.translation.translations import DISCORD_LANGS
 
-DISCORD_LANGS = ["bg", "zh-CN", "cs", "fr", "de", "it", "ja", "ko", "pl", "ru", "uk"]
 AUTO_TRANSLATIONS_PATH = "./auto_translations"
 FALLBACK_PATH = f"{AUTO_TRANSLATIONS_PATH}/fallback.json"
 LANG_PATH = f"{AUTO_TRANSLATIONS_PATH}/lang"
