@@ -62,6 +62,11 @@ async def autopost_task():
 
 
 async def prompt_ai_stats_title():
+    import openai
+
+    if openai.api_key is None:
+        return None
+
     try:
         response_text = (await openai.ChatCompletion.acreate(
             model="gpt-3.5-turbo",
@@ -78,9 +83,9 @@ async def send_plot_to_channel(channel: discord.TextChannel):
     title = None
 
     if "openai" in extension_manager.extensions:
-        import openai
-        if openai.api_key is not None:
-            title = await prompt_ai_stats_title()
+        title = await prompt_ai_stats_title()
+
+        if title is not None:
             title = title.replace("\"", "")  # Remove quotes from AI
 
     if title is None:
