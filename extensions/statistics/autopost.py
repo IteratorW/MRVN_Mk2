@@ -1,6 +1,8 @@
 import asyncio
 import datetime
 import functools
+import logging
+import traceback
 
 import discord
 from discord import File
@@ -14,9 +16,6 @@ from extensions.statistics.commands import channels
 from extensions.statistics.models import SettingChannelStatsAutopostEnable
 from impl import runtime
 
-if "openai" in extension_manager.extensions:
-    import openai
-
 AI_TITLE_PROMPT_TEXT = \
 """
 Сгенерируй заголовок для сообщения о статистики сообщений в каналах Discord сервера за прошедший день.
@@ -24,14 +23,19 @@ AI_TITLE_PROMPT_TEXT = \
 Сделай этот заголовок смешным и саркастическим. Можешь пошутить про участников сервера и админа.
 """
 
+logger = logging.getLogger("Statistics auto stats")
+
 
 async def schedule_task():
     while True:
         dt = datetime.datetime.now()
         tomorrow = dt + datetime.timedelta(days=1)
-        seconds_until_new_day = datetime.datetime.combine(tomorrow, datetime.time.min) - dt
+        seconds_until_new_day = (datetime.datetime.combine(tomorrow, datetime.time.min) - dt).seconds
 
-        await asyncio.sleep(seconds_until_new_day.seconds)
+        if seconds_until_new_day < 1:
+            continue
+
+        await asyncio.sleep(seconds_until_new_day)
 
         await autopost_task()
 
@@ -53,7 +57,8 @@ async def autopost_task():
         try:
             await send_plot_to_channel(sys_channel)
         except Exception:
-            pass
+            logger.error(f"Error sending autopost to guild {guild.name}")
+            logger.error(traceback.format_exc())
 
 
 async def prompt_ai_stats_title():
@@ -72,9 +77,11 @@ async def prompt_ai_stats_title():
 async def send_plot_to_channel(channel: discord.TextChannel):
     title = None
 
-    if openai.api_key is not None:
-        title = await prompt_ai_stats_title()
-        title = title.replace("\"", "")  # Remove quotes from AI
+    if "openai" in extension_manager.extensions:
+        import openai
+        if openai.api_key is not None:
+            title = await prompt_ai_stats_title()
+            title = title.replace("\"", "")  # Remove quotes from AI
 
     if title is None:
         lang = (await SettingGuildLanguage.get_or_create(guild_id=channel.guild.id))[0]
