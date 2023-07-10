@@ -49,6 +49,13 @@ class StatsDailyGuildChannelMessages(IncrementableGuildValueModel):
         return (await cls.get_or_create(date=date.date(), guild_id=guild_id, channel_id=channel_id))[0]
 
 
+class StatsChannelMessageTimestamp(Model):
+    guild_id = fields.IntField()
+    channel_id = fields.IntField()
+
+    timestamp = fields.DatetimeField()
+
+
 class SettingChannelStatsAutopostEnable(GuildSetting):
     key = "stats_autopost_enable"
     description = Translatable("stats_autopost_enable")
