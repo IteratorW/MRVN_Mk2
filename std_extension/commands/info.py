@@ -6,10 +6,13 @@ from api.command.context.mrvn_command_context import MrvnCommandContext
 from api.embed.style import Style
 from api.extension import extension_manager
 from api.translation.translatable import Translatable
-from impl import runtime
+from impl import runtime, env
 
 
 def get_version():
+    if env.debug:
+        return None
+
     try:
         repo = git.Repo(search_parent_directories=True)
     except InvalidGitRepositoryError:
