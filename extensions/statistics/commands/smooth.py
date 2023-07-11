@@ -18,38 +18,37 @@ from extensions.statistics.models import StatsChannelMessageTimestamp
 
 PLOT_DAYS_COUNT = 30
 
-async def get_kde(guild_id: int):
-    res: list[StatsChannelMessageTimestamp] = await StatsChannelMessageTimestamp.filter(guild_id=guild_id,
-                                                                                        timestamp_gte=(
-                                                                                                datetime.datetime.now() - datetime.timedelta(
-                                                                                            days=PLOT_DAYS_COUNT)))
 
-    # False alarm, PyCharm can't infer type
-    # noinspection PyTypeChecker
-    by_channel: dict[int, list[StatsChannelMessageTimestamp]] = defaultdict(default_factory=list)
+async def get_kde(guild_id: int):
+    res: list[StatsChannelMessageTimestamp] = \
+        await StatsChannelMessageTimestamp.filter(guild_id=guild_id,
+                                                  timestamp__gte=
+                                                  (datetime.datetime.now() - datetime.timedelta(days=PLOT_DAYS_COUNT)))
+
+    by_channel: dict[int, list[StatsChannelMessageTimestamp]] = defaultdict(list)
 
     for item in res:
         by_channel[item.channel_id].append(item)
 
-    # False alarm again, now it thinks that key return type is the type parameter of returned list
-    # noinspection PyTypeChecker,PyArgumentList
-    by_channel = dict(sorted(by_channel.items(), lambda item: len(item[1]))[:5])
+    # PyCharm issue
+    # https://youtrack.jetbrains.com/issue/PY-38897
+    # noinspection PyTypeChecker
+    by_channel = dict(sorted(by_channel.items(), key=lambda x: len(x[1]))[:5], reversed=True)
 
     event: StatsChannelMessageTimestamp
     kde_by_channel = {
-        channel_id: gaussian_kde([event.timestamp.timestamp() for event in events]) for channel_id, events in by_channel
+        channel_id: gaussian_kde([event.timestamp.timestamp() for event in events]) for channel_id, events in by_channel.items()
     }
 
     return kde_by_channel
 
 
-@stats.stats_group.command(description=Translatable("statistics_command_messages_desc"), name="messages_gaussian")
-async def messages_command(ctx: MrvnCommandContext):
+@stats.stats_group.command(description=Translatable("statistics_command_smooth_desc"), name="smooth")
+async def smooth(ctx: MrvnCommandContext):
     await ctx.defer()
 
     kde_by_channel = await get_kde(ctx.guild_id)
 
-    legend_text = ctx.format("statistics_command_messages_legend", ctx.guild.name)
     fig, ax = plt.subplots(figsize=(12, 6))
 
     x = np.linspace(
