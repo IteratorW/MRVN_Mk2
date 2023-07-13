@@ -42,8 +42,9 @@ async def get_kde(guild_id: int):
 
     event: StatsChannelMessageTimestamp
     kde_by_channel = {
-        channel_id: gaussian_kde([event.timestamp.timestamp() for event in events]) for channel_id, events in
-        by_channel.items()
+        channel_id: gaussian_kde([event.timestamp.timestamp() for event in events])
+        for channel_id, events in by_channel.items()
+        if events # aren't empty
     }
 
     return kde_by_channel
