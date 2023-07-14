@@ -5,7 +5,7 @@ import matplotlib.axes
 import mplcyberpunk
 
 from collections import defaultdict
-
+from datetime import timedelta
 # noinspection PyPackageRequirements
 import matplotlib.pyplot as plt
 # noinspection PyPackageRequirements
@@ -54,13 +54,15 @@ async def get_kde(guild_id: int):
 async def smooth(ctx: MrvnCommandContext):
     await ctx.defer()
 
+    period = datetime.timedelta(days=PLOT_DAYS_COUNT)
+
     kde_by_channel = await get_kde(ctx.guild_id)
 
     ax: matplotlib.axes.Axes
     fig, ax = plt.subplots(figsize=(12, 6))
 
     x = np.linspace(
-        (datetime.datetime.now() - datetime.timedelta(days=PLOT_DAYS_COUNT)).timestamp(),
+        (datetime.datetime.now() - period).timestamp(),
         datetime.datetime.now().timestamp(), 1000)
 
     for channel_id, kde in kde_by_channel.items():
@@ -69,7 +71,19 @@ async def smooth(ctx: MrvnCommandContext):
 
     plt.xticks(rotation=45)
 
-    ax.xaxis.set_major_formatter(ticker.FuncFormatter(lambda x, _: str(datetime.datetime.fromtimestamp(x))))
+    if period < timedelta(minutes=1):
+        dt_format = "%S"
+    elif period < timedelta(hours=1):
+        dt_format = "%M:%S"
+    elif period < timedelta(days=1):
+        dt_format = "%H:%M:%S"
+    elif period < timedelta(days=31): # hardcoded month duration
+        dt_format = "%m-%d %H:%M:%S"
+    else:
+        dt_format = "%Y-%m-%d %H:%M:%S"
+
+
+    ax.xaxis.set_major_formatter(ticker.FuncFormatter(lambda x, _: datetime.datetime.fromtimestamp(x).strftime(dt_format)))
     ax.legend()
 
     buf = io.BytesIO()
