@@ -53,7 +53,7 @@ class StatsChannelMessageTimestamp(Model):
     guild_id = fields.IntField()
     channel_id = fields.IntField()
 
-    timestamp = fields.DatetimeField()
+    timestamp = fields.DatetimeField(index=True)
 
 
 class SettingChannelStatsAutopostEnable(GuildSetting):
