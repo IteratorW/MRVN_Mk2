@@ -72,7 +72,7 @@ async def smooth(ctx: MrvnCommandContext, period_days: float = 1, max_channels: 
 
         line.set_label(ctx.guild.get_channel_or_thread(channel_id).name)
 
-    plt.xticks(rotation=45)
+    # plt.xticks(rotation=15) #  Bring this back if text doesn't fit
 
     if period < timedelta(minutes=1):
         dt_format = "%S"
@@ -86,7 +86,7 @@ async def smooth(ctx: MrvnCommandContext, period_days: float = 1, max_channels: 
         dt_format = "%Y-%m-%d %H:%M:%S"
 
     ax.xaxis.set_major_formatter(ticker.FuncFormatter(lambda x, _: datetime.datetime.fromtimestamp(x).strftime(dt_format)))
-    ax.legend(loc="upper center", bbox_to_anchor=(0.5, -0.21),
+    ax.legend(loc="upper center", bbox_to_anchor=(0.5, -0.1),
               ncol=5)
 
     buf = io.BytesIO()
