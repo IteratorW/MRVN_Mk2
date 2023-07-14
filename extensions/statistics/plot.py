@@ -14,6 +14,8 @@ def get_plot(dates_list: list[str], counts: dict[str, list[int]], legend_text: s
     """
     Make a message statistics plot for at least one channel
 
+    This function is used for following plots: channels, messages, users
+
     :param dates_list: Dates list (x-axis)
     :param counts: Message counts (y-axis). Key is the channel name, value is the message count in that channel
     :param legend_text: Guild name (unused if multiple channels are passed, safe to provide None in this case)

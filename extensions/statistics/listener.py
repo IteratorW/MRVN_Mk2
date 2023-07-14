@@ -28,7 +28,7 @@ async def on_message(message: Message):
         return
 
     await StatsChannelMessageTimestamp.create(guild_id=message.guild.id, channel_id=message.channel.id,
-                                              timestamp=message.created_at)
+                                              timestamp=message.created_at, user_id=message.author.id)
 
     entry = await StatsDailyGuildChannelMessages.get_for_now(message.guild.id, message.channel.id)
 

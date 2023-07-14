@@ -52,6 +52,7 @@ class StatsDailyGuildChannelMessages(IncrementableGuildValueModel):
 class StatsChannelMessageTimestamp(Model):
     guild_id = fields.IntField()
     channel_id = fields.IntField()
+    user_id = fields.IntField(default=-1)
 
     timestamp = fields.DatetimeField(index=True)
 
