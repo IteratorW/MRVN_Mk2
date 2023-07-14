@@ -1,11 +1,9 @@
 import datetime
 import io
-
-import matplotlib.axes
-import mplcyberpunk
-
 from collections import defaultdict
 from datetime import timedelta
+
+import matplotlib.axes
 # noinspection PyPackageRequirements
 import matplotlib.pyplot as plt
 # noinspection PyPackageRequirements
@@ -21,14 +19,12 @@ from api.translation.translatable import Translatable
 from extensions.statistics.commands import stats
 from extensions.statistics.models import StatsChannelMessageTimestamp
 
-PLOT_DAYS_COUNT = 1
 
-
-async def get_kde(guild_id: int):
+async def get_kde(guild_id: int, period: timedelta, max_channels: int):
     res: list[StatsChannelMessageTimestamp] = \
         await StatsChannelMessageTimestamp.filter(guild_id=guild_id,
                                                   timestamp__gte=
-                                                  (datetime.datetime.now() - datetime.timedelta(days=PLOT_DAYS_COUNT)))
+                                                  (datetime.datetime.now() - period))
 
     by_channel: dict[int, list[StatsChannelMessageTimestamp]] = defaultdict(list)
 
@@ -38,7 +34,7 @@ async def get_kde(guild_id: int):
     # PyCharm issue
     # https://youtrack.jetbrains.com/issue/PY-38897
     # noinspection PyTypeChecker
-    by_channel = dict(sorted(by_channel.items(), key=lambda x: len(x[1]), reverse=True)[:5])
+    by_channel = dict(sorted(by_channel.items(), key=lambda x: len(x[1]), reverse=True)[:max_channels])
 
     event: StatsChannelMessageTimestamp
     kde_by_channel = {
@@ -51,12 +47,12 @@ async def get_kde(guild_id: int):
 
 
 @stats.stats_group.command(description=Translatable("statistics_command_smooth_desc"), name="smooth")
-async def smooth(ctx: MrvnCommandContext):
+async def smooth(ctx: MrvnCommandContext, period_days: float = 1, max_channels: int = 5):
     await ctx.defer()
 
-    period = datetime.timedelta(days=PLOT_DAYS_COUNT)
+    period = datetime.timedelta(days=period_days)
 
-    kde_by_channel = await get_kde(ctx.guild_id)
+    kde_by_channel = await get_kde(ctx.guild_id, period, max_channels)
 
     ax: matplotlib.axes.Axes
     fig, ax = plt.subplots(figsize=(12, 6))
