@@ -3,19 +3,23 @@ import io
 from collections import defaultdict
 from datetime import timedelta
 
+# noinspection PyPackageRequirements
 import matplotlib.axes
 # noinspection PyPackageRequirements
 import matplotlib.pyplot as plt
 # noinspection PyPackageRequirements
+import mplcyberpunk
 import numpy as np
 # noinspection PyPackageRequirements
 from discord import File
+# noinspection PyPackageRequirements
 from matplotlib import ticker
 # noinspection PyPackageRequirements
 from scipy.stats import gaussian_kde
 
 from api.command.context.mrvn_command_context import MrvnCommandContext
 from api.translation.translatable import Translatable
+from extensions.statistics import plot
 from extensions.statistics.commands import stats
 from extensions.statistics.models import StatsChannelMessageTimestamp
 
@@ -55,7 +59,7 @@ async def smooth(ctx: MrvnCommandContext, period_days: float = 1, max_channels: 
     kde_by_channel = await get_kde(ctx.guild_id, period, max_channels)
 
     ax: matplotlib.axes.Axes
-    fig, ax = plt.subplots(figsize=(12, 6))
+    fig, ax = plt.subplots(figsize=(14, 5))
 
     x = np.linspace(
         (datetime.datetime.now() - period).timestamp(),
@@ -63,6 +67,9 @@ async def smooth(ctx: MrvnCommandContext, period_days: float = 1, max_channels: 
 
     for channel_id, kde in kde_by_channel.items():
         line = ax.plot(x, kde(x))[0]
+
+        plot.make_line_glow(line, ax)
+
         line.set_label(ctx.guild.get_channel_or_thread(channel_id).name)
 
     plt.xticks(rotation=45)
@@ -78,9 +85,9 @@ async def smooth(ctx: MrvnCommandContext, period_days: float = 1, max_channels: 
     else:
         dt_format = "%Y-%m-%d %H:%M:%S"
 
-
     ax.xaxis.set_major_formatter(ticker.FuncFormatter(lambda x, _: datetime.datetime.fromtimestamp(x).strftime(dt_format)))
-    ax.legend()
+    ax.legend(loc="upper center", bbox_to_anchor=(0.5, -0.21),
+              ncol=5)
 
     buf = io.BytesIO()
     plt.savefig(buf, format="png", bbox_inches="tight")
