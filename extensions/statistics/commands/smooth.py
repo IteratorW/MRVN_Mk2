@@ -21,7 +21,7 @@ from api.translation.translatable import Translatable
 from extensions.statistics.commands import stats
 from extensions.statistics.models import StatsChannelMessageTimestamp
 
-PLOT_DAYS_COUNT = 0.05
+PLOT_DAYS_COUNT = 1
 
 
 async def get_kde(guild_id: int):
@@ -44,7 +44,7 @@ async def get_kde(guild_id: int):
     kde_by_channel = {
         channel_id: gaussian_kde([event.timestamp.timestamp() for event in events])
         for channel_id, events in by_channel.items()
-        if events # aren't empty
+        if len(events) > 1
     }
 
     return kde_by_channel
