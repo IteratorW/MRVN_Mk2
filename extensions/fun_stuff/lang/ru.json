@@ -6,5 +6,8 @@
   "fun_stuff_command_sus_desc": "Преобразовать картинку в мозайку из анимированных амогусов",
   "fun_stuff_command_sus_invalid_content_type": "Неверное вложение.",
   "fun_stuff_command_sus_fail": "Не удалось преобразовать эту картинку.",
-  "fun_stuff_command_sus_title": "Image-Sussificator"
+  "fun_stuff_command_sus_title": "Image-Sussificator",
+  "fun_stuff_command_ita_desc": "Преобразовать картинку в арт из символов Брайлля",
+  "fun_stuff_command_ita_invalid_content_type": "Неверное вложение.",
+  "fun_stuff_command_ita_fail": "Не удалось преобразовать эту картинку."
 }
