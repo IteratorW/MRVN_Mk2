@@ -3,14 +3,14 @@ import io
 import os
 import random
 
-import mplcyberpunk
 import numpy as np
-from matplotlib import pyplot as plt, patches, cm
+from matplotlib import pyplot as plt, patches, cm, cycler
 
 plt.style.use(f"{os.path.dirname(__file__)}/mrvn.mplstyle")
 
 
-def get_plot(dates_list: list[str], counts: dict[str, list[int]], legend_text: str = None):
+def get_plot(dates_list: list[str], counts: dict[str, list[int]], legend_text: str = None,
+             alternate_colors: bool = False):
     """
     Make a message statistics plot for at least one channel
 
@@ -19,9 +19,14 @@ def get_plot(dates_list: list[str], counts: dict[str, list[int]], legend_text: s
     :param dates_list: Dates list (x-axis)
     :param counts: Message counts (y-axis). Key is the channel name, value is the message count in that channel
     :param legend_text: Guild name (unused if multiple channels are passed, safe to provide None in this case)
+    :param alternate_colors: Use alternate colors for lines
     :return: PNG image BytesIO
     """
+
     fig, ax = plt.subplots(figsize=(12, 6))
+
+    if alternate_colors:
+        ax.set_prop_cycle(cycler(color=["BCD2EE", "00FF51", "D90368", "4444FF", "FFFF00"]))
 
     x = dates_list
 
