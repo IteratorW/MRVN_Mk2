@@ -6,5 +6,8 @@
   "fun_stuff_command_sus_desc": "SUSSIFY IMAGE: convert whatever you send into animated amogus mosaic",
   "fun_stuff_command_sus_invalid_content_type": "Invalid content type! Image required.",
   "fun_stuff_command_sus_fail": "Failed to sussify this image.",
-  "fun_stuff_command_sus_title": "Image-Sussificator"
+  "fun_stuff_command_sus_title": "Image-Sussificator",
+  "fun_stuff_command_ita_desc": "Converts attached image to a Braille symbol art.",
+  "fun_stuff_command_ita_invalid_content_type": "Invalid content type! Image required.",
+  "fun_stuff_command_ita_fail": "Failed to convert this image."
 }
