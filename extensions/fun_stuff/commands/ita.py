@@ -13,7 +13,7 @@ from api.translation.translatable import Translatable
 from impl import runtime
 
 @runtime.bot.slash_command(description=Translatable("fun_stuff_command_ita_desc"))
-async def ita(ctx: MrvnCommandContext, image: Option(Attachment), palette: Option(str, choices=[i for i in colors.AvailableColors]) = AvailableColors.GRAYSCALE, width: Option(int) = 100):
+async def ita(ctx: MrvnCommandContext, image: Option(Attachment), palette: Option(str, choices=[i for i in colors.AvailableColors]) = colors.AvailableColors.GRAYSCALE, width: Option(int) = 100):
     if not image.content_type.startswith("image"):
         await ctx.respond_embed(Style.ERROR, ctx.translate("fun_stuff_command_ita_invalid_content_type"))
 
