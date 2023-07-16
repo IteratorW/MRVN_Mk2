@@ -50,13 +50,17 @@ async def get_last_month_users_stats(guild: discord.Guild) -> tuple[list[str], d
     return dates, counts
 
 
-@stats.stats_group.command(description=Translatable("statistics_command_users_desc"), name="users")
-async def users_command(ctx: MrvnCommandContext):
-    await ctx.defer()
-
-    dates, counts = await get_last_month_users_stats(ctx.guild)
+async def get_users_stats_file(guild: discord.Guild) -> discord.File:
+    dates, counts = await get_last_month_users_stats(guild)
 
     result = await asyncio.get_event_loop().run_in_executor(None, functools.partial(plot.get_plot,
                                                                                     dates, counts, None, True))
 
-    await ctx.respond(file=File(result, filename="Chart_Users.png"))
+    return File(result, filename="Chart_Users.png")
+
+
+@stats.stats_group.command(description=Translatable("statistics_command_users_desc"), name="users")
+async def users_command(ctx: MrvnCommandContext):
+    await ctx.defer()
+
+    await ctx.respond(file=await get_users_stats_file(ctx.guild))

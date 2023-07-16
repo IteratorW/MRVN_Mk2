@@ -75,12 +75,16 @@ async def fill_sample_data():
             await entry.save()
 
 
+async def get_channel_stats_file(guild: discord.Guild) -> discord.File:
+    dates, counts = await get_last_month_channels_stats(guild)
+
+    result = await asyncio.get_event_loop().run_in_executor(None, functools.partial(plot.get_plot, dates, counts))
+
+    return File(result, filename="Chart_Channels.png")
+
+
 @stats.stats_group.command(description=Translatable("statistics_command_channels_desc"), name="channels")
 async def channels_command(ctx: MrvnCommandContext):
     await ctx.defer()
 
-    dates, counts = await get_last_month_channels_stats(ctx.guild)
-
-    result = await asyncio.get_event_loop().run_in_executor(None, functools.partial(plot.get_plot, dates, counts))
-
-    await ctx.respond(file=File(result, filename="Chart_Channels.png"))
+    await ctx.respond(file=await get_channel_stats_file(ctx.guild))

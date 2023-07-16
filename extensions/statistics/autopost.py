@@ -5,22 +5,32 @@ import logging
 import traceback
 
 import discord
+import openai
 from discord import File
+from tortoise.expressions import RawSQL
+from tortoise.functions import Count
 
 from api.event_handler.decorators import event_handler
 from api.extension import extension_manager
 from api.models import SettingGuildLanguage
 from api.translation.translator import Translator
 from extensions.statistics import plot
-from extensions.statistics.commands import channels
-from extensions.statistics.models import SettingChannelStatsAutopostEnable
+from extensions.statistics.commands import channels, messages, smooth, users
+from extensions.statistics.models import SettingChannelStatsAutopostEnable, StatsChannelMessageTimestamp
 from impl import runtime
 
 AI_TITLE_PROMPT_TEXT = \
-"""
-Сгенерируй заголовок для сообщения о статистики сообщений в каналах Discord сервера за прошедший день.
-В заголовок включи следующие слова: "С новым дном!".
-Сделай этот заголовок смешным и саркастическим. Можешь пошутить про участников сервера и админа.
+    """
+Статистика каналов по количеству сообщений:
+%s
+Статистика пользователей по количеству их сообщений:
+%s
+Ты бот на Discord сервере. Твоя задача - написать небольшой текст, который описывает полученную тобой
+статистику выше. Используй не более 5 предложений.
+Текст должен быть смешным и саркастическим. Ты должен сравнить статистику каналов и пользователей
+за оба дня. Можешь пошутить про участников сервера которые указаны в статистике и каналы, которые укаазны
+в статистике.
+В свой ответ кроме текста ничего не пиши.
 """
 
 logger = logging.getLogger("Statistics auto stats")
@@ -61,45 +71,100 @@ async def autopost_task():
             logger.error(traceback.format_exc())
 
 
-async def prompt_ai_stats_title():
+# ================================================================== #
+# AI
+
+
+async def get_users_top(guild: discord.Guild, date: datetime.date):
+    counts = await StatsChannelMessageTimestamp \
+        .annotate(count=Count("id"), date=RawSQL("DATE(timestamp)")) \
+        .filter(date=date, guild_id=guild.id) \
+        .exclude(user_id=-1) \
+        .group_by("user_id") \
+        .order_by("-count") \
+        .limit(5) \
+        .values("count", "user_id")
+
+    counts = [x for x in counts if (member := guild.get_member(x["user_id"])) is None or not member.bot]
+
+    return f"{date.strftime('%d.%m.%Y')}\n" + "\n".join([
+        f"{i}. {str(x['user_id']) if (member := guild.get_member(x['user_id'])) is None else member.mention} "
+        f"- {x['count']}"
+        for i, x in enumerate(counts)])
+
+
+async def get_channels_top(guild: discord.Guild, date: datetime.date):
+    counts = await StatsChannelMessageTimestamp \
+        .annotate(count=Count("id"), date=RawSQL("DATE(timestamp)")) \
+        .filter(date=date, guild_id=guild.id) \
+        .group_by("channel_id") \
+        .order_by("-count") \
+        .limit(5) \
+        .values("count", "channel_id")
+
+    return f"{date.strftime('%d.%m.%Y')}\n" + "\n".join(
+        [
+            f"{i}. {str(x['channel_id']) if (channel := guild.get_channel(x['channel_id'])) is None else channel.mention} - {x['count']}"
+            for i, x in enumerate(counts)])
+
+
+async def get_ai_prompt(guild: discord.Guild) -> str:
+    date_today = datetime.date.today()
+    date_yesterday = date_today - datetime.timedelta(days=1)
+
+    chan_top = f"{await get_channels_top(guild, date_today)}\n{await get_channels_top(guild, date_yesterday)}"
+    user_top = f"{await get_users_top(guild, date_today)}\n{await get_users_top(guild, date_yesterday)}"
+
+    return AI_TITLE_PROMPT_TEXT % (chan_top, user_top)
+
+
+async def prompt_ai_stats_title(guild: discord.Guild):
     import openai
 
-    if openai.api_key is None:
-        return None
+    response_text = (await openai.ChatCompletion.acreate(
+        model="gpt-3.5-turbo",
+        messages=[{"role": "user", "content": await get_ai_prompt(guild)}],
+        temperature=1.0
+    ))["choices"][0]["message"]["content"]
 
-    try:
-        response_text = (await openai.ChatCompletion.acreate(
-            model="gpt-3.5-turbo",
-            messages=[{"role": "user", "content": AI_TITLE_PROMPT_TEXT}],
-            temperature=1.0
-        ))["choices"][0]["message"]["content"]
+    return response_text
 
-        return response_text
-    except openai.OpenAIError:
-        return None
+
+# ================================================================== #
 
 
 async def send_plot_to_channel(channel: discord.TextChannel):
     title = None
 
     if "openai" in extension_manager.extensions:
-        title = await prompt_ai_stats_title()
+        try:
+            title = await prompt_ai_stats_title(channel.guild)
+        except openai.OpenAIError:
+            logger.error(f"Failed to generate an AI title for autopost, guild {channel.guild.name}")
+            logger.error(traceback.format_exc())
+
+            title = None
 
         if title is not None:
             title = title.replace("\"", "")  # Remove quotes from AI
 
-    if title is None:
-        lang = (await SettingGuildLanguage.get_or_create(guild_id=channel.guild.id))[0]
+    lang = (await SettingGuildLanguage.get_or_create(guild_id=channel.guild.id))[0].value
+    tr = Translator(lang)
 
-        title = Translator(lang).translate("stats_daily_stats_title")
+    if title is None:
+        title = tr.translate("stats_daily_stats_title")
 
     # ===========
 
-    dates, counts = await channels.get_last_month_channels_stats(channel.guild)
+    files = [
+        (await channels.get_channel_stats_file(channel.guild)),
+        (await messages.get_messages_stats_file(channel.guild, tr)),
+        (await smooth.get_smooth_stats_file(channel.guild)),
+        (await users.get_users_stats_file(channel.guild))
+    ]
 
-    result = await asyncio.get_event_loop().run_in_executor(None, functools.partial(plot.get_plot, dates, counts))
-
-    await channel.send(file=File(result, filename="Chart_Channels.png"), content=title)
+    await channel.send(files=files, content=title, allowed_mentions=
+                       discord.AllowedMentions(users=False, roles=False, everyone=False))
 
 
 @event_handler()

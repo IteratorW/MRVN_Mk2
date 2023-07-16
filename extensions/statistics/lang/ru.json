@@ -11,5 +11,7 @@
   "stats_autopost_enable": "Включить отправку статистики каналов каждый день",
   "statistics_command_channels_desc": "Показать статистику каналов на этом сервере",
   "stats_settings_category_name": "Статистика",
-  "statistics_command_smooth_desc": "Показывает плавную статистику сообщений на этом сервере."
+  "statistics_command_smooth_desc": "Показывает плавную статистику сообщений на этом сервере.",
+  "statistics_command_autopost_prompt_desc": "Генерирует запрос для ИИ автопостинга.",
+  "statistics_command_users_desc": "Показывает топ-5 пользователей сервера."
 }

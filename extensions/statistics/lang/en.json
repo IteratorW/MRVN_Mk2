@@ -11,5 +11,7 @@
   "stats_autopost_enable": "Enable daily guild channel stats posting",
   "statistics_command_channels_desc": "Show channel statistics for the past 30 days",
   "stats_settings_category_name": "Statistics",
-  "statistics_command_smooth_desc": "Shows a smooth (gaussian) message statistics for this server."
+  "statistics_command_smooth_desc": "Shows a smooth (gaussian) message statistics for this server.",
+  "statistics_command_autopost_prompt_desc": "Generate an AI autopost prompt.",
+  "statistics_command_users_desc": "Show a top 5 guild member chart."
 }

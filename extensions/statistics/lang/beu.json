@@ -11,5 +11,7 @@
   "stats_autopost_enable": "Включить ежедневный постинг говна",
   "statistics_command_channels_desc": "Показать статистику говна за последние 30 дней",
   "stats_settings_category_name": "Вагинальная статистика",
-  "statistics_command_smooth_desc": "Показывает статистику сообщений, но гладкую, как твоя мать."
+  "statistics_command_smooth_desc": "Показывает статистику сообщений, но гладкую, как твоя мать.",
+  "statistics_command_autopost_prompt_desc": "Дебаг хуйня для ИИ автопостинга",
+  "statistics_command_users_desc": "Статистика топ 5 долбоебов всея сервера."
 }
