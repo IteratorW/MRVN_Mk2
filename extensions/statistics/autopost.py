@@ -109,11 +109,11 @@ async def get_channels_top(guild: discord.Guild, date: datetime.date):
 
 
 async def get_ai_prompt(guild: discord.Guild) -> str:
-    date_today = datetime.date.today()
-    date_yesterday = date_today - datetime.timedelta(days=1)
+    date_last_day = datetime.date.today() - datetime.timedelta(days=1)
+    date_last_last_day = date_last_day - datetime.timedelta(days=1)
 
-    chan_top = f"{await get_channels_top(guild, date_today)}\n{await get_channels_top(guild, date_yesterday)}"
-    user_top = f"{await get_users_top(guild, date_today)}\n{await get_users_top(guild, date_yesterday)}"
+    chan_top = f"{await get_channels_top(guild, date_last_day)}\n{await get_channels_top(guild, date_last_last_day)}"
+    user_top = f"{await get_users_top(guild, date_last_day)}\n{await get_users_top(guild, date_last_last_day)}"
 
     return AI_TITLE_PROMPT_TEXT % (chan_top, user_top)
 
