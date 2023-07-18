@@ -13,5 +13,8 @@
   "moderation_command_unmute_desc": "Вытащить кляп у указанного пользователя.",
   "moderation_command_unmute_successful": "Ты вытащил кляп у %s.",
   "moderation_command_purge_desc": "Удаляет дохуя сообщений за раз.",
-  "moderation_command_purge_messages_removed": "*Хуесос %s удалил %s сообщений.*"
+  "moderation_command_purge_messages_removed": "*Хуесос %s удалил %s сообщений.*",
+  "moderation_member_has_left": "%s ушёл с этого сервера (нахуй)",
+  "moderation_category_name": "Мудерация",
+  "moderation_setting_member_quit_message": "Включить оповещение о ебланах, которые ливают с сервера. Отправляется в системный анал."
 }

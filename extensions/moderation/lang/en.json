@@ -13,5 +13,8 @@
   "moderation_command_unmute_desc": "Unmute (remove timeout) a user.",
   "moderation_command_unmute_successful": "You have unmuted %s.",
   "moderation_command_purge_desc": "Removes up to 100 messages at once.",
-  "moderation_command_purge_messages_removed": "*%s: Removed %s messages*"
+  "moderation_command_purge_messages_removed": "*%s: Removed %s messages*",
+  "moderation_member_has_left": "%s has left the server.",
+  "moderation_category_name": "Moderation",
+  "moderation_setting_member_quit_message": "Enable \"member has left the server\" notification sent to the system channel"
 }
