@@ -13,5 +13,7 @@
   "stats_settings_category_name": "Статистика",
   "statistics_command_smooth_desc": "Показывает плавную статистику сообщений на этом сервере.",
   "statistics_command_autopost_prompt_desc": "Генерирует запрос для ИИ автопостинга.",
-  "statistics_command_users_desc": "Показывает топ-5 пользователей сервера."
+  "statistics_command_users_desc": "Показывает топ-5 пользователей сервера.",
+  "statistics_command_words_desc": "Показывает статистику используемых слов на этом сервере, опционально только для текущего дня.",
+  "statistics_command_words_error_not_enough_information": "There is not enough information yet, please wait."
 }

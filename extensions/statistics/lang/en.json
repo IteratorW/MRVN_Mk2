@@ -13,5 +13,7 @@
   "stats_settings_category_name": "Statistics",
   "statistics_command_smooth_desc": "Shows a smooth (gaussian) message statistics for this server.",
   "statistics_command_autopost_prompt_desc": "Generate an AI autopost prompt.",
-  "statistics_command_users_desc": "Show a top 5 guild member chart."
+  "statistics_command_users_desc": "Show a top 5 guild member chart.",
+  "statistics_command_words_desc": "Show a Wordcloud of words used across every chat in this server, optionally limited to current day.",
+  "statistics_command_words_error_not_enough_information": "There is not enough information yet, please wait."
 }

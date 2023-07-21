@@ -1,3 +1,4 @@
+import discord
 from discord import Message
 
 from api.command.context.mrvn_command_context import MrvnCommandContext
@@ -27,8 +28,11 @@ async def on_message(message: Message):
     if not message.guild:
         return
 
+    # PyCharm thinks `message.clean_content` is a function. It's a property tho.
+    # noinspection PyTypeChecker
     await StatsChannelMessageTimestamp.create(guild_id=message.guild.id, channel_id=message.channel.id,
-                                              timestamp=message.created_at, user_id=message.author.id)
+                                              timestamp=message.created_at, user_id=message.author.id,
+                                              text=discord.utils.remove_markdown(message.clean_content))
 
     entry = await StatsDailyGuildChannelMessages.get_for_now(message.guild.id, message.channel.id)
 

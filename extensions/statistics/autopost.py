@@ -14,7 +14,7 @@ from api.event_handler.decorators import event_handler
 from api.extension import extension_manager
 from api.models import SettingGuildLanguage
 from api.translation.translator import Translator
-from extensions.statistics import plot
+from extensions.statistics import plot, wordcloud_generator
 from extensions.statistics.commands import channels, messages, smooth, users
 from extensions.statistics.models import SettingChannelStatsAutopostEnable, StatsChannelMessageTimestamp
 from impl import runtime
@@ -162,6 +162,11 @@ async def send_plot_to_channel(channel: discord.TextChannel):
         (await smooth.get_smooth_stats_file(channel.guild)),
         (await users.get_users_stats_file(channel.guild))
     ]
+
+    try:
+        files.append(await wordcloud_generator.get_wordcloud_file(channel.guild, "circle", True))
+    except ValueError:
+        pass
 
     await channel.send(files=files, content=title, allowed_mentions=
                        discord.AllowedMentions(users=False, roles=False, everyone=False))
