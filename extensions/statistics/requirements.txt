@@ -2,3 +2,4 @@ matplotlib
 mplcyberpunk
 numpy
 scipy
+wordcloud
