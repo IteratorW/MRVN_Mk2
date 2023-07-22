@@ -32,7 +32,8 @@ async def on_message(message: Message):
     # noinspection PyTypeChecker
     await StatsChannelMessageTimestamp.create(guild_id=message.guild.id, channel_id=message.channel.id,
                                               timestamp=message.created_at, user_id=message.author.id,
-                                              text=discord.utils.remove_markdown(message.clean_content))
+                                              text=discord.utils.remove_markdown(message.clean_content),
+                                              embeds=[x.to_dict() for x in message.embeds])
 
     entry = await StatsDailyGuildChannelMessages.get_for_now(message.guild.id, message.channel.id)
 

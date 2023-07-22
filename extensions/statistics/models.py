@@ -54,6 +54,7 @@ class StatsChannelMessageTimestamp(Model):
     channel_id = fields.IntField()
     user_id = fields.IntField(default=-1)
     text = fields.TextField(default="")
+    embeds = fields.JSONField(default=[])
 
     timestamp = fields.DatetimeField(index=True)
 
