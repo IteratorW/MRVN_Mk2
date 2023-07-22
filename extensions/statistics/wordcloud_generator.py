@@ -14,8 +14,8 @@ from extensions.statistics.models import StatsChannelMessageTimestamp
 
 MODULE_PATH = os.path.dirname(__file__)
 
-with open(os.path.join(MODULE_PATH, "wordcloud_stopwords.txt"), "r") as f:
-    STOP_WORDS = f.readlines()
+with open(os.path.join(MODULE_PATH, "wordcloud_stopwords.txt"), "r", encoding="utf-8") as f:
+    STOP_WORDS = f.read().split("\n")
 
 
 def get_wordcloud_image(data, mask):
@@ -62,6 +62,9 @@ async def get_wordcloud_file(guild: discord.Guild, shape: str, daily: bool):
             if len(word) < 2 or word in STOP_WORDS:
                 continue
 
+            if word == "на":
+                print(word in STOP_WORDS)
+
             freqs[word] += 1
 
     if len(freqs) < 20:
@@ -69,6 +72,8 @@ async def get_wordcloud_file(guild: discord.Guild, shape: str, daily: bool):
 
     # Take only 200 first words, cuz otherwise it's cluttered
     freqs = dict(sorted(freqs.items(), key=lambda x: x[1], reverse=True)[:200])
+
+    print("\n".join([f"{k} {v}" for k, v in freqs.items()]))
 
     # It works tho
     # noinspection PyTypeChecker
