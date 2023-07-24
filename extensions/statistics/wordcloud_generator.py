@@ -7,15 +7,17 @@ from io import BytesIO
 import discord
 import numpy as np
 from PIL import ImageEnhance, ImageFilter, Image
+from tortoise import Tortoise
 from tortoise.expressions import RawSQL
 from wordcloud import WordCloud
 
 from extensions.statistics.models import StatsChannelMessageTimestamp
 
 MODULE_PATH = os.path.dirname(__file__)
+WORD_REGEX = re.compile(r"\W+")
 
 with open(os.path.join(MODULE_PATH, "wordcloud_stopwords.txt"), "r", encoding="utf-8") as f:
-    STOP_WORDS = f.read().split("\n")
+    STOP_WORDS = set(f.read().split("\n"))
 
 
 def get_wordcloud_image(data, mask):
@@ -48,21 +50,28 @@ async def get_wordcloud_file(guild: discord.Guild, shape: str, daily: bool):
     ValueError is raised if there are less than 20 words collected.
     """
 
-    records = await StatsChannelMessageTimestamp \
-        .annotate(**({"date": RawSQL("DATE(timestamp)")} if daily else {})) \
-        .filter(guild_id=guild.id, **({"date": datetime.date.today()} if daily else {})) \
-        .exclude(text="") \
-        .values("text") \
+    sql = f"""
+    SELECT text FROM statschannelmessagetimestamp WHERE guild_id={guild.id} AND NOT text=''
+    """
+
+    if daily:
+        sql += f" AND DATE(timestamp)='{datetime.date.today().strftime('%Y-%m-%d')}'"
+
+    records = (await Tortoise.get_connection("default").execute_query(sql))[1]
 
     freqs = defaultdict(lambda: 0)
 
     for record in records:
         for word in record["text"].split(" "):
-            word = re.sub(r'\W+', '', word.lower().strip())
-            if len(word) < 2 or word in STOP_WORDS:
+            word = WORD_REGEX.sub("", word.lower())
+            if len(word) < 2:
                 continue
 
             freqs[word] += 1
+
+    del records
+
+    freqs = dict(filter(lambda it: it[0] not in STOP_WORDS, freqs.items()))
 
     if len(freqs) < 20:
         raise ValueError
