@@ -15,6 +15,7 @@ from extensions.statistics.models import StatsChannelMessageTimestamp
 
 MODULE_PATH = os.path.dirname(__file__)
 WORD_REGEX = re.compile(r"\W+")
+NUM_SQL_REQUESTS = 20
 
 with open(os.path.join(MODULE_PATH, "wordcloud_stopwords.txt"), "r", encoding="utf-8") as f:
     STOP_WORDS = set(f.read().split("\n"))
@@ -50,26 +51,27 @@ async def get_wordcloud_file(guild: discord.Guild, shape: str, daily: bool):
     ValueError is raised if there are less than 20 words collected.
     """
 
-    sql = f"""
-    SELECT text FROM statschannelmessagetimestamp WHERE guild_id={guild.id} AND NOT text=''
-    """
-
-    if daily:
-        sql += f" AND DATE(timestamp)='{datetime.date.today().strftime('%Y-%m-%d')}'"
-
-    records = (await Tortoise.get_connection("default").execute_query(sql))[1]
-
     freqs = defaultdict(lambda: 0)
 
-    for record in records:
-        for word in record["text"].split(" "):
-            word = WORD_REGEX.sub("", word.lower())
-            if len(word) < 2:
-                continue
+    count = await StatsChannelMessageTimestamp.all().count()
 
-            freqs[word] += 1
+    limit = count // NUM_SQL_REQUESTS
 
-    del records
+    for i in range(NUM_SQL_REQUESTS):
+        offset = i * limit
+
+        sql = f"""
+        SELECT text FROM statschannelmessagetimestamp WHERE guild_id={guild.id} AND NOT text='' LIMIT {limit} OFFSET {offset}
+        """
+        records = (await Tortoise.get_connection("default").execute_query(sql))[1]
+
+        for record in records:
+            for word in record["text"].split(" "):
+                word = WORD_REGEX.sub("", word.lower())
+                if len(word) < 2:
+                    continue
+
+                freqs[word] += 1
 
     freqs = dict(filter(lambda it: it[0] not in STOP_WORDS, freqs.items()))
 
