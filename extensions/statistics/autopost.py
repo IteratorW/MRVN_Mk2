@@ -17,6 +17,7 @@ from api.translation.translator import Translator
 from extensions.statistics import plot, wordcloud_generator
 from extensions.statistics.commands import channels, messages, smooth, users
 from extensions.statistics.models import SettingChannelStatsAutopostEnable, StatsChannelMessageTimestamp
+from extensions.statistics.wordcloud_generator import NotEnoughInformationError
 from impl import runtime
 
 AI_TITLE_PROMPT_TEXT = \
@@ -164,12 +165,14 @@ async def send_plot_to_channel(channel: discord.TextChannel):
     ]
 
     try:
-        files.append(await wordcloud_generator.get_wordcloud_file(channel.guild, "circle", True))
-    except ValueError:
+        files.append(await wordcloud_generator.get_wordcloud_file(channel.guild, "circle",
+                                                                  date=datetime.date.today() - datetime.timedelta(
+                                                                      days=1)))
+    except NotEnoughInformationError:
         pass
 
     await channel.send(files=files, content=title, allowed_mentions=
-                       discord.AllowedMentions(users=False, roles=False, everyone=False))
+    discord.AllowedMentions(users=False, roles=False, everyone=False))
 
 
 @event_handler()

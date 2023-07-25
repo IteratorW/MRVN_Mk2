@@ -1,5 +1,7 @@
 import datetime
+import itertools
 import os.path
+import random
 import re
 from collections import defaultdict
 from io import BytesIO
@@ -14,16 +16,21 @@ from wordcloud import WordCloud
 from extensions.statistics.models import StatsChannelMessageTimestamp
 
 MODULE_PATH = os.path.dirname(__file__)
-WORD_REGEX = re.compile(r"\W+")
-NUM_SQL_REQUESTS = 20
+
+WORD_REGEX = re.compile(r"((<a?)?:\w+:(\d{18}>)?)|(\W+)")
+MAX_SQL_ROWS = 100_000
 
 with open(os.path.join(MODULE_PATH, "wordcloud_stopwords.txt"), "r", encoding="utf-8") as f:
     STOP_WORDS = set(f.read().split("\n"))
 
 
-def get_wordcloud_image(data, mask):
+class NotEnoughInformationError(BaseException):
+    pass
+
+
+def get_wordcloud_image(data, mask, color):
     wc = WordCloud(prefer_horizontal=1, scale=3, mode="RGBA", background_color=None,
-                   font_path=os.path.join(MODULE_PATH, "wordcloud_font.ttf"), mask=mask, colormap="cool",
+                   font_path=os.path.join(MODULE_PATH, "wordcloud_font.ttf"), mask=mask, colormap=color,
                    repeat=False)
 
     wc.generate_from_frequencies(data)
@@ -43,27 +50,42 @@ def stylize_image(orig):
     return final
 
 
-async def get_wordcloud_file(guild: discord.Guild, shape: str, daily: bool):
+async def get_wordcloud_file(guild: discord.Guild, shape: str = "random", color: str = "random",
+                             date: datetime.date = None, user: discord.User = None,
+                             channel: discord.TextChannel = None):
     """
-    Gets a Discord file with wordcloud-like statistics of used words for a specified guild.
-    If `daily` is True, then only today's messages are accounted for.
+    Gets a Discord file with wordcloud-like statistics of up to 200 most used words in the guild.
+    Messages can be filtered by date, user or channel, if any or more is specified.
 
-    ValueError is raised if there are less than 20 words collected.
+    NotEnoughInformationError is raised if there are less than 20 words found.
     """
+
+    if shape == "random":
+        shape = random.choice(["circle", "triangle", "pig", "beu", "rocket"])
+
+    if color == "random":
+        color = random.choice(["cool", "plasma", "viridis", "spring", "Spectral", "Set3", "PuBu"])
+
+    base_sql = f"SELECT text FROM statschannelmessagetimestamp WHERE guild_id={guild.id} AND NOT text=''"
+
+    if date is not None:
+        base_sql += f" AND DATE(timestamp)='{date.strftime('%Y-%m-%d')}'"
+
+    if user is not None:
+        base_sql += f" AND user_id={user.id}"
+
+    if channel is not None:
+        base_sql += f" AND channel_id={channel.id}"
 
     freqs = defaultdict(lambda: 0)
 
-    count = await StatsChannelMessageTimestamp.all().count()
+    for i in itertools.count():
+        offset = i * MAX_SQL_ROWS
 
-    limit = count // NUM_SQL_REQUESTS
+        records = (await Tortoise.get_connection("default").execute_query(base_sql + f" LIMIT {MAX_SQL_ROWS} OFFSET {offset}"))[1]
 
-    for i in range(NUM_SQL_REQUESTS):
-        offset = i * limit
-
-        sql = f"""
-        SELECT text FROM statschannelmessagetimestamp WHERE guild_id={guild.id} AND NOT text='' LIMIT {limit} OFFSET {offset}
-        """
-        records = (await Tortoise.get_connection("default").execute_query(sql))[1]
+        if len(records) == 0:
+            break
 
         for record in records:
             for word in record["text"].split(" "):
@@ -76,7 +98,7 @@ async def get_wordcloud_file(guild: discord.Guild, shape: str, daily: bool):
     freqs = dict(filter(lambda it: it[0] not in STOP_WORDS, freqs.items()))
 
     if len(freqs) < 20:
-        raise ValueError
+        raise NotEnoughInformationError
 
     # Take only 200 first words, cuz otherwise it's cluttered
     freqs = dict(sorted(freqs.items(), key=lambda x: x[1], reverse=True)[:200])
@@ -85,7 +107,7 @@ async def get_wordcloud_file(guild: discord.Guild, shape: str, daily: bool):
     # noinspection PyTypeChecker
     mask = np.array(Image.open(os.path.join(MODULE_PATH, f"wordcloud_masks/mask_{shape}.png")))
 
-    img = stylize_image(get_wordcloud_image(freqs, mask))
+    img = stylize_image(get_wordcloud_image(freqs, mask, color))
     img.save(buf := BytesIO(), format="PNG")
     buf.seek(0)
 
