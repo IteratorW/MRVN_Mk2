@@ -1,17 +1,17 @@
 import math
 from typing import Union
 
+from api.command.context.mrvn_command_context import MrvnCommandContext
+from api.view.mrvn_paginator import MrvnPaginator
+from api.view.mrvn_view import MrvnView
 from discord import ButtonStyle, Interaction, Embed
 from discord.ui import Button, Item
 
 from api.command import categories
-from api.command.context.mrvn_command_context import MrvnCommandContext
 from api.embed import styled_embed_generator
 from api.embed.style import Style
 from api.translation.translatable import Translatable
 from api.translation.translator import Translator
-from api.view.mrvn_paginator import MrvnPaginator
-from api.view.mrvn_view import MrvnView
 from impl import runtime
 
 PAGE_SIZE = 10

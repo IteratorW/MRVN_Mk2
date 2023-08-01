@@ -4,7 +4,6 @@ import time
 from discord import Intents
 from tortoise import Tortoise
 
-from api.event_handler import handler_manager
 from api.extensions import extension_manager
 from api.mrvn_bot import MrvnBot
 from api.translation import translations
@@ -31,8 +30,6 @@ async def on_ready():
     if not startup_done:
         await run_tortoise()
 
-        handler_manager.post("startup")
-
         startup_done = True
 
     start_time = time.time()
@@ -45,5 +42,3 @@ async def on_ready():
         f"[L: {', '.join(translations.translations.keys())}] "
         f"[{len(translations.translations[translations.FALLBACK_LANGUAGE])} TR]")
     logging.info("==================")
-
-    print(bot.commands)

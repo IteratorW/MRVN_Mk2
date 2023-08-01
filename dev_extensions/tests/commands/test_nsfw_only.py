@@ -1,4 +1,4 @@
-from discord.ext.bridge import guild_only, is_nsfw
+from discord.ext.bridge import is_nsfw
 
 from api.command.mrvn_context import MrvnContext
 from api.embed.style import Style

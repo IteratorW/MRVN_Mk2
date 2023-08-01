@@ -1,11 +1,10 @@
 import asyncio
 import datetime
 import functools
-from typing import Optional
-
-from discord import File
 
 from api.command.context.mrvn_command_context import MrvnCommandContext
+from discord import File
+
 from api.translation.translatable import Translatable
 from extensions.statistics import plot
 from extensions.statistics.commands import stats
@@ -35,6 +34,7 @@ async def messages_command(ctx: MrvnCommandContext):
 
     legend_text = ctx.format("statistics_command_messages_legend", ctx.guild.name)
 
-    result = await asyncio.get_event_loop().run_in_executor(None, functools.partial(plot.get_plot, dates, counts, legend_text))
+    result = await asyncio.get_event_loop().run_in_executor(None, functools.partial(plot.get_plot, dates, counts,
+                                                                                    legend_text))
 
     await ctx.respond(file=File(result, filename="Chart.png"))

@@ -1,21 +1,21 @@
 import datetime
 
+from api.command.context.mrvn_command_context import MrvnCommandContext
 from discord import Option, OptionChoice, Member, Forbidden
 
 from api.command import categories
-from api.command.context.mrvn_command_context import MrvnCommandContext
 from api.embed.style import Style
 from api.translation.translatable import Translatable
 from impl import runtime
 
 TIME_DICT = {
-        "s": 1,
-        "m": 60,
-        "h": 3600,
-        "d": 86400,
-        "w": 604800,
-        "mo": 18144000,
-        "y": 217728000
+    "s": 1,
+    "m": 60,
+    "h": 3600,
+    "d": 86400,
+    "w": 604800,
+    "mo": 18144000,
+    "y": 217728000
 }
 
 
@@ -28,7 +28,7 @@ async def mute(ctx: MrvnCommandContext, member: Member, time: int, unit: Option(
     OptionChoice("Days", "d"),
     OptionChoice("Weeks", "w"),
     OptionChoice("Months", "mo"),
-        OptionChoice("Years", "y")])):
+    OptionChoice("Years", "y")])):
     if member == runtime.bot.user:
         await ctx.respond_embed(Style.ERROR, ctx.translate("moderation_cant_do_this_to_bot"))
 

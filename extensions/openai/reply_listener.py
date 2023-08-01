@@ -1,8 +1,8 @@
+from api.command.context.mrvn_message_context import MrvnMessageContext
+from api.event_handler.decorators import event_handler
 from discord import Message
 
-from api.command.context.mrvn_message_context import MrvnMessageContext
 from api.embed.style import Style
-from api.event_handler.decorators import event_handler
 from api.translation import translations
 from extensions.openai.commands import ai
 from impl import runtime
@@ -14,7 +14,7 @@ async def on_message(message: Message):
         return
 
     source_id = message.guild.id if message.guild else message.author.id
-    
+
     last_ai_message_id = ai.last_message_ids.get(source_id, None)
 
     if not last_ai_message_id or last_ai_message_id != message.reference.message_id:

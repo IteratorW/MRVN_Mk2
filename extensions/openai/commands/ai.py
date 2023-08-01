@@ -1,16 +1,12 @@
 import datetime
-import json
-import re
 from collections import defaultdict
-from typing import Optional
 
 import openai
-from discord import Embed
-
-from api.command import categories
 from api.command.context.mrvn_command_context import MrvnCommandContext
 from api.command.context.mrvn_message_context import MrvnMessageContext
 from api.command.option.parse_until_ends import ParseUntilEndsOption
+
+from api.command import categories
 from api.embed import styled_embed_generator
 from api.embed.style import Style
 from api.translation.translatable import Translatable
@@ -135,7 +131,7 @@ async def ai_system_message(ctx: MrvnCommandContext, new_message: ParseUntilEnds
                                                        setting.value))
     else:
         max_chars = (await SettingPromptCharLimit.get_or_create())[0].value
-        
+
         if len(new_message) > max_chars:
             await ctx.respond_embed(Style.ERROR, ctx.format("openai_command_ai_sys_message_too_long", str(max_chars)))
 

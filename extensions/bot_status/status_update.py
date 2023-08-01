@@ -1,9 +1,9 @@
 import asyncio
 import time
 
+from api.event_handler.decorators import event_handler
 from discord import Status, Activity, ActivityType
 
-from api.event_handler.decorators import event_handler
 from extensions.bot_status.models import BotStatusEntry
 from impl import runtime
 

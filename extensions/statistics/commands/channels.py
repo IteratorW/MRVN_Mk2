@@ -3,12 +3,11 @@ import datetime
 import functools
 import random
 from collections import defaultdict
-from typing import Optional
 
 import discord
+from api.command.context.mrvn_command_context import MrvnCommandContext
 from discord import File
 
-from api.command.context.mrvn_command_context import MrvnCommandContext
 from api.translation.translatable import Translatable
 from extensions.statistics import plot
 from extensions.statistics.commands import stats
@@ -51,7 +50,8 @@ async def get_last_month_channels_stats(guild: discord.Guild) -> tuple[list[str]
 
 
 def get_sample_data() -> tuple[list[str], dict[str, list[int]]]:
-    dates = [f"{(date := datetime.date.today() - datetime.timedelta(days=day)).day}-{date.month}" for day in reversed(range(PLOT_DAYS_COUNT))]
+    dates = [f"{(date := datetime.date.today() - datetime.timedelta(days=day)).day}-{date.month}" for day in
+             reversed(range(PLOT_DAYS_COUNT))]
     counts = defaultdict(list)
 
     for i in range(1, 11):

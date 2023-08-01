@@ -2,12 +2,11 @@ import abc
 from abc import ABC
 from typing import Union
 
-from discord import Color, Embed, ApplicationContext, Message
+from discord import Color, Embed, Message
 from discord.ext.bridge import BridgeExtContext, BridgeContext, BridgeApplicationContext
 
 from api.embed import styled_embed_generator
 from api.embed.style import Style
-from api.translation import translations
 from api.translation.translator import Translator
 
 

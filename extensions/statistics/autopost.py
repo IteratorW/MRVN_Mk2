@@ -3,9 +3,9 @@ import datetime
 import functools
 
 import discord
+from api.event_handler.decorators import event_handler
 from discord import File
 
-from api.event_handler.decorators import event_handler
 from api.extensions import extension_manager
 from api.models import SettingGuildLanguage
 from api.translation.translator import Translator
@@ -18,11 +18,11 @@ if "openai" in extension_manager.extensions:
     import openai
 
 AI_TITLE_PROMPT_TEXT = \
-"""
-Сгенерируй заголовок для сообщения о статистики сообщений в каналах Discord сервера за прошедший день.
-В заголовок включи следующие слова: "С новым дном!".
-Сделай этот заголовок смешным и саркастическим. Можешь пошутить про участников сервера и админа.
-"""
+    """
+    Сгенерируй заголовок для сообщения о статистики сообщений в каналах Discord сервера за прошедший день.
+    В заголовок включи следующие слова: "С новым дном!".
+    Сделай этот заголовок смешным и саркастическим. Можешь пошутить про участников сервера и админа.
+    """
 
 
 async def schedule_task():

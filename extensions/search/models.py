@@ -1,8 +1,8 @@
-from tortoise import fields
-
 from api.settings import settings
 from api.settings.setting import GuildSetting
 from api.settings.settings_category import SettingsCategory
+from tortoise import fields
+
 from api.translation.translatable import Translatable
 
 search_category = settings.add_category(SettingsCategory("search", Translatable("search_category_name")))

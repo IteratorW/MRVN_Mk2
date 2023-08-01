@@ -1,5 +1,3 @@
-import discord
-
 from api.command.mrvn_context import MrvnContext
 from api.embed.style import Style
 from impl import runtime

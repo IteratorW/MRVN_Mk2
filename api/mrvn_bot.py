@@ -1,19 +1,16 @@
 import difflib
 import logging
-import re
 import traceback
 
-import discord.errors
-from discord import Message, Interaction, ApplicationContext, DiscordException, ApplicationCommandInvokeError, User
+from discord import Message, Interaction, DiscordException, ApplicationCommandInvokeError, User
 from discord.ext import bridge
-from discord.ext.commands import Context, errors, CommandInvokeError
+from discord.ext.commands import errors, CommandInvokeError
 
 from api.command.mrvn_command import MrvnCommand
 from api.command.mrvn_command_group import MrvnCommandGroup
 from api.command.mrvn_context import MrvnPrefixContext, MrvnApplicationContext, MrvnContext
 from api.embed.style import Style
-from api.models import SettingAllowCommandsInDMs, MrvnUser
-from api.translation.translator import Translator
+from api.models import MrvnUser
 
 
 class MrvnCheckError(errors.CheckFailure):
@@ -70,10 +67,7 @@ class MrvnBot(bridge.Bot):
 
         mrvn_user = await MrvnUser.get_or_none(user_id=user.id)
 
-        if not mrvn_user:
-            return False
-
-        return mrvn_user.is_owner
+        return False if not mrvn_user else mrvn_user.is_owner
 
     async def on_application_command_error(self, ctx: MrvnApplicationContext, exception: DiscordException) -> None:
         await self.process_command_error(ctx, exception)
@@ -107,7 +101,8 @@ class MrvnBot(bridge.Bot):
         elif isinstance(exception, MrvnCheckError):
             pass  # The global MRVN check sends out an error message by itself
         else:
-            await ctx.respond_embed(Style.ERROR, ctx.tr.format("mrvn_core_command_unknown_library_error", str(exception)))
+            await ctx.respond_embed(Style.ERROR,
+                                    ctx.tr.format("mrvn_core_command_unknown_library_error", str(exception)))
 
     @staticmethod
     async def process_invocation_error(ctx: MrvnContext, exc: Exception):
@@ -141,17 +136,17 @@ class MrvnBot(bridge.Bot):
             if (ratio := matcher.ratio()) > 0.5:
                 similar_commands[ratio] = ctx.clean_prefix + command
 
-        similar_commands = {k: v for k, v in sorted(similar_commands.items(), reverse=True, key=lambda item: item[0])}
-        similar_commands = {k: v for i, (k, v) in enumerate(similar_commands.items()) if i < 3}
+        similar_commands = dict(sorted(similar_commands.items(), key=lambda it: it[0], reverse=True)[:3])
 
         await ctx.respond_embed(
             Style.ERROR,
-            ctx.tr.format("mrvn_core_bot_similar_commands", ", ".join(similar_commands.values())) if len(similar_commands) else "",
+            ctx.tr.format("mrvn_core_bot_similar_commands",
+                          "\n -- " + "\n  -- ".join(similar_commands.values())) if len(similar_commands) else "",
             ctx.tr.translate("mrvn_core_bot_unknown_command_title"))
 
     async def mrvn_check(self, ctx: MrvnApplicationContext | MrvnPrefixContext):
         if ctx.guild is None:
-            allow_dms = (await SettingAllowCommandsInDMs.get_or_create())[0].value
+            allow_dms = False  # (await SettingAllowCommandsInDMs.get_or_create())[0].value
 
             if not allow_dms:
                 await ctx.respond_embed(Style.ERROR, ctx.tr.translate("mrvn_core_dm_commands_disabled"))

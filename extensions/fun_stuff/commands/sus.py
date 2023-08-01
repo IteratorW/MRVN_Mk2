@@ -3,9 +3,9 @@ import functools
 from io import BytesIO
 
 import discord
+from api.command.context.mrvn_command_context import MrvnCommandContext
 from discord import Option, Attachment
 
-from api.command.context.mrvn_command_context import MrvnCommandContext
 from api.embed.style import Style
 from api.translation.translatable import Translatable
 from extensions.fun_stuff import sussifier
@@ -26,7 +26,8 @@ async def sus(ctx: MrvnCommandContext, image: Option(Attachment)):
 
     this_id = ctx.message.id if not ctx.interaction else ctx.interaction.id
 
-    result = await asyncio.get_event_loop().run_in_executor(None, functools.partial(sussifier.sussify, image_bytes, str(this_id)))
+    result = await asyncio.get_event_loop().run_in_executor(None, functools.partial(sussifier.sussify, image_bytes,
+                                                                                    str(this_id)))
 
     if not result:
         await ctx.respond_embed(Style.ERROR, ctx.translate("fun_stuff_command_sus_fail"))

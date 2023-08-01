@@ -1,7 +1,7 @@
 from typing import Union
 
 from discord import User, Role, Attachment
-from discord.abc import GuildChannel, Mentionable
+from discord.abc import GuildChannel
 
 from api.command.mrvn_context import MrvnContext
 from api.embed.style import Style

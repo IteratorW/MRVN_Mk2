@@ -2,7 +2,6 @@ import logging
 import os
 import subprocess
 import typing
-from io import BytesIO
 from typing import Optional
 
 import numpy as np

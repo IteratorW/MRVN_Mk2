@@ -1,4 +1,4 @@
-from . import stats
-from . import messages
-from . import commands
 from . import channels
+from . import commands
+from . import messages
+from . import stats

@@ -3,12 +3,12 @@ import math
 from typing import Union
 
 from aiohttp import ClientSession, ClientTimeout, ClientConnectionError
+from api.command.context.mrvn_command_context import MrvnCommandContext
+from api.view.mrvn_paginator import MrvnPaginator
 from discord import Embed
 
-from api.command.context.mrvn_command_context import MrvnCommandContext
 from api.embed import styled_embed_generator
 from api.embed.style import Style
-from api.view.mrvn_paginator import MrvnPaginator
 from extensions.search import env
 from extensions.search.cse.search_item import SearchItem
 from extensions.search.cse.search_type import SearchType

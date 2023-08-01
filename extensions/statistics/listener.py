@@ -1,7 +1,7 @@
-from discord import Message
-
 from api.command.context.mrvn_command_context import MrvnCommandContext
 from api.event_handler.decorators import event_handler
+from discord import Message
+
 from extensions.statistics.models import StatsCommandEntry, StatsUserCommandsEntry, StatsDailyGuildChannelMessages
 
 
@@ -9,8 +9,9 @@ from extensions.statistics.models import StatsCommandEntry, StatsUserCommandsEnt
 async def on_application_command_completion(ctx: MrvnCommandContext):
     if not ctx.guild_id:
         return
-    
-    command_entry = (await StatsCommandEntry.get_or_create(guild_id=ctx.guild_id, command_name=ctx.command.qualified_name))[0]
+
+    command_entry = \
+    (await StatsCommandEntry.get_or_create(guild_id=ctx.guild_id, command_name=ctx.command.qualified_name))[0]
     user_entry = (await StatsUserCommandsEntry.get_or_create(guild_id=ctx.guild_id, user_id=ctx.author.id))[0]
 
     command_entry.increment()

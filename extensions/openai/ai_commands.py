@@ -6,9 +6,9 @@ import traceback
 from typing import Optional
 
 from aiohttp import ClientConnectionError, ClientSession, ClientTimeout
+from api.command.context.mrvn_command_context import MrvnCommandContext
 from discord import Embed
 
-from api.command.context.mrvn_command_context import MrvnCommandContext
 from api.extensions import extension_manager
 
 

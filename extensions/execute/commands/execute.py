@@ -4,6 +4,7 @@ from contextlib import redirect_stdout
 
 from api.command.context.mrvn_command_context import MrvnCommandContext
 from api.command.option.parse_until_ends import ParseUntilEndsOption
+
 from api.embed.style import Style
 from api.translation.translatable import Translatable
 from impl import runtime
@@ -65,4 +66,5 @@ async def execute(ctx: MrvnCommandContext, code: ParseUntilEndsOption(str)):
         finally:
             output = buf.getvalue()
 
-    await ctx.respond_embed(Style.ERROR if error else Style.OK, output, title=ctx.translate(f"execute_command_execute_{'error' if error else 'ok'}"))
+    await ctx.respond_embed(Style.ERROR if error else Style.OK, output,
+                            title=ctx.translate(f"execute_command_execute_{'error' if error else 'ok'}"))

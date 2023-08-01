@@ -14,5 +14,7 @@ https://github.com/IteratorW/MRVN_Mk2/wiki
 # Usage
 
 This project can be used as a:
-* Complete ready-to-use bot, containing some (mostly useless) features, by following installation instructions in the Wiki
+
+* Complete ready-to-use bot, containing some (mostly useless) features, by following installation instructions in the
+  Wiki
 * A way to develop your own bot by using bundled "API" that makes it easier to develop certain features

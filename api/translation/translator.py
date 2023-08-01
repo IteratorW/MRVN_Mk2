@@ -1,6 +1,5 @@
 from discord import Interaction
 
-from api.models import SettingGuildLanguage, SettingForceGuildLang
 from api.translation import translations
 
 
@@ -25,18 +24,10 @@ class Translator:
         return inst
 
     async def set_from_interaction(self, interaction: Interaction):
-        if interaction.guild_id:
-            setting = (await SettingForceGuildLang.get_or_none(guild_id=interaction.guild_id))
-
-            if setting and setting.value:
-                await self.set_from_guild(interaction.guild_id)
-
-                return
-
         self.lang = interaction.locale.split("-")[0]
 
     async def set_from_guild(self, guild_id: int):
-        self.lang = (await SettingGuildLanguage.get_or_create(guild_id=guild_id))[0].value
+        self.lang = translations.FALLBACK_LANGUAGE
 
     def set_lang(self, lang: str):
         self.lang = lang

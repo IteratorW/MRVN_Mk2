@@ -1,7 +1,6 @@
 import json
 import logging
 import os
-import traceback
 from collections import defaultdict
 
 FALLBACK_LANGUAGE = "en"

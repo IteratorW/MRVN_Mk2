@@ -1,11 +1,8 @@
-import hashlib
 import io
 import os
-import random
 
-import mplcyberpunk
 import numpy as np
-from matplotlib import pyplot as plt, patches, cm
+from matplotlib import pyplot as plt
 
 plt.style.use(f"{os.path.dirname(__file__)}/mrvn.mplstyle")
 

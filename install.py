@@ -23,7 +23,6 @@ print("Installing main requirements")
 
 install("./requirements.txt")
 
-
 for directory in env.extension_dirs:
     if not os.path.isdir(directory):
         continue
@@ -35,6 +34,5 @@ for directory in env.extension_dirs:
             print(f"Installing requirements for extension {ext}")
 
             install(req_path)
-
 
 print("Done")

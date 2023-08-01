@@ -1,9 +1,9 @@
-from tortoise import fields
-
 from api.settings import settings
 from api.settings.exc import SettingsValueWriteError
-from api.settings.setting import GuildSetting, GlobalSetting
+from api.settings.setting import GlobalSetting
 from api.settings.settings_category import SettingsCategory
+from tortoise import fields
+
 from api.translation.translatable import Translatable
 
 DEFAULT_SYS_MESSAGE = "You are a Discord bot called MRVN Mk2. Your replies are extremely sarcastic."

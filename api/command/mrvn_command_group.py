@@ -1,8 +1,7 @@
 from discord.ext.bridge import BridgeCommandGroup, BridgeExtGroup, BridgeSlashGroup
-from discord.ext.commands import Context
 
 from api.command.mrvn_command import MrvnCommand, MrvnPrefixCommand, MrvnSlashCommand
-from api.command.mrvn_context import MrvnContext, MrvnPrefixContext
+from api.command.mrvn_context import MrvnContext
 from api.embed.style import Style
 from api.translation import translations
 from api.translation.translatable import Translatable

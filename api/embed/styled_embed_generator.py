@@ -24,7 +24,7 @@ def get_embed(style: Style, desc: str = None, title: str = None, color: Union[in
 
     if author:
         embed.set_footer(
-            text=translator.format("mrvn_api_embed_requestedby", f"{author.name}#{author.discriminator}"),
+            text=translator.format("mrvn_api_embed_requestedby", f"@{author.name}"),
             icon_url=author.avatar.url)
 
     if guild and style == Style.INFO and guild.me.top_role.position != 0:

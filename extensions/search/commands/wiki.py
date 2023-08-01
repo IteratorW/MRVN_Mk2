@@ -2,16 +2,16 @@ import asyncio
 from typing import Union
 
 from aiohttp import ClientSession, ClientTimeout, ClientConnectionError
+from api.command.context.mrvn_command_context import MrvnCommandContext
+from api.command.option.parse_until_ends import ParseUntilEndsOption
+from api.view.mrvn_paginator import MrvnPaginator
 from discord import Embed, Interaction
 from discord.ui import Item
 from markdownify import markdownify
 
-from api.command.context.mrvn_command_context import MrvnCommandContext
-from api.command.option.parse_until_ends import ParseUntilEndsOption
 from api.embed import styled_embed_generator
 from api.embed.style import Style
 from api.translation.translatable import Translatable
-from api.view.mrvn_paginator import MrvnPaginator
 from extensions.search.commands.category import search_category
 from impl import runtime
 
