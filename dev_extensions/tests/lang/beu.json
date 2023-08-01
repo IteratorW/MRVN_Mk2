@@ -1,8 +1,12 @@
 {
   "tests_command_desc_test_desc": "Описание на разных языках жиес",
-  "tests_command_options_test_desc": "Опции на разных языках жиес",
-  "tests_command_options_test_response": "Ты выбрал жидкую опцию: %s",
-  "tests_command_options_test_option_1_name": "Говно #1",
-  "tests_command_options_test_option_2_name": "Говно #2",
-  "tests_command_options_test_option_3_name": "Говно #3"
+  "tests_command_choices_test_desc": "Опции на разных языках жиес",
+  "tests_command_choices_test_response": "Ты выбрал жидкую опцию: %s",
+  "tests_command_choices_test_option_1_name": "Говно #1",
+  "tests_command_choices_test_option_2_name": "Говно #2",
+  "tests_command_choices_test_option_3_name": "Говно #3",
+  "tests_command_trans_options_option_int1": "Анальное целое число",
+  "tests_command_trans_options_option_str1": "Вагинальная строка",
+  "tests_command_trans_options_option_number1": "Оральное число",
+  "tests_command_trans_options_ok": "Анальный тест переводимых описаний опций успешен!"
 }

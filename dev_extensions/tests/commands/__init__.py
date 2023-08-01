@@ -12,5 +12,6 @@ from . import test_select_menu
 from . import test_simple
 from . import test_styled
 from . import test_trans_desc
-from . import test_trans_options
+from . import test_trans_choices
 from . import test_whole_string
+from . import test_trans_options

@@ -1,8 +1,12 @@
 {
   "tests_command_desc_test_desc": "Тест описания на разных языках",
-  "tests_command_options_test_desc": "Тест команды с опциями на разных языках!",
-  "tests_command_options_test_response": "Ты выбрал опцию: %s",
-  "tests_command_options_test_option_1_name": "Опция #1",
-  "tests_command_options_test_option_2_name": "Опция #2",
-  "tests_command_options_test_option_3_name": "Опция #3"
+  "tests_command_choices_test_desc": "Тест команды с выбором аргумента на разных языках!",
+  "tests_command_choices_test_response": "Ты выбрал опцию: %s",
+  "tests_command_choices_test_option_1_name": "Опция #1",
+  "tests_command_choices_test_option_2_name": "Опция #2",
+  "tests_command_choices_test_option_3_name": "Опция #3",
+  "tests_command_trans_options_option_int1": "Целое число!",
+  "tests_command_trans_options_option_str1": "Строка!",
+  "tests_command_trans_options_option_number1": "Число!",
+  "tests_command_trans_options_ok": "Тест перевода описаний опций: ОК"
 }
