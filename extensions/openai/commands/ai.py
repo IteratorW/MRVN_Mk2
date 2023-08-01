@@ -14,6 +14,7 @@ from api.command.option.parse_until_ends import ParseUntilEndsOption
 from api.embed import styled_embed_generator
 from api.embed.style import Style
 from api.translation.translatable import Translatable
+from extensions.openai import env
 from extensions.openai.ai_commands import parse_and_run_gpt_commands
 from extensions.openai.models import SettingSystemMessage, SettingMaxRequestsPerMinute, SettingTemperature, \
     SettingPromptCharLimit, SettingOpenAiMaxHistoryLen, SettingEnableAiCommands
@@ -78,7 +79,7 @@ async def ai(ctx: MrvnCommandContext, prompt: ParseUntilEndsOption(str)):
 
     try:
         response_text = (await openai.ChatCompletion.acreate(
-            model="gpt-3.5-turbo",
+            model=env.openai_model,
             messages=messages,
             temperature=temperature
         ))["choices"][0]["message"]["content"]

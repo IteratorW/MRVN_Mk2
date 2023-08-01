@@ -14,6 +14,7 @@ from api.event_handler.decorators import event_handler
 from api.extension import extension_manager
 from api.models import SettingGuildLanguage
 from api.translation.translator import Translator
+from extensions.openai import env
 from extensions.statistics import plot, wordcloud_generator
 from extensions.statistics.commands import channels, messages, smooth, users
 from extensions.statistics.models import SettingChannelStatsAutopostEnable, StatsChannelMessageTimestamp
@@ -123,7 +124,7 @@ async def prompt_ai_stats_title(guild: discord.Guild):
     import openai
 
     response_text = (await openai.ChatCompletion.acreate(
-        model="gpt-3.5-turbo",
+        model=env.openai_model,
         messages=[{"role": "user", "content": await get_ai_prompt(guild)}],
         temperature=1.0
     ))["choices"][0]["message"]["content"]
