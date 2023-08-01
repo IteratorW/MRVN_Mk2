@@ -9,6 +9,6 @@ if env.openai_key is None:
 else:
     openai.api_key = env.openai_key
 
-if base := env.openai_base is not None:
+if (base := env.openai_base) is not None:
     openai.api_base = base
 
