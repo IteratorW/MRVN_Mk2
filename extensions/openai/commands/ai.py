@@ -85,7 +85,7 @@ async def ai(ctx: MrvnCommandContext, prompt: ParseUntilEndsOption(str)):
         ))["choices"][0]["message"]["content"]
     except openai.error.OpenAIError as ex:
         text = ctx.translate("openai_command_ai_rate_limited") if isinstance(ex, openai.error.RateLimitError) else \
-            ctx.format("openai_command_ai_api_error", type(ex).__name__)
+            ctx.format("openai_command_ai_api_error", str(ex))
 
         await ctx.respond_embed(Style.ERROR, text)
 
