@@ -1,3 +1,5 @@
+from typing import Union
+
 import openai
 from discord import Embed
 
@@ -17,7 +19,7 @@ class ImGenPaginator(MrvnPaginator):
 
         super().__init__(num_pages=len(urls), *args, **kwargs)
 
-    async def get_page_contents(self) -> str | Embed:
+    async def get_page_contents(self) -> Union[str, Embed]:
         embed = styled_embed_generator.get_embed(Style.INFO, title=self.tr.translate("openai_command_imgen_title"),
                                                  author=self.original_author, guild=self.guild)
         embed.set_image(url=self.urls[self.page_index])
