@@ -35,5 +35,13 @@
   "openai_ai_commands_title": "ИИ выполнил команды:",
   "openai_enable_ai_commands": "Включить/выключить ИИ возможность использовать команды",
   "openai_command_ai_command_image_failed": "[Не удалось получить картинку]",
-  "openai_command_ai_command_image": "[Найдена картинка (%s)]"
+  "openai_command_ai_command_image": "[Найдена картинка (%s)]",
+  "openai_ai_model": "Модель, испольузуемая в командах чатбота. Используйте команду /ai_change_model для изменения этой настройки.",
+  "openai_command_ai_change_model_select_placeholder": "Модель",
+  "openai_command_ai_change_model_select_done": "✅ Вы изменили модель на `%s`.",
+  "openai_command_ai_change_model_desc": "Изменить модель, используемую в командах чатбота",
+  "openai_command_ai_change_model_no_models_available": "В данный момент нет доступных моделей.",
+  "openai_command_ai_change_model_choose_the_model": "Выберите модель из списка ниже:",
+  "openai_command_imgen_title": "Генерация изображений",
+  "openai_command_imgen_desc": "Генерация изображений из текста"
 }

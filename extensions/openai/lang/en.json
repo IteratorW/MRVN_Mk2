@@ -35,5 +35,13 @@
   "openai_ai_commands_title": "AI executed commands:",
   "openai_enable_ai_commands": "Enable AI commands",
   "openai_command_ai_command_image_failed": "[Failed to get an image]",
-  "openai_command_ai_command_image": "[Found an image (%s)]"
+  "openai_command_ai_command_image": "[Found an image (%s)]",
+  "openai_ai_model": "The model used in chat completions. Use /ai_change_model command to edit that.",
+  "openai_command_ai_change_model_select_placeholder": "Model",
+  "openai_command_ai_change_model_select_done": "✅ You have changed the model to `%s`.",
+  "openai_command_ai_change_model_desc": "Change the model used in Chat Completions",
+  "openai_command_ai_change_model_no_models_available": "There are no models currently available.",
+  "openai_command_ai_change_model_choose_the_model": "Please choose a model from the list below:",
+  "openai_command_imgen_title": "Image Generation",
+  "openai_command_imgen_desc": "Generate images from your prompts using AI."
 }

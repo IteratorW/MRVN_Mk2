@@ -17,7 +17,7 @@ from api.translation.translatable import Translatable
 from extensions.openai import env
 from extensions.openai.ai_commands import parse_and_run_gpt_commands
 from extensions.openai.models import SettingSystemMessage, SettingMaxRequestsPerMinute, SettingTemperature, \
-    SettingPromptCharLimit, SettingOpenAiMaxHistoryLen, SettingEnableAiCommands
+    SettingPromptCharLimit, SettingOpenAiMaxHistoryLen, SettingEnableAiCommands, SettingAiModel
 from impl import runtime
 
 last_request_minute = 0
@@ -40,8 +40,6 @@ async def ai(ctx: MrvnCommandContext, prompt: ParseUntilEndsOption(str)):
 
     max_chars = (await SettingPromptCharLimit.get_or_create())[0].value
 
-    prompt = f"{ctx.author.id}: {prompt}"
-
     if len(prompt) > max_chars:
         await ctx.respond_embed(Style.ERROR, ctx.format("openai_command_ai_char_limit", str(max_chars)))
 
@@ -61,6 +59,7 @@ async def ai(ctx: MrvnCommandContext, prompt: ParseUntilEndsOption(str)):
     temperature = (await SettingTemperature.get_or_create())[0].value
     history_max_len = (await SettingOpenAiMaxHistoryLen.get_or_create())[0].value
     enable_commands = (await SettingEnableAiCommands.get_or_create())[0].value
+    model = (await SettingAiModel.get_or_create())[0].value
 
     source_id = ctx.guild_id if ctx.guild_id else ctx.author.id
 
@@ -79,7 +78,7 @@ async def ai(ctx: MrvnCommandContext, prompt: ParseUntilEndsOption(str)):
 
     try:
         response_text = (await openai.ChatCompletion.acreate(
-            model=env.openai_model,
+            model=model,
             messages=messages,
             temperature=temperature
         ))["choices"][0]["message"]["content"]

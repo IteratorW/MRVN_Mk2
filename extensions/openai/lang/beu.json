@@ -35,5 +35,13 @@
   "openai_ai_commands_title": "ЖИ выполнил команды:",
   "openai_enable_ai_commands": "Включить команды ЖИ",
   "openai_command_ai_command_image_failed": "[Картинка проебалась]",
-  "openai_command_ai_command_image": "[Нашёл картинку (%s)]"
+  "openai_command_ai_command_image": "[Нашёл картинку (%s)]",
+  "openai_ai_model": "Модель ЖИ используемая в боте, этот параметр лучше менять через команду /ai_change_model",
+  "openai_command_ai_change_model_select_placeholder": "Модель",
+  "openai_command_ai_change_model_select_done": "✅ Ты поменял модель на `%s`, еблан.",
+  "openai_command_ai_change_model_desc": "Поменять модель ЖИ.",
+  "openai_command_ai_change_model_no_models_available": "Чзх? Сейчас нет ни одной модели",
+  "openai_command_ai_change_model_choose_the_model": "Выбери модель говна из жидкого списка ниже:",
+  "openai_command_imgen_title": "Генерация Говна",
+  "openai_command_imgen_desc": "Генерация говноизображений из текста."
 }

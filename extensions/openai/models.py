@@ -73,3 +73,11 @@ class SettingEnableAiCommands(GlobalSetting):
     category = openai_category
 
     value_field = fields.BooleanField(default=True)
+
+
+class SettingAiModel(GlobalSetting):
+    key = "openai_ai_model"
+    description = Translatable(key)
+    category = openai_category
+
+    value_field = fields.TextField(default="gpt-3.5-turbo")
