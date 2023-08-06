@@ -1,7 +1,9 @@
+from io import BytesIO
 from typing import Union
 
+import aiohttp
 import openai
-from discord import Embed
+from discord import Embed, File
 
 from api.command import categories
 from api.command.context.mrvn_command_context import MrvnCommandContext
@@ -26,6 +28,21 @@ class ImGenPaginator(MrvnPaginator):
 
         return embed
 
+    async def on_timeout(self) -> None:
+        await super().on_timeout()
+
+        async with aiohttp.ClientSession() as session:
+            async with session.get(self.urls[self.page_index]) as resp:
+                image = BytesIO(await resp.read())
+
+        file = File(image, "imgen_final_image.png")
+
+        embed = self.message.embeds[0]
+
+        embed.set_image(url="attachment://imgen_final_image.png")
+
+        await self.message.edit(embed=embed, file=file)
+
 
 @runtime.bot.slash_command(description=Translatable("openai_command_imgen_desc"), categories=categories.utility)
 async def imgen(ctx: MrvnCommandContext, prompt: ParseUntilEndsOption(str)):
@@ -33,10 +50,10 @@ async def imgen(ctx: MrvnCommandContext, prompt: ParseUntilEndsOption(str)):
 
     try:
         urls = [x["url"] for x in (await openai.Image.acreate(prompt=prompt, n=10, size="1024x1024"))["data"]]
-    except openai.OpenAIError:
+    except openai.OpenAIError as ex:
         await ctx.respond_embed(Style.ERROR, ctx.format("openai_command_ai_api_error", str(ex)))
         return
 
-    paginator = ImGenPaginator(urls, guild=ctx.guild, original_author=ctx.author, tr=ctx)
+    paginator = ImGenPaginator(urls, guild=ctx.guild, original_author=ctx.author, tr=ctx, timeout=30)
 
     await paginator.respond_ctx(ctx)
