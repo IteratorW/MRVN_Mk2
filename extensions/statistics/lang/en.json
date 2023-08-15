@@ -15,5 +15,8 @@
   "statistics_command_autopost_prompt_desc": "Generate an AI autopost prompt.",
   "statistics_command_users_desc": "Show a top 5 guild member chart.",
   "statistics_command_words_desc": "Show a Wordcloud of words used across every chat in this server, optionally limited to current day.",
-  "statistics_command_words_error_not_enough_information": "There is not enough information yet, please wait."
+  "statistics_command_words_error_not_enough_information": "There is not enough information yet, please wait.",
+  "statistics_command_words_title_from_today": "\uD83D\uDCC8 Word statistics for this server (Daily)",
+  "statistics_command_words_title_since": "\uD83D\uDCCA Word statistics for this server (Since %s)",
+  "statistics_command_words_elapsed_time": "*⌛ Generated in %s seconds*"
 }

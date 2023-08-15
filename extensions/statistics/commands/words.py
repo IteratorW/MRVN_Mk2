@@ -1,5 +1,6 @@
 import datetime
 import random
+import time
 
 import discord
 from discord import Option, OptionChoice
@@ -9,6 +10,7 @@ from api.embed.style import Style
 from api.translation.translatable import Translatable
 from extensions.statistics import wordcloud_generator
 from extensions.statistics.commands import stats
+from extensions.statistics.models import StatsChannelMessageTimestamp
 from extensions.statistics.wordcloud_generator import NotEnoughInformationError
 
 
@@ -33,13 +35,28 @@ async def words(ctx: MrvnCommandContext, shape: Option(str, choices=[OptionChoic
                 ]) = "random"):
     await ctx.defer()
 
+    start_time = time.monotonic()
+
     try:
         wordcloud_file = await wordcloud_generator.get_wordcloud_file(ctx.guild, shape, color, date=
         None
         if not daily else
-        datetime.date.today(), user=only_from_user, channel=only_from_channel)
+        datetime.datetime.utcnow().date(), user=only_from_user, channel=only_from_channel)
     except NotEnoughInformationError:
         await ctx.respond_embed(Style.ERROR, ctx.translate("statistics_command_words_error_not_enough_information"))
         return
 
-    await ctx.respond(file=wordcloud_file)
+    if daily:
+        title = ctx.translate("statistics_command_words_title_from_today")
+    else:
+        first_msg_date = await StatsChannelMessageTimestamp.all().order_by('timestamp').first()
+
+        title = ctx.format("statistics_command_words_title_since", first_msg_date.timestamp.strftime("%d.%m.%Y"))
+
+    footer = "\n" + ctx.format("statistics_command_words_elapsed_time", round(time.monotonic() - start_time))
+
+    embed = ctx.get_embed(Style.INFO, title=title)
+    embed.set_footer(text=footer)
+    embed.set_image(url=f"attachment://{wordcloud_file.filename}")
+
+    await ctx.respond(file=wordcloud_file, embed=embed)

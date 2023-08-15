@@ -15,5 +15,8 @@
   "statistics_command_autopost_prompt_desc": "Генерирует запрос для ИИ автопостинга.",
   "statistics_command_users_desc": "Показывает топ-5 пользователей сервера.",
   "statistics_command_words_desc": "Показывает статистику используемых слов на этом сервере, опционально только для текущего дня.",
-  "statistics_command_words_error_not_enough_information": "There is not enough information yet, please wait."
+  "statistics_command_words_error_not_enough_information": "There is not enough information yet, please wait.",
+  "statistics_command_words_title_from_today": "\uD83D\uDCC8 Статистика слов на этом сервере (за сегодня)",
+  "statistics_command_words_title_since": "\uD83D\uDCCA Статистика слов на этом сервере (начиная с %s)",
+  "statistics_command_words_elapsed_time": "*⌛Сгенерировано за %s секунд*"
 }

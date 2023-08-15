@@ -18,7 +18,6 @@ from extensions.statistics.models import StatsChannelMessageTimestamp
 MODULE_PATH = os.path.dirname(__file__)
 
 WORD_REGEX = re.compile(r"((<a?)?:\w+:(\d{18}>)?)|(\W+)")
-MAX_SQL_ROWS = 100_000
 
 with open(os.path.join(MODULE_PATH, "wordcloud_stopwords.txt"), "r", encoding="utf-8") as f:
     STOP_WORDS = set(f.read().split("\n"))
@@ -79,16 +78,12 @@ async def get_wordcloud_file(guild: discord.Guild, shape: str = "random", color:
 
     freqs = defaultdict(lambda: 0)
 
-    for i in itertools.count():
-        offset = i * MAX_SQL_ROWS
+    # noinspection PyUnresolvedReferences,PyProtectedMember
+    db = Tortoise.get_connection("default")._connection
 
-        records = (await Tortoise.get_connection("default").execute_query(base_sql + f" LIMIT {MAX_SQL_ROWS} OFFSET {offset}"))[1]
-
-        if len(records) == 0:
-            break
-
-        for record in records:
-            for word in record["text"].split(" "):
+    async with db.execute(base_sql) as cursor:
+        async for row in cursor:
+            for word in row["text"].split(" "):
                 word = WORD_REGEX.sub("", word.lower())
                 if len(word) < 2:
                     continue
