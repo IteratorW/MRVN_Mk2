@@ -12,7 +12,7 @@ stats_category = settings.add_category(SettingsCategory("stats", Translatable("s
 
 
 class IncrementableGuildValueModel(Model):
-    guild_id = fields.IntField()
+    guild_id = fields.BigIntField()
     count = fields.IntField(default=0)
 
     def increment(self):
@@ -27,7 +27,7 @@ class StatsCommandEntry(IncrementableGuildValueModel):
 
 
 class StatsUserCommandsEntry(IncrementableGuildValueModel):
-    user_id = fields.IntField()
+    user_id = fields.BigIntField()
 
     class Meta:
         unique_together = (("user_id", "guild_id"), )
@@ -35,7 +35,7 @@ class StatsUserCommandsEntry(IncrementableGuildValueModel):
 
 class StatsDailyGuildChannelMessages(IncrementableGuildValueModel):
     date = fields.DateField()
-    channel_id = fields.IntField()
+    channel_id = fields.BigIntField()
 
     class Meta:
         unique_together = (("date", "guild_id", "channel_id"), )
@@ -50,9 +50,9 @@ class StatsDailyGuildChannelMessages(IncrementableGuildValueModel):
 
 
 class StatsChannelMessageTimestamp(Model):
-    guild_id = fields.IntField()
-    channel_id = fields.IntField()
-    user_id = fields.IntField(default=-1)
+    guild_id = fields.BigIntField()
+    channel_id = fields.BigIntField()
+    user_id = fields.BigIntField(default=-1)
     text = fields.TextField(default="")
     embeds = fields.JSONField(default=[])
 

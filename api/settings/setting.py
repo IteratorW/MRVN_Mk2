@@ -26,7 +26,7 @@ class Setting(Model):
 
 
 class GuildSetting(Setting):
-    guild_id = fields.IntField()
+    guild_id = fields.BigIntField()
 
 
 class GlobalSetting(Setting):

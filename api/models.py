@@ -13,13 +13,13 @@ mrvn_category = settings.add_category(SettingsCategory("mrvn", Translatable("mrv
 
 
 class MrvnUser(Model):
-    user_id = fields.IntField(pk=True)
+    user_id = fields.BigIntField(pk=True)
     is_owner = fields.BooleanField(default=False)
 
 
 class CommandOverride(Model):
     command_name = fields.CharField(max_length=32)
-    guild_id = fields.IntField()
+    guild_id = fields.BigIntField()
 
     disabled = fields.BooleanField(default=False)
     discord_permissions = ListField[str](default=[])
