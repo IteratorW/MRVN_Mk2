@@ -6,3 +6,23 @@ colored_traceback
 deep_translator
 gitpython
 aiohttp
+
+# extensions/fun_stuff/requirements.txt
+pillow
+braillert
+
+# extensions/openai/requirements.txt
+openai
+
+# extensions/search/requirements.txt
+markdownify
+
+# extensions/statistics/requirements.txt
+matplotlib
+mplcyberpunk
+numpy
+scipy
+wordcloud
+
+# extensions/vision/requirements.txt
+bs4
