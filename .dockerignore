@@ -216,3 +216,4 @@ ENV/
 
 # mkdocs documentation
 /site
+.env.local

@@ -6,6 +6,7 @@ colored_traceback
 deep_translator
 gitpython
 aiohttp
+asyncpg
 
 # extensions/fun_stuff/requirements.txt
 pillow

@@ -18,8 +18,8 @@ start_time = 0
 
 async def run_tortoise():
     await Tortoise.init(
-        db_url='sqlite://db.sqlite3',
-        modules={'models': extension_manager.extensions_models + ["api.models"]}
+        db_url=env.db_url,
+        modules={"models": extension_manager.extensions_models + ["api.models"]}
     )
     await Tortoise.generate_schemas()
 
