@@ -9,7 +9,7 @@ aiohttp
 asyncpg
 
 # extensions/fun_stuff/requirements.txt
-pillow==10.0.0
+pillow
 braillert
 
 # extensions/openai/requirements.txt
