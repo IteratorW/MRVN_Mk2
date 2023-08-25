@@ -80,7 +80,7 @@ async def get_wordcloud_file(guild: discord.Guild, shape: str = "random", color:
 SELECT word, nentry FROM ts_stat('
     SELECT to_tsvector(''public.mrvn'', text) FROM statschannelmessagetimestamp
     WHERE guild_id={guild.id}
-    AND {" AND ".join(filters)}
+    {f"AND {' AND '.join(filters)}" if len(filters) else ""}
 ')
 WHERE length(word) > 2
 ORDER BY nentry DESC
