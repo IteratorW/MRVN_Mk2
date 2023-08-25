@@ -3,7 +3,7 @@ FROM python:3.10-slim AS builder
 WORKDIR /app
 COPY requirements.txt .
 RUN pip install --prefix="/install" --no-warn-script-location -r requirements.txt
-RUN pip install pillow==10.0.0
+RUN pip install --force-reinstall -v "Pillow=10.0.0"
 
 FROM python:3.10-slim AS runner
 
