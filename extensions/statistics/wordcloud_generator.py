@@ -1,19 +1,16 @@
 import datetime
-import itertools
+import logging
 import os.path
 import random
 import re
-from collections import defaultdict
 from io import BytesIO
 
 import discord
 import numpy as np
 from PIL import ImageEnhance, ImageFilter, Image
 from tortoise import Tortoise
-from tortoise.expressions import RawSQL
+from tortoise.backends.asyncpg import AsyncpgDBClient
 from wordcloud import WordCloud
-
-from extensions.statistics.models import StatsChannelMessageTimestamp
 
 MODULE_PATH = os.path.dirname(__file__)
 
@@ -65,38 +62,40 @@ async def get_wordcloud_file(guild: discord.Guild, shape: str = "random", color:
     if color == "random":
         color = random.choice(["cool", "plasma", "viridis", "spring", "Spectral", "Set3", "PuBu"])
 
-    base_sql = f"SELECT text FROM statschannelmessagetimestamp WHERE guild_id={guild.id} AND NOT text=''"
+    filters = []
 
     if date is not None:
-        base_sql += f" AND DATE(timestamp)='{date.strftime('%Y-%m-%d')}'"
+        filters.append(f"DATE(timestamp)=''{date.strftime('%Y-%m-%d')}''")
 
     if user is not None:
-        base_sql += f" AND user_id={user.id}"
+        filters.append(f"user_id={user.id}")
 
     if channel is not None:
-        base_sql += f" AND channel_id={channel.id}"
+        filters.append(f"channel_id={channel.id}")
 
-    freqs = defaultdict(lambda: 0)
+    # noinspection PyTypeChecker
+    conn: AsyncpgDBClient = Tortoise.get_connection("default")
 
-    # noinspection PyUnresolvedReferences,PyProtectedMember
-    db = Tortoise.get_connection("default")._connection
+    base_sql = f"""
+SELECT word, nentry FROM ts_stat('
+    SELECT to_tsvector(''public.mrvn'', text) FROM statschannelmessagetimestamp
+    WHERE {filters.pop(0)}
+    {"AND " + " AND ".join(filters) if len(filters) else ""}
+')
+WHERE length(word) > 2
+ORDER BY nentry DESC
+LIMIT 200;
+    """
 
-    async with db.execute(base_sql) as cursor:
-        async for row in cursor:
-            for word in row["text"].split(" "):
-                word = WORD_REGEX.sub("", word.lower())
-                if len(word) < 2:
-                    continue
+    logging.info(base_sql)
 
-                freqs[word] += 1
+    async with conn.acquire_connection() as db:
+        rows = await db.fetch(base_sql)
 
-    freqs = dict(filter(lambda it: it[0] not in STOP_WORDS, freqs.items()))
-
-    if len(freqs) < 20:
+    if len(rows) < 20:
         raise NotEnoughInformationError
 
-    # Take only 200 first words, cuz otherwise it's cluttered
-    freqs = dict(sorted(freqs.items(), key=lambda x: x[1], reverse=True)[:200])
+    freqs = {x["word"]: x["nentry"] for x in rows}
 
     # It works tho
     # noinspection PyTypeChecker

@@ -18,5 +18,5 @@
   "statistics_command_words_error_not_enough_information": "Ну подожди, блять. Еще слишком мало инфы собралось....",
   "statistics_command_words_title_from_today": "\uD83D\uDCC8 Статистика грязных слов на этом сервере (за сегодня)",
   "statistics_command_words_title_since": "\uD83D\uDCCA Статистика грязных слов на этом сервере (начиная с %s)",
-  "statistics_command_words_elapsed_time": "*⌛ Высрано за %s секунд*"
+  "statistics_command_words_elapsed_time": "\uD83D\uDD52 Высрано за %s секунд"
 }

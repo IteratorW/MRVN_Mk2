@@ -18,5 +18,5 @@
   "statistics_command_words_error_not_enough_information": "There is not enough information yet, please wait.",
   "statistics_command_words_title_from_today": "\uD83D\uDCC8 Word statistics for this server (Daily)",
   "statistics_command_words_title_since": "\uD83D\uDCCA Word statistics for this server (Since %s)",
-  "statistics_command_words_elapsed_time": "*⌛ Generated in %s seconds*"
+  "statistics_command_words_elapsed_time": "\uD83D\uDD52 Generated in %s seconds"
 }
