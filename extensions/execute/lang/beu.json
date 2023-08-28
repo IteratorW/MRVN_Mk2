@@ -8,5 +8,8 @@
   "execute_command_shell_executed_timeout": "Не ебу, мб команда выполнилась, но я заебался ждать пока она что-нибудь высрет.",
   "execute_command_shell_error": "Консольная команда обосралась",
   "execute_command_shell_ok": "Анальная команда выполнена",
-  "execute_command_execute_invalid_format": "Даун, неверный формат кода. Укажи код в пределах одного код-блока (``` в начале и конце)"
+  "execute_command_execute_invalid_format": "Даун, неверный формат кода. Укажи код в пределах одного код-блока (``` в начале и конце)",
+  "execute_command_sql_desc": "Выполнить анальный sql запрос (бд бота)",
+  "execute_command_sql_operation_error": "Ну ты и еблан.... Какую-то хуйню написал:\n%s",
+  "execute_command_sql_completed": "Спецоперация выполнена (%s строк обосрано, %s мс.)"
 }

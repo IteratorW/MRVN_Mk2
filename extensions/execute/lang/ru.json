@@ -8,5 +8,8 @@
   "execute_command_shell_executed_timeout": "Время ожидания ответа команды вышло.",
   "execute_command_shell_error": "Консольная команда выполнена с ошибкой",
   "execute_command_shell_ok": "Консольная команда выполнена",
-  "execute_command_execute_invalid_format": "Неверный формат кода. Укажите код в пределах одного блока (``` в начале и конце)"
+  "execute_command_execute_invalid_format": "Неверный формат кода. Укажите код в пределах одного блока (``` в начале и конце)",
+  "execute_command_sql_desc": "Выполнить SQL запрос в базе данных бота",
+  "execute_command_sql_operation_error": "Произошла ошибка при выполнении этой операции:\n%s",
+  "execute_command_sql_completed": "Операция выполнена (%s строк затронуто, %s мс.)"
 }

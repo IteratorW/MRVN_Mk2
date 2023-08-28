@@ -1,4 +1,3 @@
-  GNU nano 4.8                                Dockerfile                                          
 FROM python:3.10-slim AS builder
 
 WORKDIR /app

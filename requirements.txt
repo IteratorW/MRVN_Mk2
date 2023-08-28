@@ -8,6 +8,9 @@ gitpython
 aiohttp
 asyncpg
 
+# extensions/execute
+tabulate
+
 # extensions/fun_stuff/requirements.txt
 pillow
 braillert
