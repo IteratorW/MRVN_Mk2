@@ -35,4 +35,7 @@ def load_from_path(path: str):
 
 def scan_directory(path: str):
     for directory in [f for f in os.listdir(path) if os.path.isdir(f"{path}/{f}")]:
+        if directory == "__pycache__":
+            continue
+
         load_from_path(f"{path}.{directory}")

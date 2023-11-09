@@ -1,5 +1,4 @@
 import datetime
-import random
 import time
 
 import discord
@@ -8,13 +7,13 @@ from discord import Option, OptionChoice
 from api.command.context.mrvn_command_context import MrvnCommandContext
 from api.embed.style import Style
 from api.translation.translatable import Translatable
-from extensions.statistics import wordcloud_generator
-from extensions.statistics.commands import stats
+from extensions.statistics.commands.stats_group import stats_group
 from extensions.statistics.models import StatsChannelMessageTimestamp
-from extensions.statistics.wordcloud_generator import NotEnoughInformationError
+from extensions.statistics.plots import wordcloud_plot
+from extensions.statistics.plots.wordcloud_plot import NotEnoughInformationError
 
 
-@stats.stats_group.command(description=Translatable("statistics_command_words_desc"))
+@stats_group.command(description=Translatable("statistics_command_words_desc"))
 async def words(ctx: MrvnCommandContext, shape: Option(str, choices=[OptionChoice("Circle", "circle"),
                                                                      OptionChoice("Triangle", "triangle"),
                                                                      OptionChoice("Pig", "pig"),
@@ -38,13 +37,16 @@ async def words(ctx: MrvnCommandContext, shape: Option(str, choices=[OptionChoic
     start_time = time.monotonic()
 
     try:
-        wordcloud_file = await wordcloud_generator.get_wordcloud_file(ctx.guild, shape, color, date=
+        result = await wordcloud_plot.get_wordcloud_stats(ctx.guild, shape, color, date=
         None
         if not daily else
-        datetime.datetime.utcnow().date(), user=only_from_user, channel=only_from_channel)
+        datetime.date.today(),
+                                                                  user=only_from_user, channel=only_from_channel)
     except NotEnoughInformationError:
         await ctx.respond_embed(Style.ERROR, ctx.translate("statistics_command_words_error_not_enough_information"))
         return
+
+    file = discord.File(result, "wordcloud_chart.png")
 
     if daily:
         title = ctx.translate("statistics_command_words_title_from_today")
@@ -57,6 +59,6 @@ async def words(ctx: MrvnCommandContext, shape: Option(str, choices=[OptionChoic
 
     embed = ctx.get_embed(Style.INFO, title=title)
     embed.set_footer(text=footer)
-    embed.set_image(url=f"attachment://{wordcloud_file.filename}")
+    embed.set_image(url=f"attachment://{file.filename}")
 
-    await ctx.respond(file=wordcloud_file, embed=embed)
+    await ctx.respond(file=file, embed=embed)

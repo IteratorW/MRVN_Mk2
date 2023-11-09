@@ -1,7 +1,7 @@
 from api.command.context.mrvn_command_context import MrvnCommandContext
 from api.embed.style import Style
 from api.translation.translatable import Translatable
-from extensions.statistics.commands import stats
+from extensions.statistics.commands.stats_group import stats_group
 from extensions.statistics.models import StatsCommandEntry, StatsUserCommandsEntry
 from impl import runtime
 
@@ -12,7 +12,7 @@ def get_user_mention(user_id: int):
     return user.mention if user else "N/A"
 
 
-@stats.stats_group.command(description=Translatable("statistics_command_commands_desc"))
+@stats_group.command(description=Translatable("statistics_command_commands_desc"))
 async def commands(ctx: MrvnCommandContext):
     await ctx.defer()
 

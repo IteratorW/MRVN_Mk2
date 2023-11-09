@@ -3,7 +3,7 @@ from discord import Message
 
 from api.command.context.mrvn_command_context import MrvnCommandContext
 from api.event_handler.decorators import event_handler
-from extensions.statistics.models import StatsCommandEntry, StatsUserCommandsEntry, StatsDailyGuildChannelMessages, \
+from extensions.statistics.models import StatsCommandEntry, StatsUserCommandsEntry, \
     StatsChannelMessageTimestamp
 
 
@@ -34,9 +34,3 @@ async def on_message(message: Message):
                                               timestamp=message.created_at, user_id=message.author.id,
                                               text=discord.utils.remove_markdown(message.clean_content),
                                               embeds=[x.to_dict() for x in message.embeds])
-
-    entry = await StatsDailyGuildChannelMessages.get_for_now(message.guild.id, message.channel.id)
-
-    entry.increment()
-
-    await entry.save()

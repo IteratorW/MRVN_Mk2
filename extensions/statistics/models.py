@@ -33,22 +33,6 @@ class StatsUserCommandsEntry(IncrementableGuildValueModel):
         unique_together = (("user_id", "guild_id"), )
 
 
-class StatsDailyGuildChannelMessages(IncrementableGuildValueModel):
-    date = fields.DateField()
-    channel_id = fields.BigIntField()
-
-    class Meta:
-        unique_together = (("date", "guild_id", "channel_id"), )
-
-    @classmethod
-    async def get_for_now(cls, guild_id: int, channel_id: int) -> "StatsDailyGuildChannelMessages":
-        return await cls.get_for_datetime(datetime.datetime.now(), guild_id, channel_id)
-
-    @classmethod
-    async def get_for_datetime(cls, date: datetime.datetime, guild_id: int, channel_id: int) -> "StatsDailyGuildChannelMessages":
-        return (await cls.get_or_create(date=date.date(), guild_id=guild_id, channel_id=channel_id))[0]
-
-
 class StatsChannelMessageTimestamp(Model):
     guild_id = fields.BigIntField()
     channel_id = fields.BigIntField()
@@ -57,6 +41,12 @@ class StatsChannelMessageTimestamp(Model):
     embeds = fields.JSONField(default=[])
 
     timestamp = fields.DatetimeField(index=True)
+
+
+class StatsEventEntry(Model):
+    guild_id = fields.BigIntField()
+    event_date = fields.DateField()
+    text = fields.TextField()
 
 
 class SettingChannelStatsAutopostEnable(GuildSetting):

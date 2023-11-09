@@ -276,7 +276,7 @@ class MrvnBot(MrvnCommandsMixin):
 
             override_prefix = override and override.prefix == prefix
 
-            if not override_prefix and prefix != (await SettingMessageCmdPrefix.get_or_create(guild_id=ctx.guild_id))[
+            if not env.debug and not override_prefix and prefix != (await SettingMessageCmdPrefix.get_or_create(guild_id=ctx.guild_id))[
                 0].value:
                 return
         else:
@@ -465,6 +465,5 @@ class MrvnBot(MrvnCommandsMixin):
         logger.error(traceback.format_exc())
 
         await ctx.respond_embed(Style.ERROR,
-                                ctx.format("mrvn_api_command_execution_error_desc", "".join(
-                                    traceback.format_exception(value=exc, etype=type(exc), tb=exc.__traceback__))),
+                                ctx.format("mrvn_api_command_execution_error_desc", traceback.format_exc()),
                                 ctx.translate("mrvn_api_command_execution_error_title"))

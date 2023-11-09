@@ -5,28 +5,31 @@ tortoise-orm==0.18.1
 colored_traceback
 deep_translator
 gitpython
-aiohttp
-asyncpg
+aiohttp~=3.8.4
+asyncpg~=0.28.0
 
 # extensions/execute
-tabulate
+tabulate~=0.9.0
 
 # extensions/fun_stuff/requirements.txt
-pillow
-braillert
+pillow~=10.0.1
+braillert~=2.1.6
 
 # extensions/openai/requirements.txt
-openai
+openai~=0.27.4
 
 # extensions/search/requirements.txt
-markdownify
+markdownify~=0.11.6
 
 # extensions/statistics/requirements.txt
-matplotlib
+matplotlib~=3.7.1
 mplcyberpunk
-numpy
-scipy
-wordcloud
+numpy~=1.24.2
+scipy~=1.11.2
+wordcloud~=1.9.2
+pixelsort~=1.0.1
+glitch_this
 
 # extensions/vision/requirements.txt
-bs4
+bs4~=0.0.1
+beautifulsoup4~=4.12.2
