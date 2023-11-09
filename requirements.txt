@@ -7,6 +7,7 @@ deep_translator
 gitpython
 aiohttp~=3.8.4
 asyncpg~=0.28.0
+g4f
 
 # extensions/execute
 tabulate~=0.9.0
@@ -14,9 +15,6 @@ tabulate~=0.9.0
 # extensions/fun_stuff/requirements.txt
 pillow
 braillert~=2.1.6
-
-# extensions/openai/requirements.txt
-openai~=0.27.4
 
 # extensions/search/requirements.txt
 markdownify~=0.11.6

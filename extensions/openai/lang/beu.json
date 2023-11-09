@@ -41,7 +41,5 @@
   "openai_command_ai_change_model_select_done": "✅ Ты поменял модель на `%s`, еблан.",
   "openai_command_ai_change_model_desc": "Поменять модель ЖИ.",
   "openai_command_ai_change_model_no_models_available": "Чзх? Сейчас нет ни одной модели",
-  "openai_command_ai_change_model_choose_the_model": "Выбери модель говна из жидкого списка ниже:",
-  "openai_command_imgen_title": "Генерация Говна",
-  "openai_command_imgen_desc": "Генерация говноизображений из текста."
+  "openai_command_ai_change_model_choose_the_model": "Выбери модель говна из жидкого списка ниже:"
 }

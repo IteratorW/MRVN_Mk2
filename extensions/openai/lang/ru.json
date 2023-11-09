@@ -41,7 +41,5 @@
   "openai_command_ai_change_model_select_done": "✅ Вы изменили модель на `%s`.",
   "openai_command_ai_change_model_desc": "Изменить модель, используемую в командах чатбота",
   "openai_command_ai_change_model_no_models_available": "В данный момент нет доступных моделей.",
-  "openai_command_ai_change_model_choose_the_model": "Выберите модель из списка ниже:",
-  "openai_command_imgen_title": "Генерация изображений",
-  "openai_command_imgen_desc": "Генерация изображений из текста"
+  "openai_command_ai_change_model_choose_the_model": "Выберите модель из списка ниже:"
 }

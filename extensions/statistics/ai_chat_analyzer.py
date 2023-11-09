@@ -4,10 +4,10 @@ import traceback
 
 import discord
 import numpy as np
-import openai
 from scipy.stats import gaussian_kde
 from tortoise import Tortoise
 
+from api.chatgpt import chatgpt
 from extensions.statistics.utils import NotEnoughInformationError
 
 logger = logging.getLogger("ai chat analysis")
@@ -24,12 +24,8 @@ USER_TEMPLATE = "Пользователь %s"
 
 async def get_ai_analysis(messages: str) -> str | None:
     try:
-        return (await openai.ChatCompletion.acreate(
-            model="gpt-3.5-turbo",
-            messages=[{"role": "user", "content": AI_PROMPT % messages}],
-            temperature=1
-        ))["choices"][0]["message"]["content"]
-    except openai.error.OpenAIError:
+        return await chatgpt.request([(AI_PROMPT % messages, None)], temperature=1)
+    except chatgpt.ChatGPTError:
         logger.error(f"Failed to produce chat AI analysis:\n{traceback.format_exc()}")
         return None
 

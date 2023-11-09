@@ -1,12 +1,8 @@
 import datetime
-import json
-import re
+
 from collections import defaultdict
-from typing import Optional
 
-import openai
-from discord import Embed
-
+from api.chatgpt import chatgpt
 from api.command import categories
 from api.command.context.mrvn_command_context import MrvnCommandContext
 from api.command.context.mrvn_message_context import MrvnMessageContext
@@ -14,10 +10,10 @@ from api.command.option.parse_until_ends import ParseUntilEndsOption
 from api.embed import styled_embed_generator
 from api.embed.style import Style
 from api.translation.translatable import Translatable
-from extensions.openai import env
+
 from extensions.openai.ai_commands import parse_and_run_gpt_commands
 from extensions.openai.models import SettingSystemMessage, SettingMaxRequestsPerMinute, SettingTemperature, \
-    SettingPromptCharLimit, SettingOpenAiMaxHistoryLen, SettingEnableAiCommands, SettingAiModel
+    SettingPromptCharLimit, SettingOpenAiMaxHistoryLen, SettingEnableAiCommands
 from impl import runtime
 
 last_request_minute = 0
@@ -59,35 +55,21 @@ async def ai(ctx: MrvnCommandContext, prompt: ParseUntilEndsOption(str)):
     temperature = (await SettingTemperature.get_or_create())[0].value
     history_max_len = (await SettingOpenAiMaxHistoryLen.get_or_create())[0].value
     enable_commands = (await SettingEnableAiCommands.get_or_create())[0].value
-    model = (await SettingAiModel.get_or_create())[0].value
 
     source_id = ctx.guild_id if ctx.guild_id else ctx.author.id
 
     history = conversation_history[source_id]
 
-    messages = [
-        {"role": "system", "content": system_message}
-    ]
-
-    for user, assistant in history:
-        messages.extend([{"role": "user", "content": user}, {"role": "assistant", "content": assistant}])
-
-    messages.append({"role": "user", "content": prompt})
+    messages = []
+    messages.extend(history)
+    messages.append((prompt, None))
 
     await ctx.defer(ephemeral=False)
 
     try:
-        response_text = (await openai.ChatCompletion.acreate(
-            model=model,
-            messages=messages,
-            temperature=temperature
-        ))["choices"][0]["message"]["content"]
-    except openai.error.OpenAIError as ex:
-        text = ctx.translate("openai_command_ai_rate_limited") if isinstance(ex, openai.error.RateLimitError) else \
-            ctx.format("openai_command_ai_api_error", str(ex))
-
-        await ctx.respond_embed(Style.ERROR, text)
-
+        response_text = await chatgpt.request(messages, system_message, temperature)
+    except chatgpt.ChatGPTError as ex:
+        await ctx.respond_embed(Style.ERROR, ctx.format("openai_command_ai_api_error", ex.message))
         return
 
     last_minute_request_count += 1
@@ -135,7 +117,7 @@ async def ai_system_message(ctx: MrvnCommandContext, new_message: ParseUntilEnds
                                                        setting.value))
     else:
         max_chars = (await SettingPromptCharLimit.get_or_create())[0].value
-        
+
         if len(new_message) > max_chars:
             await ctx.respond_embed(Style.ERROR, ctx.format("openai_command_ai_sys_message_too_long", str(max_chars)))
 
