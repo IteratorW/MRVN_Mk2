@@ -12,7 +12,7 @@ asyncpg~=0.28.0
 tabulate~=0.9.0
 
 # extensions/fun_stuff/requirements.txt
-pillow~=10.0.1
+pillow
 braillert~=2.1.6
 
 # extensions/openai/requirements.txt
