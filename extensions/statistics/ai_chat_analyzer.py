@@ -24,7 +24,7 @@ USER_TEMPLATE = "Пользователь %s"
 
 async def get_ai_analysis(messages: str) -> str | None:
     try:
-        return await chatgpt.request([(AI_PROMPT % messages, None)])
+        return await chatgpt.request([(AI_PROMPT % messages, None)], temperature=1)
     except chatgpt.ChatGPTError:
         logger.error(f"Failed to produce chat AI analysis:\n{traceback.format_exc()}")
         return None
