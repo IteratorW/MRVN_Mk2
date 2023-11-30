@@ -330,7 +330,7 @@ async def get_count_for_date(conn, guild: discord.Guild, date: datetime.date, us
 
 
 async def get_date_event_text(conn, guild: discord.Guild, date: datetime.date) -> str | None:
-    new_date = date.replace(year=1900) + datetime.timedelta(days=1)
+    new_date = (date + datetime.timedelta(days=1)).replace(year=1900)
 
     data = await conn.fetchrow("""
     SELECT text FROM statsevententry
