@@ -6,7 +6,7 @@ import openai
 MODEL = "gpt-3.5-turbo"
 PROVIDER = g4f.Provider.AItianhuSpace
 
-use_g4f = os.environ.get("mrvn_use_g4f", True)
+use_g4f = int(os.environ.get("mrvn_use_g4f", 1))
 openai.api_key = os.environ.get("mrvn_openai_api_key", None)
 openai.base_url = os.environ.get("mrvn_openai_base_url", None)
 
