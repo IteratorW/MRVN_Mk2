@@ -2,13 +2,20 @@ import os
 
 import g4f
 import openai
+from openai import AsyncOpenAI
 
 MODEL = "gpt-3.5-turbo"
 PROVIDER = g4f.Provider.AItianhuSpace
 
 use_g4f = int(os.environ.get("mrvn_use_g4f", 1))
-openai.api_key = os.environ.get("mrvn_openai_api_key", None)
-openai.base_url = os.environ.get("mrvn_openai_base_url", None)
+
+openai_client = None
+
+if not use_g4f:
+    openai_client = AsyncOpenAI(
+        api_key=os.environ.get("mrvn_openai_api_key", None),
+        base_url=os.environ.get("mrvn_openai_base_url", None)
+    )
 
 
 class ChatGPTError(BaseException):
@@ -47,7 +54,7 @@ async def request(history: list[tuple[str | None, str | None]], system_message: 
                 temperature=temperature
             )
         else:
-            return (await openai.ChatCompletion.acreate(
+            return (await openai_client.chat.completions.create(
                 model=MODEL,
                 messages=messages,
                 temperature=temperature,
