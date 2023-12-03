@@ -58,6 +58,6 @@ async def request(history: list[tuple[str | None, str | None]], system_message: 
                 model=MODEL,
                 messages=messages,
                 temperature=temperature,
-            ))["choices"][0]["message"]["content"]
+            )).choices[0].message.content
     except Exception as ex:  # TODO find a proper exception lmao
         raise ChatGPTError(str(ex))
