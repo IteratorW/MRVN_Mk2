@@ -1,7 +1,12 @@
+import os
+
 import g4f
+import openai
 
 MODEL = "gpt-3.5-turbo"
 PROVIDER = g4f.Provider.AItianhuSpace
+
+use_g4f = os.environ.get("mrvn_use_g4f", False)
 
 
 class ChatGPTError(BaseException):
@@ -33,10 +38,17 @@ async def request(history: list[tuple[str | None, str | None]], system_message: 
             messages.append({"role": "user" if i == 0 else "assistant", "content": msg})
 
     try:
-        return await g4f.ChatCompletion.create_async(
-            model=MODEL,
-            messages=messages,
-            temperature=temperature
-        )
+        if use_g4f:
+            return (await openai.ChatCompletion.acreate(
+                model=MODEL,
+                messages=messages,
+                temperature=temperature,
+            ))["choices"][0]["message"]["content"]
+        else:
+            return await g4f.ChatCompletion.create_async(
+                model=MODEL,
+                messages=messages,
+                temperature=temperature
+            )
     except Exception as ex:  # TODO find a proper exception lmao
         raise ChatGPTError(str(ex))
