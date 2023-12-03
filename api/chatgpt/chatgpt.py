@@ -6,7 +6,7 @@ import openai
 MODEL = "gpt-3.5-turbo"
 PROVIDER = g4f.Provider.AItianhuSpace
 
-use_g4f = os.environ.get("mrvn_use_g4f", False)
+use_g4f = os.environ.get("mrvn_use_g4f", True)
 openai.api_key = os.environ.get("mrvn_openai_api_key", None)
 openai.base_url = os.environ.get("mrvn_openai_base_url", None)
 
@@ -41,16 +41,16 @@ async def request(history: list[tuple[str | None, str | None]], system_message: 
 
     try:
         if use_g4f:
-            return (await openai.ChatCompletion.acreate(
-                model=MODEL,
-                messages=messages,
-                temperature=temperature,
-            ))["choices"][0]["message"]["content"]
-        else:
             return await g4f.ChatCompletion.create_async(
                 model=MODEL,
                 messages=messages,
                 temperature=temperature
             )
+        else:
+            return (await openai.ChatCompletion.acreate(
+                model=MODEL,
+                messages=messages,
+                temperature=temperature,
+            ))["choices"][0]["message"]["content"]
     except Exception as ex:  # TODO find a proper exception lmao
         raise ChatGPTError(str(ex))
